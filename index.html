@@ -69,6 +69,7 @@ function makeAttackMeter(sr,emit){
  };
 }
 let attackMonitor=null,attackMute=null,attackEngine='unavailable',attackRing=[],attackMonitorError=null;
+const attackModuleContexts=new WeakSet();
 function appendAttackFrames(rows){
  if(!Array.isArray(rows))return;
  for(const row of rows)if(Array.isArray(row)&&row.length===4&&row.every(Number.isFinite)&&(!attackRing.length||row[0]>attackRing.at(-1)[0]))attackRing.push(row);
@@ -85,7 +86,7 @@ async function startAttackMonitor(c,input){
   let url;
   try{
    const code=makeAttackMeter.toString()+'\nclass NoteRushAttack extends AudioWorkletProcessor { constructor(){super();this.meter=makeAttackMeter(sampleRate,b=>this.port.postMessage(b))} process(inputs){const x=inputs[0]?.[0];if(x)this.meter(x,currentFrame/sampleRate);return true} }\nregisterProcessor("note-rush-attack",NoteRushAttack);';
-   url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));await c.audioWorklet.addModule(url);
+   if(!attackModuleContexts.has(c)){url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));await c.audioWorklet.addModule(url);attackModuleContexts.add(c)}
    const node=new AudioWorkletNode(c,'note-rush-attack',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[1],channelCount:1,channelCountMode:'explicit'});
    node.port.onmessage=e=>{if(attackMonitor===node)appendAttackFrames(e.data)};attackMonitor=node;input.connect(node);node.connect(gain);attackEngine='audio-worklet';return;
   }catch(e){attackMonitorError=String(e?.message||e);if(attackMonitor){try{attackMonitor.disconnect()}catch(_){}attackMonitor=null}}
