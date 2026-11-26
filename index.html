@@ -16,7 +16,7 @@
 .answer-chip{opacity:0;pointer-events:none}.answer-chip.right,.answer-chip.wrong{opacity:1;animation-fill-mode:both}.answer-chip.right{animation:answerQuick .40s ease-out both}.answer-chip.wrong{animation:answerDrop .55s ease-in-out both}.answer-zone{height:62px}.mini-piece{animation-duration:.39s}
 @keyframes answerQuick{0%{opacity:0;transform:translateY(10px) scale(.5)}35%{opacity:1;transform:translateY(-3px) scale(1.12)}70%{opacity:1;transform:translateY(-5px) scale(1)}100%{opacity:0;transform:translateY(-22px) scale(.9)}}@keyframes answerDrop{0%{opacity:0;transform:translateY(-20px) rotate(-8deg)}30%{opacity:1;transform:translateY(1px) rotate(4deg)}65%{opacity:1;transform:translateY(4px)}100%{opacity:0;transform:translateY(28px) rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){.answer-chip.right,.answer-chip.wrong{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v11</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v12</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -141,13 +141,24 @@ function templatesFor(midi,p){
  return [{vector:mixed,gap:Math.min(midi-lo,hi-midi)},{vector:l,gap:midi-lo},{vector:h,gap:hi-midi}];
 }
 function harmonicGroups(v){return [[0,2],[2,4],[4,7],[7,12]].map(([a,b])=>Math.hypot(...v.slice(a,b)))}
+// A group match deliberately discards fine harmonic differences, so demand
+// stronger temporal pitch consistency on this fallback only. Smoothly allow
+// more variation in the bass, where period estimates are less stable.
+function groupPitchStability(midi,v,quality){
+ const hz=Number.isFinite(quality?.hz)&&quality.hz>0?quality.hz:440*2**((midi-69)/12);
+ const span=Number.isFinite(quality?.pitchSpanCents)?quality.pitchSpanCents:v[28]*45;
+ const limit=12+8*Math.max(0,Math.min(1,Math.log2(196/hz)));
+ return {span,limit,ok:Number.isFinite(span)&&span<=limit};
+}
 function groupFallback(midi,v,p,envelope,quality,level){
  if(level!=='flex'||!quality||quality.clarity<.90||quality.concentration<.89||envelope>.31)return null;
  const g=harmonicGroups(v);
  const options=Object.keys(p.piano).map(Number).filter(n=>Math.abs(n-midi)<=12&&validVector(p.piano[n]?.[0])).map(n=>{const ref=p.piano[n][0],h=harmonicGroups(ref);return {note:n,vector:ref,distance:Math.hypot(...g.map((x,i)=>x-h[i]))+Math.min(.05,Math.abs(n-midi)*.003)}}).sort((a,b)=>a.distance-b.distance);
  const ref=options[0];if(!ref)return null;
  const combined=Math.hypot(ref.distance*.7,envelope*.9);
- return {ok:ref.distance<=.43&&combined<=.37,distance:ref.distance,combined,reference:ref.vector,referenceNote:ref.note,limits:[.43,.31,.37]};
+ const stability=groupPitchStability(midi,v,quality);
+ const acousticMatch=ref.distance<=.43&&combined<=.37;
+ return {ok:acousticMatch&&stability.ok,distance:ref.distance,combined,reference:ref.vector,referenceNote:ref.note,limits:[.43,.31,.37],pitchStability:stability,blockedBy:acousticMatch&&!stability.ok?'pitch-stability':null};
 }
 function matchFingerprint(midi,v,p,level='flex',quality=null){
  const refs=templatesFor(midi,p);
@@ -172,7 +183,7 @@ function matchFingerprint(midi,v,p,level='flex',quality=null){
  const ok=d.spectrum<=limits[0]&&envelope<=limits[1]&&combined<=limits[2];
  const alternate=!ok?groupFallback(midi,v,p,envelope,quality,level):null;
  if(alternate?.ok)return {...alternate,envelope,method:'harmonic-groups',originalDistance:d.spectrum,originalCombined:combined,reason:'תואם לקבוצות הרמוניות ולמעטפת הפסנתר'};
- return {ok,distance:d.spectrum,envelope,combined,limits,method:'individual-harmonics',reference:selected.ref.vector,referenceType:selected.ref.gap?'ייחוס סמוך או משוער':'דגימת התו בכיול',groupAttempt:alternate?{distance:alternate.distance,combined:alternate.combined}:null,reason:ok?'תואם לפסנתר':d.spectrum>limits[0]?'גוון שונה מהכיול':envelope>limits[1]?'מעטפת שונה מהכיול':'שילוב גוון ומעטפת לא תואם'};
+ return {ok,distance:d.spectrum,envelope,combined,limits,method:'individual-harmonics',reference:selected.ref.vector,referenceType:selected.ref.gap?'ייחוס סמוך או משוער':'דגימת התו בכיול',groupAttempt:alternate?{distance:alternate.distance,combined:alternate.combined,pitchStability:alternate.pitchStability,blockedBy:alternate.blockedBy}:null,reason:ok?'תואם לפסנתר':alternate?.blockedBy==='pitch-stability'?'סינון קבוצתי: התדר אינו יציב מספיק':d.spectrum>limits[0]?'גוון שונה מהכיול':envelope>limits[1]?'מעטפת שונה מהכיול':'שילוב גוון ומעטפת לא תואם'};
 }
 function noteLabel(m){return names[(m%12+12)%12]+' '+(Math.floor(m/12)-1)}
 function refreshCalibration(){
@@ -342,7 +353,7 @@ function labFinish(forced=null,advance=true){
 function labRender(r){
  const metric=$('labmetrics');metric.replaceChildren();
  const m=r?.metrics||{},f=x=>Number.isFinite(x)?x.toFixed(3):'—',v=x=>Number.isFinite(x)?x.toFixed(1):'—';
- const data=[['תוצאה',r?.reason||'—'],['שיטת סינון',m.method==='harmonic-groups'?'קבוצות הרמוניות':m.method==='individual-harmonics'?'הרמוניות בודדות':'—'],['תדר (Hz)',v(m.hz)],['תדר YIN ראשוני (Hz)',v(m.rawHz)],['ודאות תדר',f(m.clarity)],['עוצמה / סף',f(r?.peakRms)+' / '+f(m.threshold)],['סטייה (סנט)',v(m.cents)],['ריכוז הרמוניות / סף',f(m.concentration)+' / '+f(m.concentrationMin)],['התקף: עלייה / שינוי ספקטרלי',f(m.rise)+' / '+f(m.flux)],['מרחק גוון / סף',f(m.spectrum)+' / '+f(m.limits?.[0])],['מרחק מעטפת / סף',f(m.envelope)+' / '+f(m.limits?.[1])],['מרחק משולב / סף',f(m.combined)+' / '+f(m.limits?.[2])],['זמן זיהוי (ms)',r?.firstSignalMs!=null&&m.ms!=null?String(Math.max(0,m.ms-r.firstSignalMs)):'—']];
+ const data=[['תוצאה',r?.reason||'—'],['שיטת סינון',m.method==='harmonic-groups'?'קבוצות הרמוניות':m.method==='individual-harmonics'?'הרמוניות בודדות':'—'],['תדר (Hz)',v(m.hz)],['תדר YIN ראשוני (Hz)',v(m.rawHz)],['ודאות תדר',f(m.clarity)],['עוצמה / סף',f(r?.peakRms)+' / '+f(m.threshold)],['סטייה (סנט)',v(m.cents)],['טווח שינוי התדר (סנט)',v(m.pitchSpanCents)],['סף יציבות בסינון קבוצתי (סנט)',v(m.pitchStability?.limit)],['ריכוז הרמוניות / סף',f(m.concentration)+' / '+f(m.concentrationMin)],['התקף: עלייה / שינוי ספקטרלי',f(m.rise)+' / '+f(m.flux)],['מרחק גוון / סף',f(m.spectrum)+' / '+f(m.limits?.[0])],['מרחק מעטפת / סף',f(m.envelope)+' / '+f(m.limits?.[1])],['מרחק משולב / סף',f(m.combined)+' / '+f(m.limits?.[2])],['זמן זיהוי (ms)',r?.firstSignalMs!=null&&m.ms!=null?String(Math.max(0,m.ms-r.firstSignalMs)):'—']];
  data.forEach(([name,value])=>{const d=document.createElement('div');d.className='labmetric';let b=document.createElement('b');b.textContent=name;let sp=document.createElement('span');sp.textContent=value;d.append(b,sp);metric.append(d)});
  const chart=$('labchart');chart.replaceChildren();
  const frames=r?.frames||[],duration=Math.max(200,...frames.map(x=>x.ms)),max=Math.max(.0005,...frames.map(x=>Math.max(x.rms||0,x.threshold||0)));
@@ -355,7 +366,7 @@ function labRender(r){
  }else $('labref').textContent='אין דגימת גוון מלאה להשוואה.';
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v11',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v12',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report))}else window.prompt('העתק דוח',report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={low:'עוצמה נמוכה',pitch:'תדר לא ברור',unstable:'תדר לא יציב / צליל קצר',attack:'לא זוהתה מכת קליד חדשה',match:'גוון או מעטפת לא תואמים',range:'תו מחוץ לכיול',busy:'המשחק עדיין במעבר לתו הבא',ok:'התקבל'};
@@ -372,7 +383,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent='נגנו תו לבדיקת הזיהוי';$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v11',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v12',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -424,7 +435,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent='נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.';
  else if(stage==='pitch')$('warmdiagmsg').textContent='נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.';
 }
-function calReport(){return JSON.stringify({version:'v11',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v12',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report));else window.prompt('העתק דוח',report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -515,14 +526,15 @@ function listen(){
  e.min=Math.min(e.min,cents);e.max=Math.max(e.max,cents);
  e.frames.push(fingerprintFrame(spectrum,ctx.sampleRate,p.hz,shape,rms));
  if(e.frames.length<3){if(calibrating)calTraceLog('waiting',{...details,stableFrames:e.frames.length});if(lab.mode)labFrame('waiting',{...details,stableFrames:e.frames.length});return;}
- const v=combineFingerprint(e.frames,e.attack,e.max-e.min);
+ details.pitchSpanCents=e.max-e.min;details.sampleDurationMs=t-e.started;details.sampleFrameCount=e.frames.length;
+ const v=combineFingerprint(e.frames,e.attack,details.pitchSpanCents);
  eventSample=null;lastInput=t;attackAt=-Infinity;held=midi;
  $('detected').textContent=noteLabel(midi);$('freq').textContent=p.hz.toFixed(1)+' Hz';
  if(cal){calTraceLog('fingerprint',{...details,vector:v,stableFrames:e.frames.length});collectCalibration(midi,v);return}
  if(!activeProfile()){$('calmatch').textContent='יש לכייל את הפסנתר לפני הזיהוי';if(lab.mode)labFrame('noProfile',details);return}
  const match=matchFingerprint(midi,v,activeProfile(),$('strictness').value,details);
  $('calmatch').textContent=(match.ok?'✓ ':'סונן · ')+match.reason;
- const metrics={...details,spectrum:match.distance,envelope:match.envelope,limits:match.limits,reason:match.reason,method:match.method,originalDistance:match.originalDistance,originalCombined:match.originalCombined,groupAttempt:match.groupAttempt,referenceNote:match.referenceNote};
+ const metrics={...details,spectrum:match.distance,envelope:match.envelope,limits:match.limits,reason:match.reason,method:match.method,originalDistance:match.originalDistance,originalCombined:match.originalCombined,groupAttempt:match.groupAttempt,referenceNote:match.referenceNote,pitchStability:match.pitchStability||match.groupAttempt?.pitchStability};
  if(lab.mode){labFrame(match.ok?'ok':match.limits?'match':'range',{...metrics,combined:match.combined,vector:v,reference:match.reference,referenceType:match.method==='harmonic-groups'?'קבוצות הרמוניות · '+labName(match.referenceNote):match.referenceType});}
  if(!match.ok){logDiag(match.limits?'match':'range',metrics,true);$('detected').textContent='—';return}
  if(running&&mode==='mic'&&locked){logDiag('busy',{...details,reason:undefined},true);return}
