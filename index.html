@@ -16,7 +16,10 @@
 .answer-chip{opacity:0;pointer-events:none}.answer-chip.right,.answer-chip.wrong{opacity:1;animation-fill-mode:both}.answer-chip.right{animation:answerQuick .40s ease-out both}.answer-chip.wrong{animation:answerDrop .55s ease-in-out both}.answer-zone{height:62px}.mini-piece{animation-duration:.39s}
 @keyframes answerQuick{0%{opacity:0;transform:translateY(10px) scale(.5)}35%{opacity:1;transform:translateY(-3px) scale(1.12)}70%{opacity:1;transform:translateY(-5px) scale(1)}100%{opacity:0;transform:translateY(-22px) scale(.9)}}@keyframes answerDrop{0%{opacity:0;transform:translateY(-20px) rotate(-8deg)}30%{opacity:1;transform:translateY(1px) rotate(4deg)}65%{opacity:1;transform:translateY(4px)}100%{opacity:0;transform:translateY(28px) rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){.answer-chip.right,.answer-chip.wrong{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v14</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+ .caldots{display:flex;gap:5px;justify-content:center;margin:14px 0 9px;direction:ltr}.caldots span{width:100%;max-width:24px;height:7px;border-radius:9px;background:#ffffff20;transition:background .2s,transform .2s}.caldots span.done{background:#79edb3}.caldots span.current{background:#ffdc70;transform:scaleY(1.45)}
+ .calchallenge{margin:14px 0 10px;padding:18px 10px 14px;background:linear-gradient(145deg,#35305c,#272643);border:1px solid #ffffff20;border-radius:19px;transition:background .2s,border-color .2s}.calchallenge.success{background:#214b40;border-color:#79edb3}.calcue{font-size:15px;color:#ddd5ff;min-height:22px}.calchallenge .prompt{font-size:clamp(32px,8vw,48px);margin:8px 0;color:#ffe18a;line-height:1.15}.caldynamic{display:flex;align-items:center;justify-content:center;gap:12px;font-size:17px;color:#f3efff;font-weight:700}.caldynamic em{direction:ltr;font:italic 700 34px Georgia,serif;color:#ffd66d}.calbars{display:flex;direction:ltr;gap:5px;justify-content:center;align-items:flex-end;height:22px;margin-top:6px}.calbars i{display:block;width:8px;background:#ffffff18;border-radius:3px;height:8px}.calbars i:nth-child(2){height:15px}.calbars i:nth-child(3){height:22px}.calbars i.on{background:#b9a1ff}.calchallenge.success .prompt{color:#91f7c4}.calchallenge.success .calbars i.on{background:#79edb3}
+ @media(prefers-reduced-motion:reduce){.caldots span,.calchallenge{transition:none}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v15</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -24,7 +27,7 @@
 <button class="menu-card teal" data-clef="bass"><span class="emblem clef-icon">𝄢</span><span class="menu-text"><strong>מפתח פה</strong><small>יד שמאל · צלילים מדו אמצעי ומטה</small></span><span class="chev">‹</span></button>
 <button class="menu-card gold" data-clef="both"><span class="emblem" style="font-size:23px">💪💪</span><span class="menu-text"><strong>שני המפתחות</strong><small>ימין ושמאל · מתחלפים בין המפתחות</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="levelmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span class="active"></span></div><div class="eyebrow">CHOOSE YOUR LEVEL</div><h2>מה רמת האתגר?</h2><p class="small" id="levelsubtitle"></p><div id="levelcards"></div></section>
-<section id="settingsscreen" class="screen settings-panel" hidden><h2>הגדרות וכלי אבחון</h2><p class="small">כלי המורה · אינם חלק ממסלול המשחק.</p><section class="panel"><div class="row"><button id="mic">🎙 הפעל מיקרופון</button><button class="secondary" id="off" hidden>כבה מיקרופון</button></div><p class="small" id="status" role="status">המיקרופון כבוי</p><div class="meter"><div class="fill" id="volume" style="width:0"></div></div><div id="detected">—</div><div class="small" id="freq">נגנו צליל בודד לבדיקה</div><div class="row small" style="margin-top:10px"><label>רגישות <input id="sens" type="range" min="1" max="5" value="3"></label><label><input type="checkbox" id="sound"> סאונד משחק</label></div><div id="caltools" hidden><p id="calstate" class="small">נדרש כיול פסנתר</p><button id="calopen" class="secondary">🎹 כיול הפסנתר</button> <button id="softg" class="secondary" hidden>כיול סול חלש (אופציונלי)</button> <button id="softgb5" class="secondary" hidden>כיול סול♭ גבוה (אופציונלי)</button><div id="calbox" class="calibration" hidden><h3>טביעת האצבע של הפסנתר</h3><p class="small" id="calhelp"></p><div class="meter"><div class="fill" id="calprogress" style="width:0%"></div></div><div class="prompt" id="calprompt"></div><p class="small" id="calcount"></p><p class="small" id="calmessage" role="status"></p><div class="row"><button id="calcancel" class="secondary">ביטול</button></div></div><p class="small" id="calmatch" aria-live="off"></p><div class="row small"><label>סינון פסנתר <select id="strictness" style="background:#252744;color:white;border:1px solid #77749e;border-radius:7px;padding:6px"><option value="strict">מחמיר</option><option value="normal">מאוזן</option><option value="flex" selected>גמיש</option></select></label></div><div class="row" style="margin-top:10px"><button id="labopen" class="secondary">🔬 מעבדת אבחון פסנתר</button></div><details id="diagnostics" style="text-align:right;margin-top:10px"><summary class="small" style="cursor:pointer">🔍 אבחון זיהוי</summary><div class="calibration small" style="text-align:right"><div id="diaglast" style="font-weight:bold;color:#ffdc70">נגנו תו לבדיקת הזיהוי</div><p id="diagmetrics" style="direction:ltr;text-align:right;font-variant-numeric:tabular-nums"></p><p id="diagcounts"></p><button id="diagreset" class="secondary">אפס נתוני אבחון</button><button id="diagcopy" class="secondary">העתק דוח</button></div></details></div><section class="lab" id="lab" hidden>
+<section id="settingsscreen" class="screen settings-panel" hidden><h2>הגדרות וכלי אבחון</h2><p class="small">כלי המורה · אינם חלק ממסלול המשחק.</p><section class="panel"><div class="row"><button id="mic">🎙 הפעל מיקרופון</button><button class="secondary" id="off" hidden>כבה מיקרופון</button></div><p class="small" id="status" role="status">המיקרופון כבוי</p><div class="meter"><div class="fill" id="volume" style="width:0"></div></div><div id="detected">—</div><div class="small" id="freq">נגנו צליל בודד לבדיקה</div><div class="row small" style="margin-top:10px"><label>רגישות <input id="sens" type="range" min="1" max="5" value="3"></label><label><input type="checkbox" id="sound"> סאונד משחק</label></div><div id="caltools" hidden><p id="calstate" class="small">נדרש כיול פסנתר</p><button id="calopen" class="secondary">🎹 כיול הפסנתר</button> <button id="softg" class="secondary" hidden>כיול סול חלש (אופציונלי)</button> <button id="softgb5" class="secondary" hidden>כיול סול♭ גבוה (אופציונלי)</button><div id="calbox" class="calibration" hidden><h3 id="caltitle">🎵 חימום מוזיקלי</h3><p class="small" id="calhelp"></p><div id="caldots" class="caldots" aria-hidden="true"></div><div class="meter"><div class="fill" id="calprogress" style="width:0%"></div></div><div class="calchallenge" id="calchallenge"><div id="calcue" class="calcue"></div><div class="prompt" id="calprompt"></div><div id="caldynamic" class="caldynamic"></div><div id="calbars" class="calbars" aria-hidden="true"><i></i><i></i><i></i></div></div><p class="small" id="calcount"></p><p class="small" id="calmessage" role="status"></p><div class="row"><button id="calcancel" class="secondary">ביטול</button></div></div><p class="small" id="calmatch" aria-live="off"></p><div class="row small"><label>סינון פסנתר <select id="strictness" style="background:#252744;color:white;border:1px solid #77749e;border-radius:7px;padding:6px"><option value="strict">מחמיר</option><option value="normal">מאוזן</option><option value="flex" selected>גמיש</option></select></label></div><div class="row" style="margin-top:10px"><button id="labopen" class="secondary">🔬 מעבדת אבחון פסנתר</button></div><details id="diagnostics" style="text-align:right;margin-top:10px"><summary class="small" style="cursor:pointer">🔍 אבחון זיהוי</summary><div class="calibration small" style="text-align:right"><div id="diaglast" style="font-weight:bold;color:#ffdc70">נגנו תו לבדיקת הזיהוי</div><p id="diagmetrics" style="direction:ltr;text-align:right;font-variant-numeric:tabular-nums"></p><p id="diagcounts"></p><button id="diagreset" class="secondary">אפס נתוני אבחון</button><button id="diagcopy" class="secondary">העתק דוח</button></div></details></div><section class="lab" id="lab" hidden>
 <div class="row" style="justify-content:space-between"><h2>🔬 מעבדת אבחון</h2><button class="secondary" id="labclose">סגור</button></div>
 <p class="small">הבדיקה אינה משנה את הכיול או השיאים. נגנו תו בודד ללא דוושה, ושחררו לפני התו הבא. אין שמירת שמע.</p>
 <div class="row"><button id="labfree">בדיקה חופשית</button><button id="labvoice" class="secondary">🎤 בדיקת קול אנושי</button><button id="labscan">סריקת 49 קלידים</button></div>
@@ -45,6 +48,36 @@ let candidate=null,stable=0,held=null,quiet=0,lastInput=-Infinity,prevRms=0,atta
 const profileKey='note-rush-player-profile-v5:',profileVersion=5,calNotes=[36,48,55,60,72,84],userKey='note-rush-players-v1';
 let profile=null,cal=null,eventSample=null,attackInfo=null,prevMidi=null,prevPitchAt=-Infinity,users=[],calTrace=[],calLastTrace=0,calTraceStage='',calTraceExpected=null,answerHideTimer=null;
 try{const u=JSON.parse(localStorage.getItem(userKey)||'[]');if(Array.isArray(u))users=u.filter(x=>typeof x==='string'&&x.trim())}catch(e){}
+// One short musical warm-up: every original anchor, plus a few contrasts.
+const warmupPlan=[
+ {midi:60,dynamic:'normal',cue:'נתחיל בצליל נעים'},
+ {midi:55,dynamic:'strong',cue:'עכשיו עם קצת כוח!'},
+ {midi:48,dynamic:'soft',cue:'כמו לחישה…'},
+ {midi:72,dynamic:'normal',cue:'בואו נעלה קצת'},
+ {midi:36,dynamic:'normal',cue:'ועכשיו עמוק למטה'},
+ {midi:84,dynamic:'soft',cue:'צליל גבוה ועדין'},
+ {midi:55,dynamic:'soft',cue:'שוב סול, הפעם בעדינות'},
+ {midi:60,dynamic:'strong',cue:'דו עם קצת תנופה!'},
+ {midi:72,dynamic:'strong',cue:'כמעט סיימנו!'},
+ {midi:84,dynamic:'normal',cue:'צליל אחרון!'}
+];
+const dynamicUI={normal:{symbol:'mf',label:'בעוצמה רגילה',bars:2},soft:{symbol:'p',label:'חלש ובעדינות',bars:1},strong:{symbol:'f',label:'חזק, בלי לדפוק',bars:3}};
+function calTask(c){return c?.softG?{midi:c.extraNote,dynamic:'soft',cue:'צליל אחד נוסף'}:warmupPlan[c?.index??0]}
+function usableAttack(a){return !!a?.available&&['riseMs','earlyHF','hfDropDb','lateToPeak','peakToBaseline'].every(k=>Number.isFinite(a[k]))&&a.riseMs>0&&a.earlyHF>=0&&a.lateToPeak>=0&&a.peakToBaseline>=3}
+function personalAttackMatch(midi,a,p){
+ const refs=p?.attackCalibration?.version===1?p.attackCalibration.samples:null;
+ if(!usableAttack(a)||!Array.isArray(refs))return {available:false,reason:'no-profile-or-onset'};
+ const local=refs.filter(r=>Number.isInteger(r?.midi)&&Math.abs(r.midi-midi)<=12&&usableAttack(r.evidence));
+ if(local.length<2||!local.some(r=>Math.abs(r.midi-midi)<=6))return {available:false,reason:'not-enough-nearby-samples',count:local.length};
+ // Compare normalized temporal/spectral onset measurements, not absolute volume.
+ const scores=local.map(r=>{
+  const b=r.evidence,delta=[(a.riseMs-b.riseMs)/12,Math.log2((a.earlyHF+.005)/(b.earlyHF+.005))/1.2,(a.hfDropDb-b.hfDropDb)/6,(a.lateToPeak-b.lateToPeak)/.35];
+  return {midi:r.midi,dynamic:r.dynamic,distance:Math.hypot(...delta)/2+Math.abs(r.midi-midi)*.012,max:Math.max(...delta.map(Math.abs))};
+ }).sort((a,b)=>a.distance-b.distance);
+ const close=scores.filter(x=>x.distance<=.72&&x.max<=1.15);
+ return {available:true,match:close.length>=2&&close.some(r=>Math.abs(r.midi-midi)<=6),count:local.length,closeCount:close.length,nearest:scores.slice(0,3)};
+}
+
 function validVector(v){return Array.isArray(v)&&v.length===34&&v.every(Number.isFinite)}
 
 function resetDetector(){candidate=held=null;stable=quiet=prevRms=peakRms=noiseFloor=0;lastInput=attackAt=-Infinity;pitchMin=pitchMax=0;eventSample=attackInfo=null;prevMidi=null;prevPitchAt=-Infinity;if(previousSpectrum)previousSpectrum.fill(0)}
@@ -244,7 +277,7 @@ function groupFallback(midi,v,p,envelope,quality,level){
 // Upper-register voice guard: two independent signs of sustained vocal
 // excitation. Use pitch-relative centroid, not an absolute voice frequency
 // blacklist. The existing regular and group thresholds are otherwise intact.
-function voiceGuard(midi,v,quality){
+function voiceGuard(midi,v,quality,p=null){
  const hz=Number.isFinite(quality?.hz)&&quality.hz>0?quality.hz:440*2**((midi-69)/12);
  const pitchSpan=Number.isFinite(quality?.pitchSpanCents)?quality.pitchSpanCents:v[28]*45;
  const decay=v[24],relativeCentroid=(v[20]+v[21])*2500/hz;
@@ -253,9 +286,10 @@ function voiceGuard(midi,v,quality){
  const originalBlocked=hz>=500&&(growingUnstable||brightSustained);
  // Experimental, narrow exception only: an otherwise accepted match, a
  // stable pitch, legacy transient corroboration and independently measured onset.
- const attackOverride=originalBlocked&&!growingUnstable&&pitchSpan<=8&&decay<=.52&&v[27]>=.85&&quality?.attackEvidence?.strong===true;
+ const personalized=personalAttackMatch(midi,quality?.attackEvidence,p);
+ const attackOverride=originalBlocked&&!growingUnstable&&pitchSpan<=8&&decay<=.52&&v[27]>=.85&&(quality?.attackEvidence?.strong===true||personalized.match===true);
  const blocked=originalBlocked&&!attackOverride;
- return {blocked,originalBlocked,attackOverride,hz,pitchSpan,decay,relativeCentroid,growingUnstable,brightSustained,reason:blocked?(growingUnstable?'עלייה בעוצמה ותנודת תדר':'צליל בהיר שאינו דועך מספיק'):null};
+ return {blocked,originalBlocked,attackOverride,personalized,hz,pitchSpan,decay,relativeCentroid,growingUnstable,brightSustained,reason:blocked?(growingUnstable?'עלייה בעוצמה ותנודת תדר':'צליל בהיר שאינו דועך מספיק'):null};
 }
 function matchFingerprint(midi,v,p,level='flex',quality=null){
  const refs=templatesFor(midi,p);
@@ -279,7 +313,7 @@ function matchFingerprint(midi,v,p,level='flex',quality=null){
  const combined=Math.hypot(d.spectrum,envelope*.55);
  const ok=d.spectrum<=limits[0]&&envelope<=limits[1]&&combined<=limits[2];
  const alternate=!ok?groupFallback(midi,v,p,envelope,quality,level):null;
- const guard=voiceGuard(midi,v,quality);
+ const guard=voiceGuard(midi,v,quality,p);
  if(alternate?.ok)return {...alternate,ok:!guard.blocked,envelope,voiceGuard:guard,method:'harmonic-groups',originalDistance:d.spectrum,originalCombined:combined,reason:guard.blocked?'סינון קול: '+guard.reason:'תואם לקבוצות הרמוניות ולמעטפת הפסנתר'};
  return {ok:ok&&!guard.blocked,voiceGuard:guard,distance:d.spectrum,envelope,combined,limits,method:'individual-harmonics',reference:selected.ref.vector,referenceType:selected.ref.gap?'ייחוס סמוך או משוער':'דגימת התו בכיול',groupAttempt:alternate?{distance:alternate.distance,combined:alternate.combined,pitchStability:alternate.pitchStability,blockedBy:alternate.blockedBy}:null,reason:ok?(guard.blocked?'סינון קול: '+guard.reason:'תואם לפסנתר'):alternate?.blockedBy==='pitch-stability'?'סינון קבוצתי: התדר אינו יציב מספיק':d.spectrum>limits[0]?'גוון שונה מהכיול':envelope>limits[1]?'מעטפת שונה מהכיול':'שילוב גוון ומעטפת לא תואם'};
 }
@@ -294,41 +328,65 @@ function refreshCalibration(){
 function beginCalibration(){
  if(!mic||cal||lab.open||!player)return;
  if(running)ready();
- calTrace=[];calLastTrace=0;calTraceStage='';calTraceExpected=null;cal={index:0,piano:{},armed:false,armAt:0};if(screen==='warmup')warmRefresh();
+ calTrace=[];calLastTrace=0;calTraceStage='';calTraceExpected=null;cal={index:0,piano:{},attackSamples:[],armed:false,armAt:0};if(screen==='warmup')warmRefresh();
  resetDetector();refreshCalibration();renderCal();
 }
 function beginSoftG(note=67){if(!mic||cal||!profile||running||lab.open)return;calTrace=[];calLastTrace=0;calTraceStage='';calTraceExpected=null;cal={softG:true,extraNote:note,index:0,piano:{},armed:false,armAt:0};resetDetector();refreshCalibration();renderCal()}
 function renderCal(){
  if(!cal)return;
- const session=cal,index=cal.index,expected=cal.softG?cal.extraNote:calNotes[index];
- cal.armed=false;cal.armAt=now()+350;
- eventSample=null;attackAt=-Infinity;prevMidi=null;prevPitchAt=-Infinity;
- $('calhelp').textContent=cal.softG?'נגנו '+(expected===78?'פה דיאז / סול במול גבוה':'סול')+' פעם אחת בעוצמה נוחה, ללא דוושה. אין צורך בכיול של שאר התווים.':'נגנו כל תו פעם אחת, בעוצמה נוחה וללא דוושה. נמשיך אוטומטית.';
+ const session=cal,index=cal.index,task=calTask(cal),expected=task.midi,ui=dynamicUI[task.dynamic],total=cal.softG?1:warmupPlan.length;
+ cal.armed=false;cal.armAt=now()+500;
+ eventSample=null;attackAt=-Infinity;attackInfo=null;prevMidi=null;prevPitchAt=-Infinity;
+ $('caltitle').textContent=cal.softG?'🎵 עוד צליל קטן':'🎵 חימום מוזיקלי';
+ $('calhelp').textContent='צליל אחד בכל פעם, בלי דוושה. שחררו את הקליד אחרי כל צליל.';
+ $('caldots').replaceChildren(...Array.from({length:total},(_,i)=>{const d=document.createElement('span');d.className=i<index?'done':i===index?'current':'';return d}));
+ $('calchallenge').classList.remove('success');
+ $('calcue').textContent=task.cue;
  $('calprompt').textContent=noteLabel(expected)+' · '+labName(expected);
- $('calcount').textContent=cal.softG?'דגימה אחת':'תו '+(index+1)+' מתוך '+calNotes.length;
- $('calprogress').style.width=(index/calNotes.length*100)+'%';
- $('calmessage').textContent=index?'✓ נקלט! שחררו את הקליד…':'מתכונן להאזנה…';
+ const em=document.createElement('em');em.textContent=ui.symbol;$('caldynamic').replaceChildren(em,document.createTextNode(ui.label));
+ Array.from($('calbars').children).forEach((b,i)=>b.classList.toggle('on',i<ui.bars));
+ $('calcount').textContent=(index+1)+' / '+total;
+ $('calprogress').style.width=(index/total*100)+'%';
+ $('calmessage').textContent=index?'מכינים את הצליל הבא…':'מתכוננים…';
  setTimeout(()=>{
   if(cal!==session||cal.index!==index)return;
-  cal.armed=true;calTraceLog('armed',{expected});$('calmessage').textContent='נגנו עכשיו '+noteLabel(expected)+(cal.softG?' בעדינות':'');
- },350);
+  cal.armed=true;cal.armAt=now();cal.audioArm=ctx?.currentTime??0;calTraceLog('armed',{expected,dynamic:task.dynamic,step:index+1});$('calmessage').textContent='עכשיו תורכם ♪';
+ },500);
 }
-function collectCalibration(midi,v){
+function collectCalibration(midi,v,details={}){
  if(!cal?.armed||now()<cal.armAt)return;
- const expected=cal.softG?cal.extraNote:calNotes[cal.index];
- if(midi!==expected){calTraceLog('wrong',{midi,expected});$('calmessage').textContent='זוהה '+noteLabel(midi)+' · נגנו '+noteLabel(expected);return}
- calTraceLog('accepted',{midi,expected,vector:v});
+ const task=calTask(cal),expected=task.midi;
+ if(midi!==expected){calTraceLog('wrong',{midi,expected});$('calmessage').textContent='נסו את הצליל שמופיע בכרטיס';return}
+ const evidence=details.attackEvidence;
+ // A detected onset must belong to this prompt, not the previous note.
+ const fresh=Number.isFinite(details.attackAudioTime)&&usableAttack(evidence)&&details.attackAudioTime+evidence.onsetOffsetMs/1000>=cal.audioArm-.035;
+ if(usableAttack(evidence)&&!fresh){calTraceLog('oldOnset',{midi,expected,attackEvidence:evidence});$('calmessage').textContent='שחררו את הקליד ונגנו שוב ♪';return}
+ calTraceLog('accepted',{midi,expected,dynamic:task.dynamic,step:cal.index+1,vector:v,rms:details.rms,attackEvidence:evidence,freshOnset:fresh});
  if(cal.softG){const extra=cal.extraNote===78?'softGb5':'softG';profile={...profile,[extra]:v};cal=null;let saved=true;try{localStorage.setItem(profileKey+norm(player),JSON.stringify(profile))}catch(e){saved=false}resetDetector();refreshCalibration();$('calmatch').textContent=saved?'✓ נוספה דגימה ממוקדת לכיול הקיים':'✓ הדגימה נשמרה לסשן זה';if(screen==='warmup')warmRefresh();return}
- cal.piano[midi]=[v];cal.armed=false;cal.index++;
- if(cal.index===calNotes.length){$('calprogress').style.width='100%';saveCalibration();return}
- renderCal();
+ // Prefer the regular-dynamic fingerprint as the original spectral anchor.
+ // Other strikes contribute independent onset measurements, without loosening timbre thresholds.
+ if(!cal.piano[midi]||task.dynamic==='normal')cal.piano[midi]=[v];
+ if(fresh)cal.attackSamples.push({midi,dynamic:task.dynamic,rms:details.rms,evidence});
+ cal.armed=false;const session=cal,index=cal.index;
+ $('calchallenge').classList.add('success');$('calcue').textContent='צליל מעולה!';$('calprompt').textContent='✓';$('calmessage').textContent='נקלט! שחררו את הקליד';
+ $('calprogress').style.width=((index+1)/warmupPlan.length*100)+'%';$('caldots').children[index]?.classList.add('done');$('caldots').children[index]?.classList.remove('current');
+ setTimeout(()=>{
+  if(cal!==session||cal.index!==index)return;
+  cal.index++;
+  if(cal.index===warmupPlan.length){saveCalibration();return}
+  renderCal();
+ },300);
 }
 function saveCalibration(){
- if(!cal||!calNotes.every(m=>cal.piano[m]?.length===1))return;
- profile={version:profileVersion,piano:cal.piano,created:Date.now()};cal=null;
+ if(!cal||!calNotes.every(m=>validVector(cal.piano[m]?.[0])))return;
+ const samples=cal.attackSamples||[],prior=profile;
+ profile={version:profileVersion,piano:cal.piano,created:Date.now(),attackCalibration:{version:1,blockMs:4,engine:attackEngine,planned:warmupPlan.length,samples,created:Date.now()}};
+ // Preserve separately acquired optional note templates.
+ if(validVector(prior?.softG))profile.softG=prior.softG;if(validVector(prior?.softGb5))profile.softGb5=prior.softGb5;
+ cal=null;
  let saved=true;try{localStorage.setItem(profileKey+norm(player),JSON.stringify(profile))}catch(e){saved=false}
- resetDetector();refreshCalibration();$('calmatch').textContent=saved?'✓ הכיול הושלם ונשמר. אפשר לשחק!':'✓ הכיול הושלם לסשן הנוכחי.';
- if(screen==='warmup'){warmRefresh();$('warmstatus').textContent='מעולה! מוכנים לצאת לדרך.';const who=player;setTimeout(()=>{if(screen==='warmup'&&player===who&&!cal&&profile)showScreen('clefmenu')},550)}
+ resetDetector();refreshCalibration();$('calmatch').textContent=saved?'✓ החימום הושלם ונשמר. אפשר לשחק!':'✓ החימום הושלם לסשן הנוכחי.';
+ if(screen==='warmup'){warmRefresh();$('warmstatus').textContent='✨ מעולה! מוכנים לצאת לדרך.';const who=player;setTimeout(()=>{if(screen==='warmup'&&player===who&&!cal&&profile)showScreen('clefmenu')},650)}
 }
 function cancelCalibration(){
  cal=null;resetDetector();refreshCalibration();$('calmatch').textContent=profile?'הכיול הקודם נשמר':'כיול בוטל. יש לכייל לפני משחק נגינה.';
@@ -451,7 +509,7 @@ function labFinish(forced=null,advance=true){
 function labRender(r){
  const metric=$('labmetrics');metric.replaceChildren();
  const m=r?.metrics||{},f=x=>Number.isFinite(x)?x.toFixed(3):'—',v=x=>Number.isFinite(x)?x.toFixed(1):'—';
- const data=[['תוצאה',r?.reason||'—'],['שיטת סינון',m.method==='harmonic-groups'?'קבוצות הרמוניות':m.method==='individual-harmonics'?'הרמוניות בודדות':'—'],['תדר (Hz)',v(m.hz)],['תדר YIN ראשוני (Hz)',v(m.rawHz)],['ודאות תדר',f(m.clarity)],['עוצמה / סף',f(r?.peakRms)+' / '+f(m.threshold)],['סטייה (סנט)',v(m.cents)],['טווח שינוי התדר (סנט)',v(m.pitchSpanCents)],['סף יציבות בסינון קבוצתי (סנט)',v(m.pitchStability?.limit)],['ריכוז הרמוניות / סף',f(m.concentration)+' / '+f(m.concentrationMin)],['התקף: עלייה / שינוי ספקטרלי',f(m.rise)+' / '+f(m.flux)],['מדידת אטאק רציפה',m.attackEvidence?.available?(m.attackEvidence.strong?'התקף מובהק':'התקף לא מובהק'):'אין מדידה מלאה'],['אטאק: זמן עלייה (ms)',v(m.attackEvidence?.riseMs)],['אטאק: ירידת רכיב תדר גבוה (dB)',v(m.attackEvidence?.hfDropDb)],['אטאק: עוצמה מאוחרת / שיא',f(m.attackEvidence?.lateToPeak)],['חריג אטאק בסינון קול',m.voiceGuard?.attackOverride?'כן':'לא'],['מרחק גוון / סף',f(m.spectrum)+' / '+f(m.limits?.[0])],['מרחק מעטפת / סף',f(m.envelope)+' / '+f(m.limits?.[1])],['מרחק משולב / סף',f(m.combined)+' / '+f(m.limits?.[2])],['זמן זיהוי (ms)',r?.firstSignalMs!=null&&m.ms!=null?String(Math.max(0,m.ms-r.firstSignalMs)):'—']];
+ const data=[['תוצאה',r?.reason||'—'],['שיטת סינון',m.method==='harmonic-groups'?'קבוצות הרמוניות':m.method==='individual-harmonics'?'הרמוניות בודדות':'—'],['תדר (Hz)',v(m.hz)],['תדר YIN ראשוני (Hz)',v(m.rawHz)],['ודאות תדר',f(m.clarity)],['עוצמה / סף',f(r?.peakRms)+' / '+f(m.threshold)],['סטייה (סנט)',v(m.cents)],['טווח שינוי התדר (סנט)',v(m.pitchSpanCents)],['סף יציבות בסינון קבוצתי (סנט)',v(m.pitchStability?.limit)],['ריכוז הרמוניות / סף',f(m.concentration)+' / '+f(m.concentrationMin)],['התקף: עלייה / שינוי ספקטרלי',f(m.rise)+' / '+f(m.flux)],['מדידת אטאק רציפה',m.attackEvidence?.available?(m.attackEvidence.strong?'התקף מובהק':'התקף לא מובהק'):'אין מדידה מלאה'],['אטאק: זמן עלייה (ms)',v(m.attackEvidence?.riseMs)],['אטאק: ירידת רכיב תדר גבוה (dB)',v(m.attackEvidence?.hfDropDb)],['אטאק: עוצמה מאוחרת / שיא',f(m.attackEvidence?.lateToPeak)],['חריג אטאק בסינון קול',m.voiceGuard?.attackOverride?'כן':'לא'],['התאמת אטאק לכיול',m.voiceGuard?.personalized?.available?(m.voiceGuard.personalized.match?'תואם':'לא תואם'):'אין מספיק דגימות'],['מרחק גוון / סף',f(m.spectrum)+' / '+f(m.limits?.[0])],['מרחק מעטפת / סף',f(m.envelope)+' / '+f(m.limits?.[1])],['מרחק משולב / סף',f(m.combined)+' / '+f(m.limits?.[2])],['זמן זיהוי (ms)',r?.firstSignalMs!=null&&m.ms!=null?String(Math.max(0,m.ms-r.firstSignalMs)):'—']];
  data.forEach(([name,value])=>{const d=document.createElement('div');d.className='labmetric';let b=document.createElement('b');b.textContent=name;let sp=document.createElement('span');sp.textContent=value;d.append(b,sp);metric.append(d)});
  const chart=$('labchart');chart.replaceChildren();
  const frames=r?.frames||[],duration=Math.max(200,...frames.map(x=>x.ms)),max=Math.max(.0005,...frames.map(x=>Math.max(x.rms||0,x.threshold||0)));
@@ -464,7 +522,7 @@ function labRender(r){
  }else $('labref').textContent='אין דגימת גוון מלאה להשוואה.';
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v14',attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v15',attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report))}else window.prompt('העתק דוח',report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={low:'עוצמה נמוכה',pitch:'תדר לא ברור',unstable:'תדר לא יציב / צליל קצר',attack:'לא זוהתה מכת קליד חדשה',match:'גוון או מעטפת לא תואמים',range:'תו מחוץ לכיול',busy:'המשחק עדיין במעבר לתו הבא',ok:'התקבל'};
@@ -481,7 +539,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent='נגנו תו לבדיקת הזיהוי';$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v14',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v15',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -525,7 +583,7 @@ function highGbPitch(buf,db,sr,primary){
  return {hz,clarity:corr,source:'Gb5 spectrum+period'};
 }
 function calTraceLog(stage,info={}){
- if(!cal)return;const t=now(),expected=cal.softG?cal.extraNote:calNotes[cal.index];
+ if(!cal)return;const t=now(),expected=calTask(cal)?.midi;
  const terminal=stage==='accepted'||stage==='armed'||stage==='wrong';
  if(!terminal&&stage===calTraceStage&&expected===calTraceExpected&&t-calLastTrace<120)return;
  calLastTrace=t;calTraceStage=stage;calTraceExpected=expected;
@@ -533,7 +591,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent='נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.';
  else if(stage==='pitch')$('warmdiagmsg').textContent='נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.';
 }
-function calReport(){return JSON.stringify({version:'v14',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v15',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report));else window.prompt('העתק דוח',report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -574,7 +632,7 @@ function listen(){
  const threshold=weak?weakFloor:normalThreshold;
  const info={rms,threshold,noiseFloor,weak};
  $('volume').style.width=Math.min(100,rms*650)+'%';
- if(cal?.armed&&t-cal.armAt>9000){cal.armAt=t;$('calmessage').textContent='עדיין מקשיב… נגנו '+noteLabel(cal.softG?cal.extraNote:calNotes[cal.index])+' או העלו רגישות.'}
+ if(cal?.armed&&t-cal.armAt>9000){cal.armAt=t;$('calmessage').textContent='עדיין מקשיב… נסו שוב, והחזיקו את הצליל לרגע ♪'}
  if(rms<threshold){
   if(calibrating&&rms>Math.max(.00025,weakFloor*.20)){const raw=rawPitch||detect(buffer,ctx.sampleRate);calTraceLog('low',{...info,hz:raw?.hz,clarity:raw?.clarity,midi:raw?Math.round(69+12*Math.log2(raw.hz/440)):undefined,weakFloor})}
   if(lab.mode){const raw=rawPitch||(rms>Math.max(.00045,threshold*.18)?detect(buffer,ctx.sampleRate):null);labFrame('low',{...info,rawHz:raw?.hz,hz:p0?.hz??raw?.hz,clarity:raw?.clarity,midi:raw?Math.round(69+12*Math.log2(raw.hz/440)):undefined})}
@@ -601,7 +659,7 @@ function listen(){
  }
  // During warmup, a stable independently detected requested pitch can begin a sample
  // even if its initial attack occurred between polling frames. Still require three frames.
- const expected=calibrating?(cal.softG?cal.extraNote:calNotes[cal.index]):null;
+ const expected=calibrating?(calTask(cal)?.midi):null;
  if(calibrating&&valid&&midi===expected&&(!eventSample||eventSample.midi!==midi)&&t-attackAt>420){attackAt=t;attackInfo={audioTime:ctx.currentTime,flux:shape.flux,rise:Math.log2(Math.max(1,rise)),transient:1-shape.concentration,envelope:attackEnvelope(buffer)};eventSample=null}
  if(valid){prevMidi=midi;prevPitchAt=t}
  prevRms=rms;quiet=0;
@@ -624,11 +682,11 @@ function listen(){
  e.min=Math.min(e.min,cents);e.max=Math.max(e.max,cents);
  e.frames.push(fingerprintFrame(spectrum,ctx.sampleRate,p.hz,shape,rms));
  if(e.frames.length<3){if(calibrating)calTraceLog('waiting',{...details,stableFrames:e.frames.length});if(lab.mode)labFrame('waiting',{...details,stableFrames:e.frames.length});return;}
- details.pitchSpanCents=e.max-e.min;details.sampleDurationMs=t-e.started;details.sampleFrameCount=e.frames.length;details.attackEvidence=currentAttackEvidence(e.attack.audioTime);
+ details.pitchSpanCents=e.max-e.min;details.sampleDurationMs=t-e.started;details.sampleFrameCount=e.frames.length;details.attackAudioTime=e.attack.audioTime;details.attackEvidence=currentAttackEvidence(e.attack.audioTime);
  const v=combineFingerprint(e.frames,e.attack,details.pitchSpanCents);
  eventSample=null;lastInput=t;attackAt=-Infinity;held=midi;
  $('detected').textContent=noteLabel(midi);$('freq').textContent=p.hz.toFixed(1)+' Hz';
- if(cal){calTraceLog('fingerprint',{...details,vector:v,stableFrames:e.frames.length});collectCalibration(midi,v);return}
+ if(cal){calTraceLog('fingerprint',{...details,vector:v,stableFrames:e.frames.length});collectCalibration(midi,v,details);return}
  if(!activeProfile()){$('calmatch').textContent='יש לכייל את הפסנתר לפני הזיהוי';if(lab.mode)labFrame('noProfile',details);return}
  const match=matchFingerprint(midi,v,activeProfile(),$('strictness').value,details);
  $('calmatch').textContent=(match.ok?'✓ ':'סונן · ')+match.reason;
@@ -748,11 +806,11 @@ function selectUser(n){
 }
 function warmRefresh(){
  $('warmtitle').textContent='היי, '+player+'!';
- $('warmintro').textContent=profile?'הפסנתר שלך כבר מוכן. אפשר להמשיך ישר למשחק.':'רגע לפני שמתחילים, בואו ננגן כמה צלילים על הפסנתר.';
- $('warmgo').textContent=profile?'המשך  ‹':'🎹 בואו ננגן';
+ $('warmintro').textContent=profile?(profile.attackCalibration?.version===1?'הפסנתר שלך כבר מוכן. אפשר להמשיך ישר למשחק.':'יש לנו חימום חדש! כמה צלילים קצרים ונכיר טוב יותר את הפסנתר שלך.'):'רגע לפני שמתחילים, בואו ננגן כמה צלילים על הפסנתר.';
+ $('warmgo').textContent=profile?.attackCalibration?.version===1?'המשך  ‹':'🎹 בואו ננגן';$('warmredo').textContent=profile?.attackCalibration?.version===1?'חימום מחדש':'המשך עם הכיול הקודם';
  $('warmgo').hidden=!!cal;$('warmredo').hidden=!profile||!!cal;$('buttonmode').hidden=!!cal;$('calbox').hidden=!cal;
  $('warmstatus').textContent='';$('warmdiagnostics').hidden=!cal&&!calTrace.length;
- if(cal)$('warmintro').textContent='בואו ננגן כמה צלילים יחד.';
+ if(cal)$('warmintro').textContent='בואו ננגן כמה צלילים יחד. אין ניקוד ואין שעון.';
 }
 async function warmAction(redo=false){
  if(!player||cal)return;const who=player;$('warmgo').disabled=true;$('warmredo').disabled=true;$('warmstatus').textContent='מפעיל מיקרופון…';
@@ -761,7 +819,7 @@ async function warmAction(redo=false){
  if(player!==who||screen!=='warmup')return;
  if(!mic){$('warmstatus').textContent=$('status').textContent;return}
  mode='mic';
- if(profile&&!redo){showScreen('clefmenu');return}
+ if(profile&&(profile.attackCalibration?.version===1?!redo:redo)){showScreen('clefmenu');return}
  beginCalibration();warmRefresh();
 }
 function renderLevels(){
