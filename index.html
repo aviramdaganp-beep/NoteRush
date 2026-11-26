@@ -19,7 +19,7 @@
  .caldots{display:flex;gap:5px;justify-content:center;margin:14px 0 9px;direction:ltr}.caldots span{width:100%;max-width:24px;height:7px;border-radius:9px;background:#ffffff20;transition:background .2s,transform .2s}.caldots span.done{background:#79edb3}.caldots span.current{background:#ffdc70;transform:scaleY(1.45)}
  .calchallenge{margin:14px 0 10px;padding:18px 10px 14px;background:linear-gradient(145deg,#35305c,#272643);border:1px solid #ffffff20;border-radius:19px;transition:background .2s,border-color .2s}.calchallenge.success{background:#214b40;border-color:#79edb3}.calcue{font-size:15px;color:#ddd5ff;min-height:22px}.calchallenge .prompt{font-size:clamp(32px,8vw,48px);margin:8px 0;color:#ffe18a;line-height:1.15}.caldynamic{display:flex;align-items:center;justify-content:center;gap:12px;font-size:17px;color:#f3efff;font-weight:700}.caldynamic em{direction:ltr;font:italic 700 34px Georgia,serif;color:#ffd66d}.calbars{display:flex;direction:ltr;gap:5px;justify-content:center;align-items:flex-end;height:22px;margin-top:6px}.calbars i{display:block;width:8px;background:#ffffff18;border-radius:3px;height:8px}.calbars i:nth-child(2){height:15px}.calbars i:nth-child(3){height:22px}.calbars i.on{background:#b9a1ff}.calchallenge.success .prompt{color:#91f7c4}.calchallenge.success .calbars i.on{background:#79edb3}
  @media(prefers-reduced-motion:reduce){.caldots span,.calchallenge{transition:none}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v19</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v20</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -169,7 +169,32 @@ function retainVoiceDecision(voice,t,audioTime){
 function resetDetector(){acousticHistory=[];resetAcousticEvent();candidate=held=null;stable=quiet=prevRms=peakRms=noiseFloor=0;lastInput=attackAt=-Infinity;pitchMin=pitchMax=0;eventSample=attackInfo=null;prevMidi=null;prevPitchAt=-Infinity;if(previousSpectrum)previousSpectrum.fill(0)}
 let player='',mode='buttons',running=false,locked=false,deadline=0,timer,pending,current=-1,score=0,streak=0,attempts=0,mistakes=0,best=0,effectUntil=0,effect='',lastTick=0,parity=0;const now=()=>performance.now(),norm=s=>s.trim().replace(/\s+/g,' ').normalize('NFKC').toLocaleLowerCase(),accuracy=()=>attempts?Math.round(score*100/attempts):0,record=()=>records.find(r=>norm(r.name)===norm(player)&&r.mode===mode&&(r.range||'beginner')===range);
 function board(){let e=$('ranks');e.replaceChildren();let rows=records.filter(r=>r.mode===mode&&(r.range||'beginner')===range).sort((a,b)=>b.score-a.score||b.acc-a.acc||b.best-a.best);if(!rows.length)e.textContent='עדיין אין שיאים';rows.forEach((r,i)=>{let d=document.createElement('div');d.className='rank';[['🥇','🥈','🥉'][i]||i+1,r.name,r.score,r.acc+'%'].forEach(v=>{let s=document.createElement('span');s.textContent=v;d.append(s)});e.append(d)});let p=document.createElement('p');p.textContent=(mode==='mic'?'שיאי נגינה':'שיאי כפתורים')+' · ' +clefNames[clefChoice]+' · '+levelNames[levelChoice]+' · '+(persistent?'שמירה מקומית':'סשן בלבד');e.append(p);$('personal').textContent='🏆 שיא אישי: '+(record()?.score??0)}
-function audio(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Web Audio unavailable');ctx=new AC()}if(ctx.state==='suspended')ctx.resume().catch(()=>{});return ctx}function tone(f,d=.06,v=.03,type='sine',delay=0){if(!$('sound').checked)return;try{let c=audio(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.005)}catch(e){}}function tick(){parity^=1;tone(parity?1180:870,.028,.035,'triangle')}
+// Remember only scheduled game sounds, never microphone recordings.
+// Reject frames dominated by our own oscillator frequencies, not a fixed
+// microphone mute interval. Mixed frames with substantial other energy pass.
+let gameSoundWindows=[],selfSoundFrames=0;
+function rememberGameSound(start,end,hz,type){
+ gameSoundWindows=gameSoundWindows.filter(x=>x.end>=start-.45);
+ gameSoundWindows.push({start,end,hz,type});
+}
+function gameSoundDominance(db,sr,time,windows,fftSize){
+ const active=windows.filter(x=>time>=x.start-.015&&time<=x.end+fftSize/sr+.12);
+ if(!active.length)return {active:false,dominated:false,ratio:0};
+ const bin=sr/(2*db.length),lo=Math.max(1,Math.ceil(48/bin)),hi=Math.min(db.length-1,Math.floor(7500/bin));
+ const peaks=active.flatMap(x=>(x.type==='triangle'?[1,3,5,7]:[1]).map(k=>x.hz*k).filter(hz=>hz<=7500));
+ let total=0,own=0,largestOutside=0,largestOwn=0;
+ for(let i=lo;i<=hi;i++){
+  const p=Number.isFinite(db[i])?Math.pow(10,db[i]/10):0;
+  const f=i*bin,matched=peaks.some(hz=>Math.abs(f-hz)<=Math.max(bin*2.5,hz*.006));
+  total+=p;
+  if(matched){own+=p;largestOwn=Math.max(largestOwn,p)}
+  else largestOutside=Math.max(largestOutside,p);
+ }
+ const ratio=own/Math.max(total,1e-30);
+ return {active:true,dominated:ratio>=.86&&largestOutside<largestOwn*.16&&largestOwn>1e-12,ratio};
+}
+
+function audio(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Web Audio unavailable');ctx=new AC()}if(ctx.state==='suspended')ctx.resume().catch(()=>{});return ctx}function tone(f,d=.06,v=.03,type='sine',delay=0){if(!$('sound').checked||mic&&(cal||lab.open))return;try{let c=audio(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(mic?v*.45:v,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.005);if(mic)rememberGameSound(t,t+d+.005,f,type)}catch(e){}}function tick(){parity^=1;tone(parity?1180:870,.028,.035,'triangle')}
 // Continuous sample-domain attack meter; only aggregate features leave the audio thread.
 function makeAttackMeter(sr,emit){
  const size=Math.max(1,Math.round(sr*.004)),alpha=1-Math.exp(-2*Math.PI*2500/sr);
@@ -251,7 +276,7 @@ function attackTraceFor(start,end){
  return {engine:attackEngine,blockMs:4,columns:['relativeMs','rms','highPassRmsRatio','crestFactor'],frames:attackRing.filter(x=>x[0]>=start-.10&&x[0]<=end).map(x=>[round((x[0]-start)*1000,1),round(x[1]),round(x[2],4),round(x[3],3)])};
 }
 
-async function enableMic(){if(requesting||mic)return;requesting=true;$('mic').disabled=true;$('status').textContent='מבקש הרשאת מיקרופון…';try{let c=audio();if(!navigator.mediaDevices?.getUserMedia)throw Error('הדפדפן אינו מאפשר מיקרופון בדף זה');stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});await c.resume();source=c.createMediaStreamSource(stream);analyser=c.createAnalyser();analyser.fftSize=4096;analyser.smoothingTimeConstant=0;source.connect(analyser);await startAttackMonitor(c,source);buffer=new Float32Array(4096);spectrum=new Float32Array(analyser.frequencyBinCount);previousSpectrum=new Float32Array(spectrum.length);mic=true;mode='mic';$('sound').checked=false;$('sound').disabled=true;$('caltools').hidden=false;refreshCalibration();$('mic').textContent='🎙 מיקרופון פעיל';$('off').hidden=false;$('status').textContent='מקשיב לפסנתר · C2–C6';$('status').style.color='#8bffbe';resetDetector();listenTimer=setInterval(listen,35);stream.getAudioTracks().forEach(t=>t.addEventListener('ended',()=>disableMic()));board();if(screen==='warmup')warmRefresh()}catch(e){stopAttackMonitor();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('status').textContent='המיקרופון לא הופעל: '+(e.name==='NotAllowedError'?'הרשאה נדחתה או חסומה':e.message||e.name);$('status').style.color='#ff8ba1';$('mic').disabled=false}finally{requesting=false}}
+async function enableMic(){if(requesting||mic)return;requesting=true;$('mic').disabled=true;$('status').textContent='מבקש הרשאת מיקרופון…';try{let c=audio();if(!navigator.mediaDevices?.getUserMedia)throw Error('הדפדפן אינו מאפשר מיקרופון בדף זה');stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});await c.resume();source=c.createMediaStreamSource(stream);analyser=c.createAnalyser();analyser.fftSize=4096;analyser.smoothingTimeConstant=0;source.connect(analyser);await startAttackMonitor(c,source);buffer=new Float32Array(4096);spectrum=new Float32Array(analyser.frequencyBinCount);previousSpectrum=new Float32Array(spectrum.length);mic=true;mode='mic';$('sound').disabled=false;gameSoundWindows=[];selfSoundFrames=0;$('caltools').hidden=false;refreshCalibration();$('mic').textContent='🎙 מיקרופון פעיל';$('off').hidden=false;$('status').textContent='מקשיב לפסנתר · C2–C6';$('status').style.color='#8bffbe';resetDetector();listenTimer=setInterval(listen,35);stream.getAudioTracks().forEach(t=>t.addEventListener('ended',()=>disableMic()));board();if(screen==='warmup')warmRefresh()}catch(e){stopAttackMonitor();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('status').textContent='המיקרופון לא הופעל: '+(e.name==='NotAllowedError'?'הרשאה נדחתה או חסומה':e.message||e.name);$('status').style.color='#ff8ba1';$('mic').disabled=false}finally{requesting=false}}
 function disableMic(){if(!mic)return;if(lab.open)labClose();mic=false;clearInterval(listenTimer);stopAttackMonitor();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;try{source.disconnect()}catch(e){}mode='buttons';cal=null;$('calbox').hidden=true;$('caltools').hidden=true;$('sound').disabled=false;$('mic').disabled=false;$('mic').textContent='🎙 הפעל מיקרופון';$('off').hidden=true;$('status').textContent='המיקרופון כבוי';$('status').style.color='';$('detected').textContent='—';$('freq').textContent='';$('volume').style.width='0';if(running)ready();if(screen==='warmup')warmRefresh();board()}
 function detect(buf,sr){
  const min=Math.floor(sr/1400),max=Math.min(1500,Math.floor(sr/55)),win=Math.min(1500,buf.length-max-1),diff=new Float64Array(max+1);
@@ -689,7 +714,7 @@ function labRender(r){
  }else $('labref').textContent='אין דגימת גוון מלאה להשוואה.';
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v19',capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v20',gameSound:{enabled:$('sound').checked,micGain:.45,guard:'spectral-dominance',suppressedFrames:selfSoundFrames},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report))}else window.prompt('העתק דוח',report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={low:'עוצמה נמוכה',pitch:'תדר לא ברור',unstable:'תדר לא יציב / צליל קצר',attack:'לא זוהתה מכת קליד חדשה',match:'גוון או מעטפת לא תואמים',range:'תו מחוץ לכיול',busy:'המשחק עדיין במעבר לתו הבא',ok:'התקבל'};
@@ -706,7 +731,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent='נגנו תו לבדיקת הזיהוי';$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v19',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v20',gameSound:{enabled:$('sound').checked,micGain:.45,suppressedFrames:selfSoundFrames},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -761,7 +786,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent='נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.';
  else if(stage==='pitch')$('warmdiagmsg').textContent='נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.';
 }
-function calReport(){return JSON.stringify({version:'v19',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v20',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report));else window.prompt('העתק דוח',report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -788,6 +813,13 @@ function octaveEvidence(buf,db,sr,p,prior){
 function listen(){
  if(!mic)return;
  analyser.getFloatTimeDomainData(buffer);analyser.getFloatFrequencyData(spectrum);
+ // Don't let feedback-only frames become a piano sample or contaminate the
+ // voice-event history/noise estimator. Do not block merely because a tone is playing.
+ if(gameSoundWindows.length){
+  const audioTime=ctx.currentTime;gameSoundWindows=gameSoundWindows.filter(x=>audioTime<=x.end+buffer.length/ctx.sampleRate+.12);
+  const own=gameSoundDominance(spectrum,ctx.sampleRate,audioTime,gameSoundWindows,buffer.length);
+  if(own.dominated){selfSoundFrames++;if(eventSample&&now()-(eventSample.lastFrameAt??eventSample.started)>105)eventSample=null;return}
+ }
  let sum=0;for(const v of buffer)sum+=v*v;
  const rms=Math.sqrt(sum/buffer.length),t=now(),base=[.020,.012,.0065,.0035,.0018][+$('sens').value-1];
  // Estimate noise only in quiet frames; cap it so soft playing cannot push the floor upward indefinitely.
