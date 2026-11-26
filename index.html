@@ -16,7 +16,7 @@
 .answer-chip{opacity:0;pointer-events:none}.answer-chip.right,.answer-chip.wrong{opacity:1;animation-fill-mode:both}.answer-chip.right{animation:answerQuick .40s ease-out both}.answer-chip.wrong{animation:answerDrop .55s ease-in-out both}.answer-zone{height:62px}.mini-piece{animation-duration:.39s}
 @keyframes answerQuick{0%{opacity:0;transform:translateY(10px) scale(.5)}35%{opacity:1;transform:translateY(-3px) scale(1.12)}70%{opacity:1;transform:translateY(-5px) scale(1)}100%{opacity:0;transform:translateY(-22px) scale(.9)}}@keyframes answerDrop{0%{opacity:0;transform:translateY(-20px) rotate(-8deg)}30%{opacity:1;transform:translateY(1px) rotate(4deg)}65%{opacity:1;transform:translateY(4px)}100%{opacity:0;transform:translateY(28px) rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){.answer-chip.right,.answer-chip.wrong{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v13</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v14</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -51,8 +51,88 @@ function resetDetector(){candidate=held=null;stable=quiet=prevRms=peakRms=noiseF
 let player='',mode='buttons',running=false,locked=false,deadline=0,timer,pending,current=-1,score=0,streak=0,attempts=0,mistakes=0,best=0,effectUntil=0,effect='',lastTick=0,parity=0;const now=()=>performance.now(),norm=s=>s.trim().replace(/\s+/g,' ').normalize('NFKC').toLocaleLowerCase(),accuracy=()=>attempts?Math.round(score*100/attempts):0,record=()=>records.find(r=>norm(r.name)===norm(player)&&r.mode===mode&&(r.range||'beginner')===range);
 function board(){let e=$('ranks');e.replaceChildren();let rows=records.filter(r=>r.mode===mode&&(r.range||'beginner')===range).sort((a,b)=>b.score-a.score||b.acc-a.acc||b.best-a.best);if(!rows.length)e.textContent='עדיין אין שיאים';rows.forEach((r,i)=>{let d=document.createElement('div');d.className='rank';[['🥇','🥈','🥉'][i]||i+1,r.name,r.score,r.acc+'%'].forEach(v=>{let s=document.createElement('span');s.textContent=v;d.append(s)});e.append(d)});let p=document.createElement('p');p.textContent=(mode==='mic'?'שיאי נגינה':'שיאי כפתורים')+' · ' +clefNames[clefChoice]+' · '+levelNames[levelChoice]+' · '+(persistent?'שמירה מקומית':'סשן בלבד');e.append(p);$('personal').textContent='🏆 שיא אישי: '+(record()?.score??0)}
 function audio(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Web Audio unavailable');ctx=new AC()}if(ctx.state==='suspended')ctx.resume().catch(()=>{});return ctx}function tone(f,d=.06,v=.03,type='sine',delay=0){if(!$('sound').checked)return;try{let c=audio(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.005)}catch(e){}}function tick(){parity^=1;tone(parity?1180:870,.028,.035,'triangle')}
-async function enableMic(){if(requesting||mic)return;requesting=true;$('mic').disabled=true;$('status').textContent='מבקש הרשאת מיקרופון…';try{let c=audio();if(!navigator.mediaDevices?.getUserMedia)throw Error('הדפדפן אינו מאפשר מיקרופון בדף זה');stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});await c.resume();source=c.createMediaStreamSource(stream);analyser=c.createAnalyser();analyser.fftSize=4096;analyser.smoothingTimeConstant=0;source.connect(analyser);buffer=new Float32Array(4096);spectrum=new Float32Array(analyser.frequencyBinCount);previousSpectrum=new Float32Array(spectrum.length);mic=true;mode='mic';$('sound').checked=false;$('sound').disabled=true;$('caltools').hidden=false;refreshCalibration();$('mic').textContent='🎙 מיקרופון פעיל';$('off').hidden=false;$('status').textContent='מקשיב לפסנתר · C2–C6';$('status').style.color='#8bffbe';resetDetector();listenTimer=setInterval(listen,35);stream.getAudioTracks().forEach(t=>t.addEventListener('ended',()=>disableMic()));board();if(screen==='warmup')warmRefresh()}catch(e){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('status').textContent='המיקרופון לא הופעל: '+(e.name==='NotAllowedError'?'הרשאה נדחתה או חסומה':e.message||e.name);$('status').style.color='#ff8ba1';$('mic').disabled=false}finally{requesting=false}}
-function disableMic(){if(!mic)return;if(lab.open)labClose();mic=false;clearInterval(listenTimer);if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;try{source.disconnect()}catch(e){}mode='buttons';cal=null;$('calbox').hidden=true;$('caltools').hidden=true;$('sound').disabled=false;$('mic').disabled=false;$('mic').textContent='🎙 הפעל מיקרופון';$('off').hidden=true;$('status').textContent='המיקרופון כבוי';$('status').style.color='';$('detected').textContent='—';$('freq').textContent='';$('volume').style.width='0';if(running)ready();if(screen==='warmup')warmRefresh();board()}
+// Continuous sample-domain attack meter; only aggregate features leave the audio thread.
+function makeAttackMeter(sr,emit){
+ const size=Math.max(1,Math.round(sr*.004)),alpha=1-Math.exp(-2*Math.PI*2500/sr);
+ let n=0,e=0,he=0,peak=0,lp1=0,lp2=0,start=0,batch=[],lastEnd=null;
+ return function(samples,time){
+  if(lastEnd!==null&&Math.abs(time-lastEnd)>.012){n=e=he=peak=0;lp1=lp2=0;batch=[]}
+  for(let i=0;i<samples.length;i++){
+   const x=samples[i];if(!n)start=time+i/sr;
+   lp1+=alpha*(x-lp1);const high=x-lp1;lp2+=alpha*(high-lp2);const h=high-lp2;
+   e+=x*x;he+=h*h;peak=Math.max(peak,Math.abs(x));n++;
+   if(n===size){const rms=Math.sqrt(e/n);batch.push([start+n/(2*sr),rms,Math.sqrt(he/n)/Math.max(rms,1e-9),peak/Math.max(rms,1e-9)]);n=e=he=peak=0;
+    if(batch.length>=4){emit(batch);batch=[]}
+   }
+  }
+  lastEnd=time+samples.length/sr;
+ };
+}
+let attackMonitor=null,attackMute=null,attackEngine='unavailable',attackRing=[],attackMonitorError=null;
+function appendAttackFrames(rows){
+ if(!Array.isArray(rows))return;
+ for(const row of rows)if(Array.isArray(row)&&row.length===4&&row.every(Number.isFinite)&&(!attackRing.length||row[0]>attackRing.at(-1)[0]))attackRing.push(row);
+ if(attackRing.length>2800)attackRing.splice(0,attackRing.length-2800);
+}
+function stopAttackMonitor(){
+ try{if(attackMonitor?.port){attackMonitor.port.onmessage=null;attackMonitor.port.close()}if(attackMonitor){attackMonitor.onaudioprocess=null;attackMonitor.disconnect()}attackMute?.disconnect()}catch(e){}
+ attackMonitor=attackMute=null;attackRing=[];attackEngine='unavailable';
+}
+async function startAttackMonitor(c,input){
+ stopAttackMonitor();attackMonitorError=null;
+ const gain=c.createGain();gain.gain.value=0;gain.connect(c.destination);attackMute=gain;
+ if(c.audioWorklet&&typeof AudioWorkletNode!=='undefined'){
+  let url;
+  try{
+   const code=makeAttackMeter.toString()+'\nclass NoteRushAttack extends AudioWorkletProcessor { constructor(){super();this.meter=makeAttackMeter(sampleRate,b=>this.port.postMessage(b))} process(inputs){const x=inputs[0]?.[0];if(x)this.meter(x,currentFrame/sampleRate);return true} }\nregisterProcessor("note-rush-attack",NoteRushAttack);';
+   url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));await c.audioWorklet.addModule(url);
+   const node=new AudioWorkletNode(c,'note-rush-attack',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[1],channelCount:1,channelCountMode:'explicit'});
+   node.port.onmessage=e=>{if(attackMonitor===node)appendAttackFrames(e.data)};attackMonitor=node;input.connect(node);node.connect(gain);attackEngine='audio-worklet';return;
+  }catch(e){attackMonitorError=String(e?.message||e);if(attackMonitor){try{attackMonitor.disconnect()}catch(_){}attackMonitor=null}}
+  finally{if(url)URL.revokeObjectURL(url)}
+ }
+ try{
+  const node=c.createScriptProcessor(1024,1,1),meter=makeAttackMeter(c.sampleRate,appendAttackFrames);let clock=null;
+  node.onaudioprocess=e=>{if(attackMonitor!==node)return;const x=e.inputBuffer.getChannelData(0),guess=c.currentTime-x.length/c.sampleRate;
+   if(clock===null||Math.abs(guess-clock)>.06)clock=guess;meter(x,clock);clock+=x.length/c.sampleRate;e.outputBuffer.getChannelData(0).fill(0)};
+  attackMonitor=node;input.connect(node);node.connect(gain);attackEngine='script-processor';
+ }catch(e){attackMonitorError=[attackMonitorError,String(e?.message||e)].filter(Boolean).join('; ');stopAttackMonitor()}
+}
+function attackEvidenceFor(rows,anchor,engine='audio-worklet'){
+ if(!Number.isFinite(anchor)||rows.length<12)return {available:false,engine,reason:'insufficient-data'};
+ const search=rows.filter(x=>x[0]>=anchor-.145&&x[0]<=anchor+.028);
+ let best=null;
+ const mean=(a)=>a.length?a.reduce((s,x)=>s+x,0)/a.length:0;
+ for(const row of search){
+  const at=row[0],pre=rows.filter(x=>x[0]>=at-.028&&x[0]<at-.004),early=rows.filter(x=>x[0]>=at&&x[0]<at+.020),late=rows.filter(x=>x[0]>=at+.028&&x[0]<at+.064);
+  if(pre.length<4||early.length<3||late.length<6)continue;
+  const baseline=Math.max(.0002,mean(pre.map(x=>x[1]))),peak=Math.max(...early.map(x=>x[1]));
+  if(row[1]<baseline*1.6||peak<Math.max(.001,baseline*3))continue;
+  const low=early.find(x=>x[1]>=baseline+.1*(peak-baseline)),high=early.find(x=>x[1]>=baseline+.9*(peak-baseline));
+  if(!low||!high)continue;
+  const riseMs=Math.max(4,(high[0]-low[0])*1000+4),lateRms=mean(late.map(x=>x[1]));
+  // Energy-weighted high-pass RMS ratio, not a direct measure of inharmonicity.
+  const hf=(xs)=>Math.sqrt(xs.reduce((a,x)=>a+(x[1]*x[2])**2,0)/Math.max(1e-12,xs.reduce((a,x)=>a+x[1]**2,0)));
+  const earlyHF=hf(early),lateHF=hf(late),hfDropDb=20*Math.log10((earlyHF+.005)/(lateHF+.005));
+  const peakToBaseline=peak/baseline,lateToPeak=lateRms/peak;
+  const score=Math.log2(peakToBaseline)-Math.abs(anchor-at)*9;
+  const strong=riseMs<=16&&peakToBaseline>=3&&earlyHF>=.065&&hfDropDb>=6&&lateToPeak<=1.05&&lateRms>=baseline*1.5;
+  const result={available:true,engine,onsetOffsetMs:(at-anchor)*1000,riseMs,peakToBaseline,earlyHF,lateHF,hfDropDb,lateToPeak,earlyCrest:Math.max(...early.map(x=>x[3])),strong,score};
+  if(!best||score>best.score)best=result;
+ }
+ return best||{available:false,engine,reason:'no-complete-onset'};
+}
+function currentAttackEvidence(anchor){
+ if(!Number.isFinite(anchor))return {available:false,engine:attackEngine,reason:'no-anchor'};
+ return attackEvidenceFor(attackRing.filter(x=>x[0]>=anchor-.18&&x[0]<=anchor+.10),anchor,attackEngine);
+}
+function attackTraceFor(start,end){
+ const round=(x,d=5)=>Number(x.toFixed(d));
+ return {engine:attackEngine,blockMs:4,columns:['relativeMs','rms','highPassRmsRatio','crestFactor'],frames:attackRing.filter(x=>x[0]>=start-.10&&x[0]<=end).map(x=>[round((x[0]-start)*1000,1),round(x[1]),round(x[2],4),round(x[3],3)])};
+}
+
+async function enableMic(){if(requesting||mic)return;requesting=true;$('mic').disabled=true;$('status').textContent='מבקש הרשאת מיקרופון…';try{let c=audio();if(!navigator.mediaDevices?.getUserMedia)throw Error('הדפדפן אינו מאפשר מיקרופון בדף זה');stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});await c.resume();source=c.createMediaStreamSource(stream);analyser=c.createAnalyser();analyser.fftSize=4096;analyser.smoothingTimeConstant=0;source.connect(analyser);await startAttackMonitor(c,source);buffer=new Float32Array(4096);spectrum=new Float32Array(analyser.frequencyBinCount);previousSpectrum=new Float32Array(spectrum.length);mic=true;mode='mic';$('sound').checked=false;$('sound').disabled=true;$('caltools').hidden=false;refreshCalibration();$('mic').textContent='🎙 מיקרופון פעיל';$('off').hidden=false;$('status').textContent='מקשיב לפסנתר · C2–C6';$('status').style.color='#8bffbe';resetDetector();listenTimer=setInterval(listen,35);stream.getAudioTracks().forEach(t=>t.addEventListener('ended',()=>disableMic()));board();if(screen==='warmup')warmRefresh()}catch(e){stopAttackMonitor();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('status').textContent='המיקרופון לא הופעל: '+(e.name==='NotAllowedError'?'הרשאה נדחתה או חסומה':e.message||e.name);$('status').style.color='#ff8ba1';$('mic').disabled=false}finally{requesting=false}}
+function disableMic(){if(!mic)return;if(lab.open)labClose();mic=false;clearInterval(listenTimer);stopAttackMonitor();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;try{source.disconnect()}catch(e){}mode='buttons';cal=null;$('calbox').hidden=true;$('caltools').hidden=true;$('sound').disabled=false;$('mic').disabled=false;$('mic').textContent='🎙 הפעל מיקרופון';$('off').hidden=true;$('status').textContent='המיקרופון כבוי';$('status').style.color='';$('detected').textContent='—';$('freq').textContent='';$('volume').style.width='0';if(running)ready();if(screen==='warmup')warmRefresh();board()}
 function detect(buf,sr){const min=Math.floor(sr/1400),max=Math.min(1500,Math.floor(sr/55)),win=Math.min(1500,buf.length-max-1),diff=new Float64Array(max+1);let sum=0;diff[0]=1;for(let t=1;t<=max;t++){let d=0;for(let i=0;i<win;i++){const z=buf[i]-buf[i+t];d+=z*z}sum+=d;diff[t]=sum?d*t/sum:1}let lag=-1;for(let t=min;t<max-1;t++)if(diff[t]<.18){while(t+1<max&&diff[t+1]<diff[t])t++;lag=t;break}if(lag<0){let low=.23;for(let t=min;t<max;t++)if(diff[t]<low){low=diff[t];lag=t}}if(lag<1)return null;const a=diff[lag-1],b=diff[lag],c=diff[lag+1],den=a-2*b+c,shift=den?Math.max(-.5,Math.min(.5,.5*(a-c)/den)):0;return {hz:sr/(lag+shift),clarity:1-b}}
 // Piano-oriented heuristic: a fresh attack, harmonic concentration, and stable tempered pitch.
 // No audio is recorded or transmitted. A human singing a steady note can still pass.
@@ -169,8 +249,12 @@ function voiceGuard(midi,v,quality){
  const decay=v[24],relativeCentroid=(v[20]+v[21])*2500/hz;
  const growingUnstable=decay>.56&&pitchSpan>12;
  const brightSustained=decay>.46&&relativeCentroid>1.45;
- const blocked=hz>=500&&(growingUnstable||brightSustained);
- return {blocked,hz,pitchSpan,decay,relativeCentroid,growingUnstable,brightSustained,reason:blocked?(growingUnstable?'עלייה בעוצמה ותנודת תדר':'צליל בהיר שאינו דועך מספיק'):null};
+ const originalBlocked=hz>=500&&(growingUnstable||brightSustained);
+ // Experimental, narrow exception only: an otherwise accepted match, a
+ // stable pitch, legacy transient corroboration and independently measured onset.
+ const attackOverride=originalBlocked&&!growingUnstable&&pitchSpan<=8&&decay<=.52&&v[27]>=.85&&quality?.attackEvidence?.strong===true;
+ const blocked=originalBlocked&&!attackOverride;
+ return {blocked,originalBlocked,attackOverride,hz,pitchSpan,decay,relativeCentroid,growingUnstable,brightSustained,reason:blocked?(growingUnstable?'עלייה בעוצמה ותנודת תדר':'צליל בהיר שאינו דועך מספיק'):null};
 }
 function matchFingerprint(midi,v,p,level='flex',quality=null){
  const refs=templatesFor(midi,p);
@@ -302,7 +386,7 @@ function labPrepare(){
  $('labprogress').style.width=(lab.mode==='scan'?lab.index/49*100:0)+'%';labGrid();
 }
 function labNew(t){
- return {expected:lab.expected,start:t,frames:[],decisions:[],lastFrame:-Infinity,lastStage:null,peakRms:0,peakClarity:0,firstSignal:null,accepted:null,lastMatch:null,lastSignal:t};
+ return {expected:lab.expected,start:t,audioStart:ctx?.currentTime??0,frames:[],decisions:[],lastFrame:-Infinity,lastStage:null,peakRms:0,peakClarity:0,firstSignal:null,accepted:null,lastMatch:null,lastSignal:t};
 }
 function labTick(){
  if(!lab.mode)return;const t=now();
@@ -353,7 +437,7 @@ function labFinish(forced=null,advance=true){
  const outcome=forced==='skipped'?'skipped':correct?'pass':significant.length||decision?'fail':'empty';
  const stage=forced==='skipped'?'skipped':correct?'ok':decision?.stage==='ok'?'wrong':best?.stage||'silence';
  const voiceAccepted=q.decisions.filter(d=>d.stage==='ok').length;
- const result={testMode:mode,expected:q.expected,detected:decision?.midi??best?.midi??null,outcome:mode==='voice'?(voiceAccepted?'fail':significant.length?'pass':'empty'):outcome,stage:mode==='voice'?(voiceAccepted?'voiceFalsePositive':significant.length?'voiceRejected':'silence'):stage,reason:mode==='voice'?(voiceAccepted?'קול התקבל בטעות · '+voiceAccepted+' אירועים':significant.length?'הקול נקלט אך לא התקבל כפסנתר':'לא נקלט אות ברור'):correct?'התקבל':stage==='wrong'?'התקבל תו אחר':decision?.reason||LAB_LABELS[stage]||stage,voiceAccepted:mode==='voice'?voiceAccepted:undefined,durationMs:Math.round(now()-q.start),firstSignalMs:q.firstSignal==null?null:Math.round(q.firstSignal-q.start),peakRms:q.peakRms,peakClarity:q.peakClarity,metrics:decision||best||null,frames:q.frames,decisions:q.decisions};
+ const result={testMode:mode,expected:q.expected,detected:decision?.midi??best?.midi??null,outcome:mode==='voice'?(voiceAccepted?'fail':significant.length?'pass':'empty'):outcome,stage:mode==='voice'?(voiceAccepted?'voiceFalsePositive':significant.length?'voiceRejected':'silence'):stage,reason:mode==='voice'?(voiceAccepted?'קול התקבל בטעות · '+voiceAccepted+' אירועים':significant.length?'הקול נקלט אך לא התקבל כפסנתר':'לא נקלט אות ברור'):correct?'התקבל':stage==='wrong'?'התקבל תו אחר':decision?.reason||LAB_LABELS[stage]||stage,voiceAccepted:mode==='voice'?voiceAccepted:undefined,durationMs:Math.round(now()-q.start),firstSignalMs:q.firstSignal==null?null:Math.round(q.firstSignal-q.start),peakRms:q.peakRms,peakClarity:q.peakClarity,metrics:decision||best||null,frames:q.frames,decisions:q.decisions,attackTrace:attackTraceFor(q.audioStart??ctx.currentTime,ctx.currentTime)};
  lab.results.push(result);if(lab.results.length>120)lab.results.shift();
  if(q.expected!=null&&forced!=='skipped')lab.grid[q.expected]=result;
  else if(q.expected!=null&&!lab.grid[q.expected])lab.grid[q.expected]=result;
@@ -366,7 +450,7 @@ function labFinish(forced=null,advance=true){
 function labRender(r){
  const metric=$('labmetrics');metric.replaceChildren();
  const m=r?.metrics||{},f=x=>Number.isFinite(x)?x.toFixed(3):'—',v=x=>Number.isFinite(x)?x.toFixed(1):'—';
- const data=[['תוצאה',r?.reason||'—'],['שיטת סינון',m.method==='harmonic-groups'?'קבוצות הרמוניות':m.method==='individual-harmonics'?'הרמוניות בודדות':'—'],['תדר (Hz)',v(m.hz)],['תדר YIN ראשוני (Hz)',v(m.rawHz)],['ודאות תדר',f(m.clarity)],['עוצמה / סף',f(r?.peakRms)+' / '+f(m.threshold)],['סטייה (סנט)',v(m.cents)],['טווח שינוי התדר (סנט)',v(m.pitchSpanCents)],['סף יציבות בסינון קבוצתי (סנט)',v(m.pitchStability?.limit)],['ריכוז הרמוניות / סף',f(m.concentration)+' / '+f(m.concentrationMin)],['התקף: עלייה / שינוי ספקטרלי',f(m.rise)+' / '+f(m.flux)],['מרחק גוון / סף',f(m.spectrum)+' / '+f(m.limits?.[0])],['מרחק מעטפת / סף',f(m.envelope)+' / '+f(m.limits?.[1])],['מרחק משולב / סף',f(m.combined)+' / '+f(m.limits?.[2])],['זמן זיהוי (ms)',r?.firstSignalMs!=null&&m.ms!=null?String(Math.max(0,m.ms-r.firstSignalMs)):'—']];
+ const data=[['תוצאה',r?.reason||'—'],['שיטת סינון',m.method==='harmonic-groups'?'קבוצות הרמוניות':m.method==='individual-harmonics'?'הרמוניות בודדות':'—'],['תדר (Hz)',v(m.hz)],['תדר YIN ראשוני (Hz)',v(m.rawHz)],['ודאות תדר',f(m.clarity)],['עוצמה / סף',f(r?.peakRms)+' / '+f(m.threshold)],['סטייה (סנט)',v(m.cents)],['טווח שינוי התדר (סנט)',v(m.pitchSpanCents)],['סף יציבות בסינון קבוצתי (סנט)',v(m.pitchStability?.limit)],['ריכוז הרמוניות / סף',f(m.concentration)+' / '+f(m.concentrationMin)],['התקף: עלייה / שינוי ספקטרלי',f(m.rise)+' / '+f(m.flux)],['מדידת אטאק רציפה',m.attackEvidence?.available?(m.attackEvidence.strong?'התקף מובהק':'התקף לא מובהק'):'אין מדידה מלאה'],['אטאק: זמן עלייה (ms)',v(m.attackEvidence?.riseMs)],['אטאק: ירידת רכיב תדר גבוה (dB)',v(m.attackEvidence?.hfDropDb)],['אטאק: עוצמה מאוחרת / שיא',f(m.attackEvidence?.lateToPeak)],['חריג אטאק בסינון קול',m.voiceGuard?.attackOverride?'כן':'לא'],['מרחק גוון / סף',f(m.spectrum)+' / '+f(m.limits?.[0])],['מרחק מעטפת / סף',f(m.envelope)+' / '+f(m.limits?.[1])],['מרחק משולב / סף',f(m.combined)+' / '+f(m.limits?.[2])],['זמן זיהוי (ms)',r?.firstSignalMs!=null&&m.ms!=null?String(Math.max(0,m.ms-r.firstSignalMs)):'—']];
  data.forEach(([name,value])=>{const d=document.createElement('div');d.className='labmetric';let b=document.createElement('b');b.textContent=name;let sp=document.createElement('span');sp.textContent=value;d.append(b,sp);metric.append(d)});
  const chart=$('labchart');chart.replaceChildren();
  const frames=r?.frames||[],duration=Math.max(200,...frames.map(x=>x.ms)),max=Math.max(.0005,...frames.map(x=>Math.max(x.rms||0,x.threshold||0)));
@@ -379,7 +463,7 @@ function labRender(r){
  }else $('labref').textContent='אין דגימת גוון מלאה להשוואה.';
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v13',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v14',attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report))}else window.prompt('העתק דוח',report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={low:'עוצמה נמוכה',pitch:'תדר לא ברור',unstable:'תדר לא יציב / צליל קצר',attack:'לא זוהתה מכת קליד חדשה',match:'גוון או מעטפת לא תואמים',range:'תו מחוץ לכיול',busy:'המשחק עדיין במעבר לתו הבא',ok:'התקבל'};
@@ -396,7 +480,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent='נגנו תו לבדיקת הזיהוי';$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v13',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v14',range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -448,7 +532,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent='נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.';
  else if(stage==='pitch')$('warmdiagmsg').textContent='נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.';
 }
-function calReport(){return JSON.stringify({version:'v13',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v14',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent='✓ הדוח הועתק').catch(()=>window.prompt('העתק דוח',report));else window.prompt('העתק דוח',report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -512,12 +596,12 @@ function listen(){
  // The first stable new pitch following an attack forms one event; overlapping decays
  // don't create a second answer. A newly struck different pitch may retrigger.
  if((attack||valid&&midi!==prevMidi&&t-prevPitchAt<230&&shape.flux>.10)&&t-lastInput>110&&(!eventSample||t-attackAt>190)){
-  attackAt=t;attackInfo={flux:shape.flux,rise:Math.log2(Math.max(1,rise)),transient:1-shape.concentration,envelope:attackEnvelope(buffer)};eventSample=null;
+  attackAt=t;attackInfo={audioTime:ctx.currentTime,flux:shape.flux,rise:Math.log2(Math.max(1,rise)),transient:1-shape.concentration,envelope:attackEnvelope(buffer)};eventSample=null;
  }
  // During warmup, a stable independently detected requested pitch can begin a sample
  // even if its initial attack occurred between polling frames. Still require three frames.
  const expected=calibrating?(cal.softG?cal.extraNote:calNotes[cal.index]):null;
- if(calibrating&&valid&&midi===expected&&(!eventSample||eventSample.midi!==midi)&&t-attackAt>420){attackAt=t;attackInfo={flux:shape.flux,rise:Math.log2(Math.max(1,rise)),transient:1-shape.concentration,envelope:attackEnvelope(buffer)};eventSample=null}
+ if(calibrating&&valid&&midi===expected&&(!eventSample||eventSample.midi!==midi)&&t-attackAt>420){attackAt=t;attackInfo={audioTime:ctx.currentTime,flux:shape.flux,rise:Math.log2(Math.max(1,rise)),transient:1-shape.concentration,envelope:attackEnvelope(buffer)};eventSample=null}
  if(valid){prevMidi=midi;prevPitchAt=t}
  prevRms=rms;quiet=0;
  if(!valid){
@@ -533,13 +617,13 @@ function listen(){
  if(calibrating&&midi!==expected){calTraceLog('wrongPitch',{...details,expected});return}
  if(!eventSample||eventSample.midi!==midi){
   if(!cal&&eventSample&&eventSample.frames.length<3)logDiag('unstable',{...details,midi:eventSample.midi});
-  eventSample={midi,frames:[],min:cents,max:cents,started:t,attack:attackInfo||{flux:shape.flux,rise:0,transient:1-shape.concentration,envelope:attackEnvelope(buffer)}}
+  eventSample={midi,frames:[],min:cents,max:cents,started:t,attack:attackInfo||{audioTime:ctx.currentTime,flux:shape.flux,rise:0,transient:1-shape.concentration,envelope:attackEnvelope(buffer)}}
  }
  const e=eventSample;e.lastPitch={hz:p.hz,clarity:p.clarity};
  e.min=Math.min(e.min,cents);e.max=Math.max(e.max,cents);
  e.frames.push(fingerprintFrame(spectrum,ctx.sampleRate,p.hz,shape,rms));
  if(e.frames.length<3){if(calibrating)calTraceLog('waiting',{...details,stableFrames:e.frames.length});if(lab.mode)labFrame('waiting',{...details,stableFrames:e.frames.length});return;}
- details.pitchSpanCents=e.max-e.min;details.sampleDurationMs=t-e.started;details.sampleFrameCount=e.frames.length;
+ details.pitchSpanCents=e.max-e.min;details.sampleDurationMs=t-e.started;details.sampleFrameCount=e.frames.length;details.attackEvidence=currentAttackEvidence(e.attack.audioTime);
  const v=combineFingerprint(e.frames,e.attack,details.pitchSpanCents);
  eventSample=null;lastInput=t;attackAt=-Infinity;held=midi;
  $('detected').textContent=noteLabel(midi);$('freq').textContent=p.hz.toFixed(1)+' Hz';
