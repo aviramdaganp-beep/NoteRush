@@ -117,25 +117,27 @@ html[lang=en] .menu-card,html[lang=en] .user-card{text-align:left}html[lang=en] 
  text-shadow:0 2px 0 #273044,0 3px 5px #18253665;
 }
 .journey-mode.journey-playing .journey-comic .answer-chip.right{
- color:#a2ff9c;animation:journeyComicRight .60s cubic-bezier(.2,.75,.25,1) both;
+ color:#a2ff9c;animation:journeyComicRight 0.78s linear both;
 }
 .journey-mode.journey-playing .journey-comic .answer-chip.wrong{
- color:#ff777f;animation:journeyComicWrong .70s ease-out both;
+ color:#ff777f;animation:journeyComicWrong 0.82s linear both;
 }
 @keyframes journeyComicRight{
- 0%{opacity:0;transform:translateY(10px) rotate(-10deg) scale(.55)}
- 22%{opacity:1;transform:translateY(-4px) rotate(-6deg) scale(1.13)}
- 58%{opacity:1;transform:translateY(-9px) rotate(-5deg) scale(1)}
- 82%{opacity:1;transform:translateY(-15px) rotate(-4deg) scale(.98)}
- 100%{opacity:0;transform:translateY(-24px) rotate(-3deg) scale(.94)}
+ 0%{opacity:0;transform:translateY(10px) rotate(-10deg) scale(.55);animation-timing-function:cubic-bezier(.16,.8,.3,1)}
+ 20%{opacity:1;transform:translateY(-5px) rotate(-6deg) scale(1.13);animation-timing-function:ease-out}
+ 36%{opacity:1;transform:translateY(-14px) rotate(-5deg) scale(1)}
+ 55%{opacity:.91;transform:translateY(-28px) rotate(-4deg) scale(.99)}
+ 77%{opacity:.48;transform:translateY(-43px) rotate(-3deg) scale(.97)}
+ 100%{opacity:0;transform:translateY(-60px) rotate(-2deg) scale(.94)}
 }
 @keyframes journeyComicWrong{
- 0%{opacity:0;transform:translateY(-10px) rotate(8deg) scale(.72)}
- 19%{opacity:1;transform:translate(3px,0) rotate(-7deg) scale(1.1)}
- 32%{opacity:1;transform:translate(-4px,3px) rotate(5deg) scale(1)}
- 45%{opacity:1;transform:translate(2px,5px) rotate(-4deg)}
- 75%{opacity:1;transform:translate(0,8px) rotate(2deg)}
- 100%{opacity:0;transform:translateY(18px) rotate(5deg) scale(.95)}
+ 0%{opacity:0;transform:translateY(3px) rotate(8deg) scale(.72);animation-timing-function:ease-out}
+ 17%{opacity:1;transform:translate(3px,-2px) rotate(-7deg) scale(1.1)}
+ 26%{opacity:1;transform:translate(-4px,-6px) rotate(5deg) scale(1)}
+ 36%{opacity:1;transform:translate(2px,-12px) rotate(-4deg)}
+ 48%{opacity:.96;transform:translate(0,-21px) rotate(2deg)}
+ 72%{opacity:.58;transform:translateY(-38px) rotate(1deg) scale(.98)}
+ 100%{opacity:0;transform:translateY(-57px) rotate(0deg) scale(.95)}
 }
 @media(prefers-reduced-motion:reduce){
  .journey-mode.journey-playing .journey-comic .answer-chip.right,.journey-mode.journey-playing .journey-comic .answer-chip.wrong{animation:none!important;opacity:1}
@@ -179,19 +181,35 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 #game.journey-portrait .journey-scene svg{width:100%;height:100%;max-height:none}
 #game.journey-portrait .journey-hud{
  position:absolute;z-index:5;top:23px;left:22px;right:22px;display:grid;
- grid-template-columns:1fr 1.25fr 1fr;align-items:start;direction:ltr;
+ grid-template-columns:minmax(0,1fr) minmax(90px,1.25fr) minmax(0,1fr);align-items:start;direction:ltr;
  color:#fff5d7;pointer-events:none;
- text-shadow:0 1px 2px #233044,0 2px 5px #25304599;
+ font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;
+ font-style:italic;font-weight:1000;letter-spacing:-.025em;
+ text-shadow:0 2px 0 #273044,0 3px 5px #18253665;
 }
-.journey-hud-score,.journey-hud-streak{display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:start}
-.journey-hud-score{justify-self:start}.journey-hud-streak{justify-self:end}
-.journey-hud-label{font-size:10px;opacity:.92;white-space:nowrap;font-weight:700}
-#game.journey-portrait #score,#game.journey-portrait #streak{font-size:27px;line-height:1;font-weight:900;color:#fff5d7!important;font-variant-numeric:tabular-nums}
+.journey-hud-score,.journey-hud-streak{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:start;min-width:0}
+.journey-hud-score{justify-self:start;transform:rotate(-5deg)}
+.journey-hud-streak{justify-self:end;transform:rotate(4deg)}
+.journey-hud-label{font-size:11px;opacity:1;white-space:nowrap;font-weight:900;color:#fff5d7;letter-spacing:0;-webkit-text-stroke:1px #273044;paint-order:stroke fill;text-shadow:0 1px 0 #273044}
+#game.journey-portrait #score,#game.journey-portrait #streak{
+ font-family:inherit;font-style:inherit;font-size:clamp(26px,8vw,34px);line-height:1.05;font-weight:1000;
+ color:#fff5d7!important;font-variant-numeric:tabular-nums;
+ letter-spacing:-.045em;-webkit-text-stroke:1.65px #273044;paint-order:stroke fill;
+ text-shadow:0 2px 0 #273044,0 3px 4px #18253670;
+}
+#game.journey-portrait #score{color:#a2ff9c!important}
+#game.journey-portrait #streak{color:#ffdc86!important}
 #game.journey-portrait .journey-hud-clock{position:relative;justify-self:center;min-width:90px}
-#game.journey-portrait #clock{font-size:clamp(30px,9vw,43px);letter-spacing:-1px;line-height:1.06;color:#fff3cb}
+#game.journey-portrait #clock{
+ font-family:inherit;font-style:inherit;font-weight:1000;
+ font-size:clamp(32px,10vw,46px);letter-spacing:-.055em;line-height:1.07;color:#fff3cb;
+ -webkit-text-stroke:1.9px #273044;paint-order:stroke fill;
+ text-shadow:0 2px 0 #273044,0 4px 5px #18253670;
+ font-variant-numeric:tabular-nums;
+}
 #game.journey-portrait #clock.plus{color:#9dffd3}
 #game.journey-portrait #clock.minus,#game.journey-portrait #clock.danger{color:#ff8390}
-#game.journey-portrait #float{top:37px;left:50%;margin-left:-18px;font-size:19px;z-index:2}
+#game.journey-portrait #float{top:43px;left:50%;margin-left:-18px;font-size:20px;z-index:2;font-weight:1000;-webkit-text-stroke:1.3px #273044;paint-order:stroke fill}
 #game.journey-portrait #staff{
  position:absolute;top:21%;left:12px;right:12px;margin:0;
  background:none;border:0;overflow:visible;box-shadow:none;
@@ -252,7 +270,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 #game.journey-portrait .journey-test-controls button:disabled{opacity:.55}
 #game.journey-portrait .journey-world{bottom:75px}
 #game.journey-portrait .journey-reward{bottom:98px}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v44</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v45</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -997,7 +1015,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v44',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v45',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1014,7 +1032,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v44',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v45',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1069,7 +1087,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v44',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v45',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1876,7 +1894,7 @@ function showAnswer(midi,correct){
  if(!comic){const icon=document.createElement('span');icon.textContent=correct?'✓':'×';chip.append(icon)}
  const text=document.createElement('span');text.textContent=answerName(midi,correct);chip.append(text);
  chip.className='answer-chip';void chip.offsetWidth;chip.classList.add(correct?'right':'wrong');
- answerHideTimer=setTimeout(()=>{chip.className='answer-chip';chip.replaceChildren();answerHideTimer=null;if(!correct&&running&&!locked)feedback(mode==='mic'?tr('נגנו את התו!'):tr('איזה תו זה?'),'#77748a')},comic?(correct?600:700):(correct?400:550));
+ answerHideTimer=setTimeout(()=>{chip.className='answer-chip';chip.replaceChildren();answerHideTimer=null;if(!correct&&running&&!locked)feedback(mode==='mic'?tr('נגנו את התו!'):tr('איזה תו זה?'),'#77748a')},comic?(correct?780:820):(correct?400:550));
 }
 function change(n){deadline+=n*1000;effect=n>0?'plus':'minus';effectUntil=now()+1000;$('float').textContent=(n>0?'+':'−')+Math.abs(n)+'s';$('float').className='';void $('float').offsetWidth;$('float').className=n>0?'up':'down';if(n>0){tone(523,.09);tone(659,.09,.03,'sine',.07);tone(784,.13,.04,'sine',.14)}else{tone(220,.12,.04,'triangle');tone(110,.16,.04,'triangle',.09)}}
 function answer(midi){if(!running||locked)return;if(now()>=deadline){finish();return}attempts++;resetKeyColors();const correct=midi===currentQuestion?.midi;showAnswer(midi,correct);if(correct){score++;streak++;best=Math.max(best,streak);locked=true;syncJourneyTestControls();keys[pitches.indexOf(midi)]?.classList.add('good');keys.forEach(b=>b.disabled=true);const r=streak%12,n=r===5?2:r===10?3:r===0?5:0;journeyReact(true,!!n);if(n)change(n);else correctSound();grantJourneyWorldTime();feedback(n?tr('⚡ עוד ')+n+tr(' שניות!'):tr('✓ בול!'),'#159361');stats();update();if(running)pending=setTimeout(next,420)}else{journeyReact(false);mistakes++;streak=0;const i=pitches.indexOf(midi);if(i>=0)keys[i].classList.add('bad');if(mistakes%3===0){let n=3+Math.floor(Math.random()*3);change(-n);feedback(tr('אופס! −')+n+tr(' שניות'),'#d53c61')}else{tone(190,.1,.035,'triangle');feedback(tr('נסו שוב!'),'#d53c61')}stats();update()}}
