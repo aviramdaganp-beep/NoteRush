@@ -236,7 +236,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 @media(prefers-reduced-motion:reduce){
  #game.journey-portrait .journey-reward-pop{animation:journeyPortraitAward 2.4s ease-out both!important}
 }
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v40</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v41</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -981,7 +981,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v40',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v41',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -998,7 +998,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v40',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v41',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1053,7 +1053,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v40',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v41',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1452,7 +1452,8 @@ function journeyStaffAtmosphere(kind,worldNumber=0){
 
 function renderJourneyScenery(worldNumber){
  const w=journeyWorlds[worldNumber%journeyWorlds.length];journeyWorldIndex=worldNumber;
- const svg=$('journeyArt');$('journeyFlightLayer').replaceChildren();$('journeyWorld').textContent=(uiLanguage==='en'?'WORLD ':'עולם ')+(worldNumber+1);
+ const svg=$('journeyArt');
+ for(const id of ['journeyTrail','journeyMascot']){const node=$(id);if(node&&node.parentNode===$('journeyFlightLayer'))node.remove()}$('journeyWorld').textContent=(uiLanguage==='en'?'WORLD ':'עולם ')+(worldNumber+1);
  $('stage').style.setProperty('--journey-ground',w.ground);
  $('stage').style.setProperty('--journey-sky',w.sky);
  $('journeyStaffWeather').innerHTML=journeyStaffAtmosphere(w.kind,worldNumber);
@@ -1466,15 +1467,16 @@ function renderJourneyScenery(worldNumber){
 }
 // The bird has its own transparent layer, allowing it to loop around the
 // notation without disappearing behind the painted cloud.
-let journeyFlightLayout=null,journeyLoopStart=null;
-const journeyLoopDuration=1.65;
+let journeyFlightLayout=null,journeyLoopStart=null,journeyLoopOrigin=null,journeyLastBirdPose=null;
+const journeyLoopDuration=1.72;
+let journeyPuffs=[],journeyPuffClock=-1,journeyFX=null;
 function moveJourneyFlightLayer(active){
  const layer=$('journeyFlightLayer'),art=$('journeyArt');
  const target=active?layer:art;
  for(const id of ['journeyTrail','journeyMascot']){
   const node=$(id);if(node&&node.parentNode!==target)target.append(node);
  }
- if(active){layer.setAttribute('viewBox',art.getAttribute('viewBox'))}
+ if(active){layer.setAttribute('viewBox',art.getAttribute('viewBox'));ensureJourneyFX()}
 }
 function journeyFlightGeometry(w,h,staffTop,staffHeight){
  const scale=w/340,top=214-340*h/w;
@@ -1495,19 +1497,88 @@ function syncJourneyFlightGeometry(w,h){
  stage.style.setProperty('--journey-comic-y',journeyFlightLayout.comicY+'px');
  moveJourneyFlightLayer(true);
 }
-function journeyLoopPose(x,y,roll,progress,g){
- const p=Math.max(0,Math.min(1,progress));
- if(p<=0||p>=1)return {x,y,roll,looping:false};
- const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
- const blend=smooth(p/.16)*smooth((1-p)/.16);
- const angle=Math.PI/2-2*Math.PI*p;
- const cx=g.loopCX+g.loopRX*Math.cos(angle),cy=g.loopCY+g.loopRY*Math.sin(angle);
- // Rotate through one full turn; match the direction of the curved flight.
- const tangent=Math.atan2(-g.loopRY*Math.cos(angle),g.loopRX*Math.sin(angle))*180/Math.PI;
- const turn=tangent+360*Math.round((-360*p-tangent)/360);
- const correction=turn+360*p;
- return {x:x+(cx-x)*blend,y:y+(cy+28-y)*blend,
-  roll:roll*(1-blend)-360*p+correction*blend,looping:true};
+// Native curved flight, with shared tangents at each segment boundary.
+function journeyLoopPose(x,y,roll,progress,g,origin=null){
+ const p=Math.max(0,Math.min(1,progress)),smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
+ const from=origin||{x,y,roll};
+ if(p<=0)return {x:from.x,y:from.y,roll:from.roll,sx:1,sy:1,speed:0,looping:true};
+ if(p>=1)return {x,y,roll,sx:1,sy:1,speed:0,looping:false};
+ const q=p-(.12/(2*Math.PI))*Math.sin(2*Math.PI*p);
+ const nodes=[
+  [from.x,from.y,130,0],
+  [g.loopCX+g.loopRX-6,g.loopCY+g.loopRY*.33+28,0,-380],
+  [g.loopCX,g.loopCY-g.loopRY+28,-340,0],
+  [g.loopCX-g.loopRX+5,g.loopCY+g.loopRY*.08+28,0,340],
+  [x,y,110,0]
+ ];
+ const cuts=[0,.28,.51,.73,1];let i=0;while(i<3&&q>cuts[i+1])i++;
+ const dt=cuts[i+1]-cuts[i],t=(q-cuts[i])/dt,u=1-t,a=nodes[i],b=nodes[i+1];
+ const c1=[a[0]+a[2]*dt/3,a[1]+a[3]*dt/3],c2=[b[0]-b[2]*dt/3,b[1]-b[3]*dt/3];
+ const vx=3*u*u*(c1[0]-a[0])+6*u*t*(c2[0]-c1[0])+3*t*t*(b[0]-c2[0]);
+ const vy=3*u*u*(c1[1]-a[1])+6*u*t*(c2[1]-c1[1])+3*t*t*(b[1]-c2[1]);
+ const px=u*u*u*a[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*b[0];
+ const py=u*u*u*a[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*b[1];
+ const tangent=Math.atan2(vy,vx)*180/Math.PI,turn=tangent+360*Math.round((-360*p-tangent)/360);
+ const entry=smooth(p/.075),exit=smooth((1-p)/.15);
+ const angle=p<.075?from.roll+(turn-from.roll)*entry:p>.85?(roll-360)+(turn-(roll-360))*exit:turn;
+ const speed=Math.hypot(vx,vy)/dt/journeyLoopDuration*(1-.12*Math.cos(2*Math.PI*p));
+ const anticipation=p<.085?Math.sin(Math.PI*p/.085):0;
+ const stretch=1+Math.min(1,speed/300)*entry*exit*.21-anticipation*.13;
+ return {x:px,y:py,roll:angle,sx:stretch,sy:1/stretch,speed,looping:true};
+}
+function ensureJourneyFX(){
+ const layer=$('journeyFlightLayer');
+ if(journeyFX&&journeyFX.parentNode===layer)return journeyFX;
+ const ns='http://www.w3.org/2000/svg',g=document.createElementNS(ns,'g');
+ g.setAttribute('aria-hidden','true');g.setAttribute('pointer-events','none');
+ const smear=document.createElementNS(ns,'g');smear.setAttribute('opacity','0');
+ smear.innerHTML='<path d="M-8 -9 Q-34 -15 -59 -4 Q-36 1 -8 3Z" fill="#ffebcb" opacity=".52"/><path d="M-15 8 Q-39 10 -52 4" stroke="#fff4d5" stroke-width="2.5" stroke-linecap="round" fill="none"/>';
+ g.append(smear);
+ for(let i=0;i<30;i++){
+  const puff=document.createElementNS(ns,'g');puff.setAttribute('opacity','0');
+  puff.innerHTML='<path d="M-9 3Q-14 -3 -8 -7Q-5 -13 1 -9Q7 -12 10 -5Q16 0 10 6Q4 11 -2 7Q-8 10 -9 3Z" fill="currentColor"/><path d="M-8 3Q0 8 9 3Q7 10 -2 7Q-8 10 -8 3Z" fill="#877d7c" opacity=".22"/>';
+  g.append(puff);
+ }
+ layer.prepend(g);journeyFX=g;return g;
+}
+function clearJourneyTransition(){
+ journeyLoopStart=null;journeyLoopOrigin=null;journeyLastBirdPose=null;journeyPuffs=[];journeyPuffClock=-1;
+ if(journeyFX)journeyFX.remove();journeyFX=null;
+}
+function beginJourneyTransition(){
+ const f=journeyFlight;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ f.speedBoost=Math.max(f.speedBoost,reduced?108:175+f.baseSpeed*.24);
+ f.trail=1;f.liftVelocity=Math.max(f.liftVelocity,105);
+ if(!journeyFlightLayout||reduced)return;
+ journeyLoopOrigin=journeyLastBirdPose?{...journeyLastBirdPose}:null;
+ journeyLoopStart=f.clock;journeyPuffClock=-1;
+}
+function paintJourneyTransitionFX(f,dt,pose,reduced){
+ if(!journeyFX||!journeyFX.parentNode)return;
+ const nodes=journeyFX.children,smear=nodes[0],active=pose.looping&&!reduced;
+ const theta=pose.roll*Math.PI/180,c=Math.cos(theta),sn=Math.sin(theta),cx=pose.x,cy=pose.y-28;
+ if(active&&pose.speed>170){
+  smear.setAttribute('transform','translate('+cx.toFixed(2)+' '+cy.toFixed(2)+') rotate('+pose.roll.toFixed(2)+') scale('+Math.min(1.35,pose.speed/340).toFixed(3)+' 1)');
+  smear.setAttribute('opacity',String(Math.min(.68,(pose.speed-170)/320)));
+ }else smear.setAttribute('opacity','0');
+ if(active&&(journeyPuffClock<0||f.clock-journeyPuffClock>=.048)){
+  journeyPuffClock=f.clock;
+  const k=journeyPuffs.length,world=journeyWorlds[Math.max(0,journeyWorldIndex)%journeyWorlds.length];
+  if(k>=30)journeyPuffs.shift();
+  journeyPuffs.push({x:cx-c*27,y:cy-sn*27,age:0,life:.66+(k%4)*.095,
+   vx:-c*24-9,vy:-sn*24-5,angle:(k*47)%360,size:.43+(k%3)*.13,color:world.sun});
+ }
+ for(const puff of journeyPuffs){puff.age+=dt;puff.x+=puff.vx*dt;puff.y+=puff.vy*dt}
+ journeyPuffs=journeyPuffs.filter(p=>p.age<p.life);
+ for(let i=0;i<30;i++){
+  const node=nodes[i+1],p=journeyPuffs[i];
+  if(!p||reduced){if(node.getAttribute('opacity')!=='0')node.setAttribute('opacity','0');continue}
+  const t=p.age/p.life,scale=p.size*(.72+1.5*t);
+  node.setAttribute('color',p.color);
+  node.setAttribute('transform','translate('+p.x.toFixed(2)+' '+p.y.toFixed(2)+') rotate('+(p.angle+18*t).toFixed(1)+') scale('+scale.toFixed(3)+')');
+  node.setAttribute('opacity',String(Math.min(1,t*9)*.69*Math.pow(1-t,1.45)));
+ }
 }
 
 function paintJourney(t){
@@ -1525,17 +1596,19 @@ function paintJourney(t){
  let x=87+(reduced?f.forward*.4:f.forward);const terrain=journeyHill(x+offset(1));
  const bob=Math.sin(f.clock*3.8)*(reduced?1.5:5);
  let y=Math.max(60,Math.min(terrain-10,86+(terrain-119)*.22+bob-f.lift*(reduced?.45:1)));
- let tilt=f.roll+(reduced?0:Math.sin(f.clock*3.8)*2.2),looping=false;
+ let tilt=f.roll+(reduced?0:Math.sin(f.clock*3.8)*2.2),looping=false,sx=1,sy=1,speed=0;
  if(journeyFlightLayout&&$('game').classList.contains('journey-portrait')){
   y+=journeyFlightLayout.baseY-86;
   if(journeyLoopStart!==null){
    const p=(f.clock-journeyLoopStart)/journeyLoopDuration;
-   if(p>=1||reduced)journeyLoopStart=null;
-   else{const pose=journeyLoopPose(x,y,tilt,p,journeyFlightLayout);x=pose.x;y=pose.y;tilt=pose.roll;looping=pose.looping}
+   if(p>=1||reduced){journeyLoopStart=null;journeyLoopOrigin=null}
+   else{const pose=journeyLoopPose(x,y,tilt,p,journeyFlightLayout,journeyLoopOrigin);x=pose.x;y=pose.y;tilt=pose.roll;looping=pose.looping;sx=pose.sx;sy=pose.sy;speed=pose.speed}
   }
  }
  if(mascot)mascot.setAttribute('transform','translate('+x.toFixed(2)+' '+y.toFixed(2)+') scale('+($('game').classList.contains('journey-portrait')?1.23:1)+')');
- if(body)body.setAttribute('transform','rotate('+tilt.toFixed(2)+' 0 -23)');
+ if(body)body.setAttribute('transform','translate(0 -23) rotate('+tilt.toFixed(2)+') scale('+sx.toFixed(3)+' '+sy.toFixed(3)+') translate(0 23)');
+ journeyLastBirdPose={x,y,roll:tilt};
+ if($('game').classList.contains('journey-portrait'))paintJourneyTransitionFX(f,dt,{x,y,roll:tilt,looping,speed},reduced);
  if(wing)wing.setAttribute('transform','rotate('+((reduced?5:18)*Math.sin(f.clock*(15+Math.max(0,f.speedBoost)*.09))).toFixed(2)+' -9 -23)');
  const foot1=$('journeyFoot1'),foot2=$('journeyFoot2');
  if(foot1)foot1.setAttribute('transform','rotate(-23 -4 -6)');
@@ -1574,7 +1647,7 @@ function setupJourneyPortrait(active){
  document.body.classList.toggle('journey-portrait-active',active);
  $('journeyHUD').hidden=!active;$('journeyBack').hidden=!active;
  if(!active){
-  moveJourneyFlightLayer(false);journeyFlightLayout=null;journeyLoopStart=null;
+  moveJourneyFlightLayer(false);journeyFlightLayout=null;clearJourneyTransition();
   $('stage').classList.remove('journey-playing');
   $('journeyArt').setAttribute('viewBox','0 0 340 168');
  }
@@ -1640,18 +1713,19 @@ function setupJourney(){
  (active?$('journeyComic'):$('answerzone')).append($('answerpop'));
  setupJourneyFrame(active);
  if(journeyRAF!==null){cancelAnimationFrame(journeyRAF);journeyRAF=null}
- journeyLastFrame=0;journeyTravel=0;journeyFlight=freshJourneyFlight();journeyWorldIndex=-1;journeyRewardedWorld=0;journeyTimebarMax=journeyInitialMs;journeyLoopStart=null;journeyFlightLayout=null;
+ journeyLastFrame=0;journeyTravel=0;journeyFlight=freshJourneyFlight();journeyWorldIndex=-1;journeyRewardedWorld=0;journeyTimebarMax=journeyInitialMs;clearJourneyTransition();journeyFlightLayout=null;
  $('stage').classList.remove('journey-playing');$('journeyArt').setAttribute('viewBox','0 0 340 168');$('journeyReward').classList.remove('journey-reward-pop');$('journeyReward').textContent='';
  if(active){renderJourneyScenery(0);journeyRAF=requestAnimationFrame(paintJourney)}
 }
 function journeyReact(correct,bonus=false){
- if(journeyActive())boostJourneyFlight(journeyFlight,correct,bonus);
+ if(!journeyActive())return;
+ boostJourneyFlight(journeyFlight,correct,bonus);
+ if(correct&&journeyWorldAt(score)>journeyRewardedWorld)beginJourneyTransition();
 }
 function journeyNext(){
  const world=journeyWorldAt(score);
  if(world!==journeyWorldIndex){
-  const previous=journeyWorldIndex;renderJourneyScenery(world);
-  if(previous>=0&&world>previous&&running)journeyLoopStart=journeyFlight.clock;
+  renderJourneyScenery(world); // Winning note already launched the bird.
  }
  questions=journeyPoolAt(score);const p=[...new Set(questions.map(q=>q.midi))].sort((a,b)=>a-b);
  if(p.join(',')!==pitches.join(',')){pitches=p;buildKeys()}
