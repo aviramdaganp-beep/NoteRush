@@ -312,7 +312,25 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .lava-ash{animation:lavaAshDrift 5.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 @keyframes lavaAshDrift{0%,100%{transform:translate(0,0);opacity:.76}50%{transform:translate(5px,-5px);opacity:.95}}
 @media(prefers-reduced-motion:reduce){.lava-flow-glint,.lava-drop,.lava-pool-glint,.lava-ash{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v54</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+/* Carnival light chases are gentle, complementary fades, never hard flashes. */
+.carnival-bulbs-a{animation:carnivalGlowA 3.8s ease-in-out infinite}
+.carnival-bulbs-b{animation:carnivalGlowB 3.8s ease-in-out infinite}
+@keyframes carnivalGlowA{0%,100%{opacity:1}50%{opacity:.46}}
+@keyframes carnivalGlowB{0%,100%{opacity:.46}50%{opacity:1}}
+.carnival-wheel,.carnival-wheel-cabin{transform-box:view-box;transform-origin:0 0}
+.carnival-wheel{animation:carnivalTurn 30s linear infinite}
+.carnival-wheel-cabin{animation:carnivalTurnBack 30s linear infinite}
+@keyframes carnivalTurn{to{transform:rotate(360deg)}}
+@keyframes carnivalTurnBack{to{transform:rotate(-360deg)}}
+.carnival-horse{animation:carnivalHorse 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.carnival-horse.alt{animation-delay:-1.7s}
+@keyframes carnivalHorse{0%,100%{transform:translateY(-1px)}50%{transform:translateY(5px)}}
+.carnival-flag{animation:carnivalFlag 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
+@keyframes carnivalFlag{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.84) skewY(5deg)}}
+.carnival-clown-eyes{animation:carnivalBlink 9.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes carnivalBlink{0%,62%,66%,100%{transform:scaleY(1)}64%{transform:scaleY(.12)}}
+@media(prefers-reduced-motion:reduce){.carnival-bulbs-a,.carnival-bulbs-b,.carnival-wheel,.carnival-wheel-cabin,.carnival-horse,.carnival-flag,.carnival-clown-eyes{animation:none!important}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v55</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1057,7 +1075,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v54',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v55',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1074,7 +1092,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v54',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v55',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1129,7 +1147,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v54',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v55',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1526,7 +1544,7 @@ const journeyWorlds=[
  {name:['ממלכת הממתקים','Candy kingdom'],sky:'#f5bfd7',sun:'#fff1ca',far:'#c6a4d9',mid:'#98c9c3',near:'#dc91bb',ground:'#ad639d',accent:'#fff0c4',kind:'candy'},
  {name:['יער המפלצות','Monster forest'],sky:'#41495d',sun:'#d2dfaa',far:'#354b50',mid:'#637f77',near:'#405c58',ground:'#23383f',accent:'#e1d99a',kind:'monster'},
  {name:['ממלכת הלבה','Lava kingdom'],sky:'#8c4c55',sun:'#ffc16b',far:'#674657',mid:'#553d4b',near:'#9c514e',ground:'#3c3443',accent:'#ffc373',kind:'lava'},
- {name:['הקרנבל המקולל','Cursed carnival'],sky:'#746184',sun:'#f6d0ae',far:'#9b779b',mid:'#755879',near:'#ad707e',ground:'#4b3959',accent:'#ffcf91',kind:'carnival'},
+ {name:['הקרנבל המקולל','Cursed carnival'],sky:'#82678e',sun:'#ffdfaf',far:'#9b779b',mid:'#98718f',near:'#815777',ground:'#503a60',accent:'#ffda9c',kind:'carnival'},
  {name:['ממלכת הסליים','Slime kingdom'],sky:'#c5d2a4',sun:'#f4e6ac',far:'#a0bc87',mid:'#79a88a',near:'#8bb46a',ground:'#477a66',accent:'#d7f59d',kind:'slime'},
  {name:['עולם החלומות','Dreamland'],sky:'#a9b5dd',sun:'#ffe2bc',far:'#aba1d1',mid:'#8d9ac8',near:'#b997c9',ground:'#756b9a',accent:'#fbe0b8',kind:'dream'}
 ];
@@ -1583,12 +1601,38 @@ function journeyForestGiant(){
  '</g>';
 }
 
+function carnivalWheel(){
+ let spokes='',cabins='';
+ for(let i=0;i<10;i++){
+  const angle=i*36,theta=angle*Math.PI/180,x=(74*Math.sin(theta)).toFixed(2),y=(-74*Math.cos(theta)).toFixed(2);
+  spokes+='<g transform="rotate('+angle+')"><path d="M0 0V-74" stroke="#b784a2" stroke-width="2.6"/><path d="M0 -24L13 -48L0 -74" stroke="#8e688c" stroke-width="1.3" fill="none"/><circle cy="-68" r="2.3" fill="#ffdd9c" class="carnival-bulbs-'+(i%2?'a':'b')+'"/></g>';
+  cabins+='<g transform="translate('+x+' '+y+')"><g class="carnival-wheel-cabin"><path d="M0 0V8" stroke="#e8bf9c" stroke-width="2"/><rect x="-10" y="6" width="20" height="14" rx="4" fill="'+['#d486a2','#deb67d','#83b5ad','#be97c3'][i%4]+'" stroke="#674566" stroke-width="1.6"/><path d="M-7 10H7V15H-7Z" fill="#f5d5af"/><path d="M-7 17H7" stroke="#9f6d87" stroke-width="1.5"/></g></g>';
+ }
+ return '<g transform="translate(96 -176)" opacity=".96" stroke-linecap="round" stroke-linejoin="round"><path d="M-57 128L-6 -5H6L57 128H42L0 20L-42 128Z" fill="#604664"/><path d="M-48 120L0 0L48 120" stroke="#c48d9d" stroke-width="3" fill="none"/><path d="M-32 79H32M-21 50H21" stroke="#9d7493" stroke-width="3"/><g class="carnival-wheel"><circle r="74" stroke="#5d4567" stroke-width="8" fill="none"/><circle r="74" stroke="#d5a5ac" stroke-width="3.5" fill="none"/><circle r="55" stroke="#a67e9e" stroke-width="2.5" fill="none"/>'+spokes+'<circle r="74" stroke="#ffe4a8" stroke-width="3.3" stroke-dasharray="1 12" fill="none" class="carnival-bulbs-a"/>'+cabins+'</g><circle r="13" fill="#7d557e" stroke="#e2b79c" stroke-width="2.5"/><path d="M0 -9L3 -3L9 0L3 3L0 9L-3 3L-9 0L-3 -3Z" fill="#f1c78d" class="carnival-bulbs-b"/></g>';
+}
+// A slightly sinister showman's face, integrated as a giant mechanical
+// carnival entrance. The grin, eyes and makeup are drawn as distinct forms.
+function journeyCarnivalClown(){
+ return '<g id="journeyCarnivalClown" transform="translate(244 -240)" stroke-linecap="round" stroke-linejoin="round">'+
+ '<path d="M-81 187L-79 66Q-72 30 -43 15H43Q72 30 79 66L81 187Z" fill="#6a4668"/><path d="M-78 80Q-48 91 -27 56H27Q48 91 78 80L69 187H-69Z" fill="#8a537a"/>'+
+ '<path d="M-61 42Q-30 56 0 44Q30 56 61 42L50 71L31 64L14 78L0 63L-14 78L-31 64L-50 71Z" fill="#e4b39f"/><path d="M-46 71Q-13 78 0 92Q13 78 46 71L38 105L0 99L-38 105Z" fill="#c45f88"/><circle cy="94" r="8" fill="#f2c58d"/>'+
+ '<path d="M-57 -44Q-84 -53 -84 -26Q-98 -9 -79 5Q-84 29 -58 27L-44 11V-39Z M57 -44Q84 -53 84 -26Q98 -9 79 5Q84 29 58 27L44 11V-39Z" fill="#a64d76"/><path d="M-73 -32Q-81 -19 -68 -11M-76 3Q-78 15 -65 20M73 -32Q81 -19 68 -11M76 3Q78 15 65 20" stroke="#dc8495" stroke-width="3.2" fill="none"/>'+
+ '<path d="M-59 -29Q-63 -63 -36 -76Q0 -88 36 -76Q63 -63 59 -29L51 15Q40 46 0 53Q-40 46 -51 15Z" fill="#d9b5a6"/><path d="M-49 -23Q-51 -53 -32 -65Q-14 -75 0 -71Q-26 -51 -23 -25Q-26 -6 -40 13Q-50 -2 -49 -23Z" fill="#f0cfb5"/><path d="M36 -66Q61 -53 56 -24L50 13Q40 36 17 44Q38 20 32 1Q21 -30 36 -66Z" fill="#b28a99"/>'+
+ '<path d="M-46 -38Q-37 -50 -20 -42L-11 -28L-22 -9L-40 -17Z M46 -38Q37 -50 20 -42L11 -28L22 -9L40 -17Z" fill="#9a668c"/><path d="M-43 -40Q-29 -55 -14 -37M14 -37Q29 -55 43 -40" stroke="#603a5b" stroke-width="5" fill="none"/>'+
+ '<g class="carnival-clown-eyes"><path d="M-42 -31Q-29 -40 -15 -29Q-26 -18 -38 -23Z M15 -29Q29 -40 42 -31L38 -23Q26 -18 15 -29Z" fill="#f2d58e"/><path d="M-28 -34Q-24 -28 -28 -23Q-32 -28 -28 -34Z M28 -34Q32 -28 28 -23Q24 -28 28 -34Z" fill="#42324d"/><circle cx="-27" cy="-30" r="1.3" fill="#fff1c6"/><circle cx="29" cy="-30" r="1.3" fill="#fff1c6"/></g>'+
+ '<path d="M-9 -19Q0 -26 9 -19Q17 -6 0 -4Q-17 -6 -9 -19Z" fill="#bb4e72"/><ellipse cx="-4" cy="-16" rx="4.2" ry="2.5" fill="#e9a3a2"/>'+
+ '<path d="M-42 1Q-30 -1 -22 6Q0 17 22 6Q30 -1 42 1Q35 33 0 36Q-35 33 -42 1Z" fill="#a34b6c"/><path d="M-36 5Q-20 12 0 15Q20 12 36 5Q24 30 0 30Q-24 30 -36 5Z" fill="#492f49"/>'+
+ '<g fill="#e6c9ab"><path d="M-29 8L-22 10L-23 15Q-27 17 -29 8Z"/><path d="M-19 11L-10 13L-11 20Q-16 22 -18 17Z"/><path d="M-7 14L0 15V22Q-4 24 -7 21Z"/><path d="M3 15L10 13L11 20Q7 24 3 22Z"/><path d="M13 12L21 10L20 17Q16 21 13 20Z"/><path d="M24 9L30 7L27 15Q24 17 24 9Z"/></g><path d="M-17 26Q0 22 17 26" stroke="#b78691" stroke-width="2.4" fill="none"/><path d="M-44 2L-40 9M40 9L44 2" stroke="#8a4b6d" stroke-width="2.4"/>'+
+ '<path d="M-40 -75L-50 -111L-17 -102L-4 -129L17 -108L46 -113L39 -75Q0 -65 -40 -75Z" fill="#65436c"/><path d="M-50 -111L-17 -102L-4 -129L0 -77L-40 -75Z" fill="#aa648b"/><path d="M17 -108L46 -113L39 -75L0 -77Z" fill="#b87a91"/><path d="M-43 -78Q0 -68 43 -78V-70Q0 -58 -43 -70Z" fill="#e3b597"/><g fill="#ffe0a0"><circle cx="-50" cy="-111" r="4" class="carnival-bulbs-a"/><circle cx="-4" cy="-129" r="4.5" class="carnival-bulbs-b"/><circle cx="46" cy="-113" r="4" class="carnival-bulbs-a"/></g>'+
+ '<path d="M-32 187V134Q0 112 32 134V187Z" fill="#3e2d46"/><path d="M-38 187V132Q0 104 38 132V187" stroke="#d7a58f" stroke-width="5" fill="none"/><path d="M-38 184V132Q0 104 38 132V184" stroke="#ffe2a2" stroke-width="3.2" stroke-dasharray="1 9" fill="none" class="carnival-bulbs-b"/></g>';
+}
+
 function journeyWeirdSky(w){
  const k=w.kind;let html='';
  if(k==='candy')for(let i=0;i<8;i++){const x=(i*91+38)%340,y=-360+(i*83)%350,r=8+i%3*6;html+='<g transform="translate('+x+' '+y+')"><g class="world-bubble" style="animation-delay:'+(-i*.7)+'s"><circle r="'+r+'" fill="#f9e1ed" fill-opacity=".46" stroke="#fff0d9" stroke-width="1.3"/><path d="M-'+(r*.55)+' -'+(r*.2)+'Q-'+(r*.4)+' -'+(r*.7)+' 0 -'+(r*.66)+'" fill="none" stroke="#fff8ee" stroke-width="2" stroke-linecap="round"/></g></g>'}
 
  if(k==='lava')for(let i=0;i<14;i++){const x=(i*73+21)%340,y=-350+(i*47)%440;html+='<g transform="translate('+x+' '+y+')"><circle class="world-ember" r="'+(1.5+i%3)+'" fill="'+w.accent+'" style="animation-delay:'+(-i*.44)+'s"/></g>'}
- if(k==='carnival')html+='<g transform="translate(245 -240)" opacity=".55"><circle r="49" fill="none" stroke="#e1b9b5" stroke-width="3"/><g class="world-wheel"><circle r="40" fill="none" stroke="#e1b9b5" stroke-width="1.5"/>'+Array.from({length:8},(_,i)=>'<g transform="rotate('+(i*45)+')"><path d="M0 0V-49" stroke="#e1b9b5" stroke-width="1.4"/><rect x="-6" y="-53" width="12" height="8" rx="3" fill="#efc598"/></g>').join('')+'</g><path d="M-27 75L0 0L27 75" fill="none" stroke="#e1b9b5" stroke-width="4"/></g>';
+ if(k==='carnival')html+=carnivalWheel()+journeyCarnivalClown();
  if(k==='slime')for(let i=0;i<9;i++){const x=(i*83+18)%340,y=-350+(i*73)%410;html+='<g transform="translate('+x+' '+y+')"><circle class="world-bubble" r="'+(3+i%4*3)+'" fill="#dff4bc" fill-opacity=".48" stroke="#e6f5cb" stroke-width="1.2" style="animation-delay:'+(-i*.5)+'s"/></g>'}
  if(k==='dream')for(let i=0;i<7;i++){const x=(i*89+25)%340,y=-360+i*58;html+='<g transform="translate('+x+' '+y+')" opacity=".77"><g class="world-bob" style="animation-delay:'+(-i*.61)+'s"><path d="M-18 0Q-3 -16 16 0Q-3 16 -18 0L-27 9V-9Z" fill="'+(i%2?'#e8b8c9':'#f7d9a9')+'"/><circle cx="8" cy="-2" r="2" fill="#655e91"/><path d="M-3 0Q-1 -10 5 -13" fill="none" stroke="#fff0d8" stroke-width="1.5"/></g></g>'}
  return html;
@@ -1670,21 +1714,29 @@ const journeyWorldArtwork={
  ],
  carnival:[
  [
- ['<path d="M-58 0V-47L-36 -61L-22 -50V-80L0 -102L22 -80V-50L40 -66L58 -48V0Z" fill="#80658b"/><path d="M-22 -80L0 -102L22 -80M-58 -47L-36 -61L-22 -50M22 -50L40 -66L58 -48" stroke="#be8f9e" stroke-width="6" fill="none"/><g fill="#f2ccaa"><rect x="-8" y="-72" width="16" height="22" rx="6"/><rect x="-41" y="-37" width="10" height="16" rx="3"/><rect x="31" y="-36" width="10" height="16" rx="3"/></g>',88,1],
- ['<path d="M-63 0L-49 -37L-25 -37L-13 -72L0 -90L13 -72L25 -37H49L63 0Z" fill="#956e93"/><path d="M-13 -72L0 -90L13 -72L24 -37L0 -46L-24 -37Z" fill="#c18b9d"/><path d="M0 -90V-111L18 -104L0 -98" stroke="#edc6a0" stroke-width="2" fill="#edc6a0"/>',85,1],
- ['<g class="world-bob"><path d="M-18 -24Q0 -51 18 -24Q32 -9 17 5Q0 20 -17 5Q-32 -9 -18 -24Z" fill="#d9a4ab"/><path d="M-18 -23Q0 -8 18 -23" stroke="#f2c8b5" stroke-width="5" fill="none"/><path d="M0 13Q-16 26 0 40" stroke="#e7c8b2" stroke-width="1.7" fill="none"/></g>',-140,.9]
+ // A grand illuminated funhouse, with independent architectural faces,
+ // mouldings, recessed windows and a marquee built into the facade.
+ ['<g stroke-linecap="round" stroke-linejoin="round"><path d="M-66 0V-51L-53 -68L-40 -54V-76L-27 -97L-14 -80V-101L0 -119L16 -101V-79L32 -98L46 -78V-54L59 -68L73 -50V0Z" fill="#59405f"/><path d="M-66 -51L-53 -68L-40 -54V0H-66Z M-14 -101L0 -119L16 -101V0H-14Z M46 -54L59 -68L73 -50V0H46Z" fill="#875877"/><path d="M-40 -76L-27 -97L-14 -80V0H-40Z M16 -79L32 -98L46 -78V0H16Z" fill="#a66c86"/><path d="M-68 -50L-53 -70L-38 -54M-42 -75L-27 -100L-12 -79M-16 -100L0 -122L18 -100M14 -78L32 -101L48 -77M44 -53L59 -70L75 -50" stroke="#e0ae89" stroke-width="3.2" fill="none"/><path d="M-62 -43H-43M-37 -69H-17M-11 -94H12M19 -69H43M49 -43H69" stroke="#c58793" stroke-width="3" fill="none"/><g fill="#eac396" stroke="#4d3657" stroke-width="2.4"><path d="M-58 -21V-35Q-53 -43 -48 -35V-21Z"/><path d="M-33 -39V-59Q-27 -69 -21 -59V-39Z"/><path d="M-8 -59V-83Q0 -94 8 -83V-59Z"/><path d="M25 -39V-59Q32 -69 39 -59V-39Z"/><path d="M53 -21V-35Q59 -43 65 -35V-21Z"/></g><g stroke="#f7d9a6" stroke-width="1.3"><path d="M-53 -35V-22M-27 -59V-40M0 -83V-60M32 -59V-40M59 -35V-22"/></g><path d="M-36 0V-27Q0 -48 36 -27V0Z" fill="#3b304d"/><path d="M-41 -25Q0 -51 41 -25L35 -15Q0 -35 -35 -15Z" fill="#d17e92" stroke="#f0c799" stroke-width="2.3"/><path d="M-24 -24Q0 -34 24 -24" stroke="#ffe5ae" stroke-width="4" stroke-dasharray="1 7" fill="none" class="carnival-bulbs-a"/><path d="M-12 0V-15Q0 -28 12 -15V0" fill="#a66c87"/><g fill="#ffdc9a" class="carnival-bulbs-b"><circle cx="-52" cy="-48" r="2"/><circle cx="-27" cy="-75" r="2"/><circle cy="-102" r="2.5"/><circle cx="32" cy="-77" r="2"/><circle cx="59" cy="-48" r="2"/></g></g>',88,1],
+ // Circus pavilion, a distinct silhouette with taut striped canvas and trim.
+ ['<g stroke-linecap="round" stroke-linejoin="round"><path d="M-74 0L-67 -49L-39 -55L-23 -80Q-8 -92 0 -117Q8 -92 23 -80L39 -55L67 -49L74 0Z" fill="#9c688c"/><path d="M-74 0L-67 -49L-48 -44L-52 0Z M-28 0L-24 -44L-10 -48L-12 0Z M12 0L10 -48L25 -44L29 0Z M52 0L48 -44L67 -49L74 0Z" fill="#d7a4a4"/><path d="M-73 -49Q-38 -68 -23 -80Q-8 -93 0 -117Q8 -93 23 -80Q38 -68 73 -49Q37 -36 0 -47Q-38 -36 -73 -49Z" fill="#e3b1a5"/><path d="M0 -117Q-8 -91 -23 -80Q-38 -68 -73 -49L-48 -44Q-21 -62 0 -117Z M0 -117Q-8 -88 -20 -46Q0 -43 15 -46Q8 -90 0 -117Z M0 -117Q8 -93 23 -80Q38 -68 73 -49L49 -44Q22 -63 0 -117Z" fill="#ae547c"/><path d="M-72 -49Q-38 -36 0 -47Q38 -36 72 -49" stroke="#f5d1a1" stroke-width="4.5" fill="none"/><path d="M-65 -47Q-37 -39 0 -45Q37 -39 65 -47" stroke="#ffe9b5" stroke-width="3.2" stroke-dasharray="1 9" fill="none" class="carnival-bulbs-b"/><path d="M-21 0V-28Q0 -43 21 -28V0Z" fill="#48324e"/><path d="M-20 -28Q0 -43 20 -28L15 -21Q0 -31 -15 -21Z" fill="#ebba97"/><path d="M-19 -28L-10 -20L-15 0H-22Z M19 -28L10 -20L15 0H22Z" fill="#b76b88"/><path d="M0 -117V-137" stroke="#f0d2a3" stroke-width="2.5"/><path class="carnival-flag" d="M0 -136Q13 -142 25 -132Q11 -130 0 -124Z" fill="#f5bd80"/></g>',85,1],
+ // Floating hot air balloon, not another building.
+ ['<g class="world-bob" stroke-linecap="round" stroke-linejoin="round"><path d="M-34 -49Q-34 -78 0 -80Q34 -78 34 -49Q33 -30 13 -7H-13Q-33 -30 -34 -49Z" fill="#b776a2"/><path d="M-25 -67Q-14 -80 0 -80Q-19 -61 -15 -42Q-12 -23 -5 -7H-13Q-33 -30 -34 -49Q-34 -60 -25 -67Z" fill="#e0adad"/><path d="M0 -80Q20 -59 15 -40Q12 -23 5 -7H13Q33 -30 34 -49Q34 -78 0 -80Z" fill="#de9b9e"/><path d="M-4 -77Q-9 -57 -5 -36L0 -7L5 -36Q9 -57 4 -77Z" fill="#f2c6ab"/><path d="M-28 -34Q0 -22 28 -34" stroke="#f6ce99" stroke-width="3" fill="none"/><path d="M-11 -7L-8 7M11 -7L8 7" stroke="#d8bba0" stroke-width="1.8"/><path d="M-12 6H12L9 20H-9Z" fill="#805675"/><path d="M-8 9V16M0 9V18M8 9V16" stroke="#c99b91" stroke-width="1.8"/></g>',-129,1]
  ],
  [
- ['<path d="M-42 0V-28L0 -67L42 -28V0Z" fill="#d8aaa5"/><path d="M-42 -28L0 -67L-16 -28V0H-42Z M0 -67L17 -28V0H0Z M42 -28V0H29V-28Z" fill="#a75f83"/><path d="M-11 0V-20Q0 -36 11 -20V0" fill="#503e60"/><path d="M-43 -28Q-33 -16 -23 -28Q-12 -16 0 -28Q12 -16 23 -28Q33 -16 43 -28" stroke="#f1cfaf" fill="none" stroke-width="3"/><path d="M0 -67V-82L18 -76L0 -72" stroke="#f1cfaf" fill="#f1cfaf"/>',103,1.08],
- ['<path d="M-32 0V-50Q0 -80 32 -50V0Z" fill="#725476"/><path d="M-28 -46Q0 -66 28 -46L19 -26H-19Z" fill="#d6a2ae"/><path d="M-16 -25Q0 -8 16 -25L10 -13L0 -5L-10 -13Z" fill="#eac1ab"/><g fill="#4b395b"><ellipse cx="-11" cy="-38" rx="4" ry="6"/><ellipse cx="11" cy="-38" rx="4" ry="6"/></g><circle cy="-31" r="4" fill="#c16f8b"/>',105,.9],
- ['<path d="M-38 0H38M0 0V-59" stroke="#d0a2b4" stroke-width="5"/><path d="M-38 -58Q0 -94 38 -58Z" fill="#d9ab9c"/><path d="M-38 -58L0 -83L-13 -58M0 -83L14 -58L38 -58" fill="#a45c81"/><g stroke="#e6c5ad" stroke-width="2"><path d="M-25 -58V-21M22 -58V-23"/></g><g fill="#b781a7"><path d="M-35 -20L-30 -31L-21 -27L-15 -13L-32 -13Z"/><path d="M12 -20L17 -32L26 -27L34 -14H15Z"/></g>',106,1],
- ['<g class="world-bob"><ellipse cy="-43" rx="18" ry="23" fill="#d8a477"/><path d="M-8 -48L-3 -43L-8 -38M8 -48L3 -43L8 -38" stroke="#654b68" stroke-width="2" fill="none"/><path d="M-8 -31Q0 -37 8 -31" stroke="#654b68" stroke-width="2" fill="none"/><path d="M0 -21l-5 6H5Z" fill="#d8a477"/></g><path d="M0 -15Q-13 -7 0 0" stroke="#e8cab0" fill="none"/>',105,1]
+ // Striped miniature tent, sewn seams, scalloped valance and doorway.
+ ['<g stroke-linecap="round" stroke-linejoin="round"><path d="M-46 0L-43 -33H43L46 0Z" fill="#d3a09f"/><path d="M-43 -33H-27L-30 0H-46Z M-13 -33H0V0H-15Z M14 -33H28L30 0H15Z M39 -33H43L46 0H40Z" fill="#a7537e"/><path d="M-47 -33Q-20 -53 0 -76Q20 -53 47 -33Z" fill="#edc0ab"/><path d="M0 -76Q-20 -53 -47 -33H-25Q-9 -52 0 -76Z M0 -76L-8 -33H10Z M0 -76Q20 -53 47 -33H26Q9 -52 0 -76Z" fill="#b76183"/><path d="M-47 -33H47V-27Q38 -20 29 -27Q19 -20 9 -27Q0 -20 -9 -27Q-19 -20 -29 -27Q-38 -20 -47 -27Z" fill="#f0c2a2"/><path d="M-40 -30H40" stroke="#fff1bb" stroke-width="3" stroke-dasharray="1 9" class="carnival-bulbs-a"/><path d="M-14 0V-18Q0 -31 14 -18V0Z" fill="#49314d"/><path d="M-14 -18Q0 -31 14 -18" stroke="#d391a0" stroke-width="2.8" fill="none"/><path d="M-11 -17L-6 -10L-10 0H-15Z M11 -17L6 -10L10 0H15Z" fill="#a6597e"/><path d="M0 -76V-93" stroke="#f3ce9e" stroke-width="2.3"/><path class="carnival-flag" d="M0 -92Q11 -97 23 -89L0 -80Z" fill="#efbc79"/></g>',103,1],
+ // A puppet theatre: depth from inset framing, a carved mask and bulb trim.
+ ['<g stroke-linejoin="round" stroke-linecap="round"><path d="M-39 0V-63Q0 -88 39 -63V0Z" fill="#523857"/><path d="M-34 0V-59Q0 -80 34 -59V0Z" fill="#a7728e"/><path d="M-29 -4V-54Q0 -69 29 -54V-4Z" fill="#392c46"/><path d="M-34 -59Q0 -80 34 -59" stroke="#e8bd91" stroke-width="5" fill="none"/><path d="M-34 -58Q0 -78 34 -58" stroke="#ffe1a4" stroke-width="3" stroke-dasharray="1 7" fill="none" class="carnival-bulbs-b"/><path d="M-29 -54Q-12 -42 -14 -28Q-20 -16 -29 -7Z M29 -54Q12 -42 14 -28Q20 -16 29 -7Z" fill="#ba5d84"/><path d="M-25 -49Q-17 -40 -19 -30M25 -49Q17 -40 19 -30" stroke="#e5a1a6" stroke-width="2.4" fill="none"/><path d="M-19 -42Q0 -54 19 -42L15 -25Q0 -9 -15 -25Z" fill="#e4c2a7"/><path d="M-15 -40Q-8 -46 -2 -39Q-8 -32 -14 -35Z M2 -39Q8 -46 15 -40L14 -35Q8 -32 2 -39Z" fill="#573b57"/><path d="M-9 -28Q0 -22 9 -28Q4 -18 0 -19Q-4 -18 -9 -28Z" fill="#8e4a68"/><path d="M-35 -4H35" stroke="#e4ad97" stroke-width="4"/><g fill="#ffe0a2" class="carnival-bulbs-a"><circle cx="-34" cy="-42" r="2"/><circle cx="-34" cy="-22" r="2"/><circle cx="34" cy="-42" r="2"/><circle cx="34" cy="-22" r="2"/></g></g>',105,1],
+ // A working carousel, with painted platform, canopy and carved horses.
+ ['<g stroke-linecap="round" stroke-linejoin="round"><ellipse cy="-2" rx="48" ry="7" fill="#56384f"/><path d="M-47 -9Q0 -1 47 -9V-2Q0 9 -47 -2Z" fill="#b87a92"/><ellipse cy="-9" rx="47" ry="7" fill="#e0ad9c"/><path d="M0 -9V-72" stroke="#bc8b96" stroke-width="6"/><path d="M-47 -61Q-24 -76 0 -94Q24 -76 47 -61Z" fill="#e2ad9e"/><path d="M0 -94Q-21 -76 -47 -61H-22Z M0 -94L-7 -61H9Z M0 -94L24 -61H47Q24 -76 0 -94Z" fill="#b75f86"/><path d="M-47 -61H47V-55Q35 -45 23 -55Q12 -45 0 -55Q-12 -45 -23 -55Q-35 -45 -47 -55Z" fill="#ebc49f"/><path d="M-42 -58H42" stroke="#ffe6a4" stroke-width="3.3" stroke-dasharray="1 9" class="carnival-bulbs-b"/><g stroke="#e8c6a0" stroke-width="2"><path d="M-27 -55V-12M25 -55V-12"/></g><g class="carnival-horse"><path d="M-38 -25Q-34 -34 -26 -30L-23 -39L-17 -41L-13 -31L-19 -25L-17 -16H-22L-26 -22L-31 -17H-36L-33 -25Z" fill="#edc8aa"/><path d="M-24 -34L-19 -38L-16 -32L-20 -31Z" fill="#97628a"/><path d="M-34 -29L-27 -29L-24 -25L-31 -23Z" fill="#aa6487"/><circle cx="-18" cy="-34" r="1.1" fill="#4e3855"/></g><g class="carnival-horse alt"><path d="M13 -28Q20 -36 27 -30L29 -40L35 -42L40 -31L34 -26L36 -17H31L27 -23L21 -17H16L19 -26Z" fill="#a5c3b6"/><path d="M29 -38L35 -42L37 -33L33 -32Z" fill="#d39b9c"/><path d="M18 -30L26 -30L29 -26L21 -24Z" fill="#bd7594"/><circle cx="35" cy="-35" r="1.1" fill="#4e3855"/></g><path d="M0 -94V-101" stroke="#f2cf9d" stroke-width="3"/><circle cy="-104" r="4" fill="#f5d29d" class="carnival-bulbs-a"/></g>',106,1],
+ // Balloon vendor: multiple distinct balloons on strings joined at a weight.
+ ['<g stroke-linejoin="round" stroke-linecap="round"><path d="M-3 -2Q-17 -22 -23 -48M-3 -2Q6 -25 12 -62M-3 -2Q17 -17 28 -40" stroke="#ead1ba" stroke-width="1.5" fill="none"/><g class="world-bob"><path d="M-23 -48Q-42 -63 -34 -79Q-27 -91 -17 -82Q-6 -93 2 -81Q11 -65 -23 -48Z" fill="#d16f95"/><path d="M-31 -77Q-35 -69 -27 -63" stroke="#f5c3c5" stroke-width="2.8" fill="none"/><ellipse cx="13" cy="-75" rx="16" ry="20" fill="#e4ad72"/><path d="M4 -84Q9 -90 13 -88" stroke="#ffe2ab" stroke-width="3" fill="none"/><path d="M13 -55L9 -50H17Z" fill="#e4ad72"/><path d="M26 -39C17 -46 13 -55 20 -61C27 -66 32 -62 34 -57C40 -64 49 -57 46 -49Q41 -38 26 -39Z" fill="#98bcb1"/><path d="M25 -58Q30 -61 33 -55" stroke="#d7e5c5" stroke-width="2" fill="none"/></g><path d="M-12 0L-9 -7H4L8 0Z" fill="#c48a89"/></g>',105,1]
  ],
  [
- ['<g transform="rotate(-13)"><rect x="-19" y="-34" width="38" height="34" rx="4" fill="#be879f"/><path d="M-19 -22H19M0 -34V0" stroke="#f1d0ae" stroke-width="5"/><path d="M0 -34Q-28 -48 -17 -50Q-8 -53 0 -34Q25 -49 18 -52Q7 -52 0 -34Z" fill="#e9c2a5"/></g>',3,.8],
- ['<path d="M-19 0L-16 -23L0 -32L16 -23L19 0Z" fill="#d7ab9a"/><path d="M-16 -23L0 -32L16 -23" stroke="#a96183" stroke-width="6" fill="none"/><path d="M-8 -19V-8M8 -19V-8" stroke="#805c79" stroke-width="3"/>',4,.95],
- ['<path d="M-22 0V-26H22V0Z" fill="#8b6688"/><path d="M-24 -26L0 -49L24 -26Z" fill="#d0a0a2"/><g fill="#f9d6a4"><circle cx="-12" cy="-12" r="3"/><circle cx="0" cy="-12" r="3"/><circle cx="12" cy="-12" r="3"/></g>',2,.8],
- ['<path d="M-31 0Q-16 -19 0 0Q16 -19 31 0L24 8H-24Z" fill="#e3b6a8"/><path d="M-20 0l5 -8 5 8M9 0l5 -8 5 8" stroke="#a56284" stroke-width="2" fill="none"/>',28,1.1]
+ ['<g stroke-linejoin="round"><path d="M-23 -28L-18 -34L22 -34L25 -25V0H-22Z" fill="#a76389"/><path d="M-18 -34L22 -34L25 -25H-22Z" fill="#e3af9f"/><path d="M-22 -25H25V-19H-22Z" fill="#d49b9b"/><path d="M-3 -34H5V0H-3Z M-22 -15H25V-9H-22Z" fill="#f2cea1"/><path d="M0 -34Q-23 -40 -17 -48Q-9 -54 0 -34Q12 -55 20 -47Q26 -40 0 -34Z" fill="#e4b594"/><path d="M-19 -5H-9M9 -5H21" stroke="#c17e95" stroke-width="1.8"/></g>',3,1],
+ ['<g stroke-linejoin="round"><path d="M-23 0V-23L-19 -33H19L23 -23V0Z" fill="#845479"/><path d="M-25 -23L-18 -37H18L25 -23Z" fill="#e5b1a1"/><path d="M-25 -23H25V-19Q19 -13 13 -19Q6 -13 0 -19Q-6 -13 -13 -19Q-19 -13 -25 -19Z" fill="#b66a8d"/><rect x="-17" y="-16" width="34" height="12" rx="2" fill="#4e3858"/><g fill="#efd098"><circle cx="-10" cy="-10" r="3"/><circle cy="-10" r="3"/><circle cx="10" cy="-10" r="3"/></g><path d="M-22 -2H22" stroke="#d49a98" stroke-width="3"/></g>',4,1],
+ ['<g stroke-linecap="round" stroke-linejoin="round"><path d="M-21 0V-29L0 -49L21 -29V0Z" fill="#805676"/><path d="M-25 -29L0 -52L25 -29Z" fill="#bd7895"/><path d="M-25 -29L0 -52L25 -29" stroke="#efc49d" stroke-width="3" fill="none"/><path d="M-15 -24H15V-7H-15Z" fill="#48334e"/><g fill="#ffda99" class="carnival-bulbs-a"><circle cx="-10" cy="-16" r="3"/><circle cy="-16" r="3"/><circle cx="10" cy="-16" r="3"/></g><path d="M-24 0H24" stroke="#d8a099" stroke-width="3"/></g>',2,1],
+ ['<g stroke-linejoin="round"><path d="M-32 1Q-22 -18 0 -2Q22 -18 32 1L24 12Q11 11 0 6Q-11 11 -24 12Z" fill="#e6bdab"/><path d="M-26 0Q-17 -9 -5 -3Q-9 4 -19 5Z M5 -3Q17 -9 26 0L19 5Q9 4 5 -3Z" fill="#684361"/><path d="M-22 -3Q-15 -9 -9 -6M9 -6Q15 -9 22 -3" stroke="#ca7294" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M-5 6Q0 2 5 6" stroke="#c88e8b" stroke-width="1.8" fill="none"/></g>',28,1]
  ]
  ],
  slime:[
@@ -1732,7 +1784,7 @@ const journeyArtDimensions={
  candy:[[128,80,55,125],[101,87,71,68],[56,46,35,59,16]],
  monster:[[89,73,55],[75,80,88,81],[49,53,37,29]],
  lava:[[174,114,86],[94,88,62,56],[34,31,47,32]],
- carnival:[[102,111,64],[82,80,94,65],[54,32,49,19]],
+ carnival:[[124,139,100],[94,84,111,95],[54,37,52,30]],
  slime:[[124,113,42],[84,78,86,46],[39,34,32,33]],
  dream:[[142,74,88],[83,98,69,54],[35,37,30,24]]
 };
@@ -1742,7 +1794,7 @@ const journeyArtWidths={
  candy:[[140,140,112,86],[100,72,96,48],[66,52,62,44,87]],
  monster:[[78,94,78],[68,94,93,111],[67,70,82,80]],
  lava:[[190,164,143],[99,90,106,82],[73,92,50,56]],
- carnival:[[116,126,65],[86,64,76,38],[53,38,48,62]],
+ carnival:[[145,148,68],[94,78,96,90],[48,50,50,64]],
  slime:[[156,135,76],[96,46,78,72],[57,86,43,58]],
  dream:[[128,104,126],[68,82,60,62],[40,51,48,79]]
 };
@@ -1786,8 +1838,13 @@ const lavaFootprints=[
  [[-46,46],[-42,44],[-50,52],[-34,37]],
  [[-35,35],[-43,43],[-23,24],[-26,26]]
 ];
+const carnivalFootprints=[
+ [[-65,72],[-73,73],null],
+ [[-45,45],[-38,38],[-46,46],[-10,8]],
+ [[-22,25],[-23,23],[-21,21],[-30,30]]
+];
 function candyGroundContact(x,depth,index,scale,low,kind='candy'){
- const foot=(kind==='monster'?monsterFootprints:kind==='lava'?lavaFootprints:candyFootprints)[depth][index];
+ const foot=(kind==='monster'?monsterFootprints:kind==='lava'?lavaFootprints:kind==='carnival'?carnivalFootprints:candyFootprints)[depth][index];
  if(!foot)return null;
  const lo=foot[0]*scale,hi=foot[1]*scale;
  let surface=-Infinity;
@@ -1813,7 +1870,7 @@ function journeyDetailedLayers(w){
    if(low)baseline+=12;
    if(floating&&depth===2)baseline=journeyLayerRidge(x,depth)-8;
    const ground=!floating&&!low;
-   const contact=(w.kind==='candy'||w.kind==='monster'||w.kind==='lava')&&!floating?candyGroundContact(x,depth,index,scale,low,w.kind):null;
+   const contact=(w.kind==='candy'||w.kind==='monster'||w.kind==='lava'||w.kind==='carnival')&&!floating?candyGroundContact(x,depth,index,scale,low,w.kind):null;
    if(contact)baseline=contact.y;
    const shadowWidth=contact?Math.min(depth===2?13:24,contact.width):Math.min(depth===2?10:16,journeyArtWidths[w.kind][depth][index]*scale*.25);
    const shadowX=contact?contact.x.toFixed(2):'0';
@@ -2102,6 +2159,11 @@ function paintJourney(t){
  if(giant){
   const g=journeyFlightLayout,headY=g?g.staffMid-(g.loopRY*.78)-52:-255;
   giant.setAttribute('transform','translate('+(195+Math.sin(journeyTravel/520)*18).toFixed(2)+' '+headY.toFixed(2)+')');
+ }
+ const clown=$('journeyCarnivalClown');
+ if(clown){
+  const g=journeyFlightLayout,headY=g?g.staffMid-g.loopRY*.80-40:-240;
+  clown.setAttribute('transform','translate('+(248+Math.sin(journeyTravel/680)*9).toFixed(2)+' '+headY.toFixed(2)+')');
  }
  let x=87+(reduced?f.forward*.4:f.forward);const terrain=journeyHill(x+offset(1));
  const bob=Math.sin(f.clock*3.8)*(reduced?1.5:5);
