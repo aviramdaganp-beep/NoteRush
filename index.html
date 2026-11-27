@@ -252,7 +252,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 #game.journey-portrait .journey-test-controls button:disabled{opacity:.55}
 #game.journey-portrait .journey-world{bottom:75px}
 #game.journey-portrait .journey-reward{bottom:98px}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v43</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v44</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -997,7 +997,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v43',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v44',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1014,7 +1014,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v43',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v44',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1069,7 +1069,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v43',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v44',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1489,6 +1489,23 @@ function syncJourneyTestControls(){const enabled=running&&!locked&&journeyActive
 function journeyTestAnswer(correct){if(!running||locked||!journeyActive()||!currentQuestion||now()>=deadline)return;const midi=correct?currentQuestion.midi:pitches.find(n=>n!==currentQuestion.midi);if(!Number.isFinite(midi))return;journeyTestUsed=true;answer(midi);syncJourneyTestControls()}
 let journeyFlightLayout=null,journeyLoopStart=null,journeyLoopOrigin=null,journeyLastBirdPose=null;
 const journeyLoopDuration=1.72;
+// After the orbit, carry forward momentum into the next stretch of flight.
+const journeyGlideOut=.36,journeyCameraCatchup=1.15,journeyGlideDistance=54;
+function journeyGlidePose(t){
+ const launch=journeyGlideOut,catchup=journeyCameraCatchup,d=journeyGlideDistance;
+ if(t<=0)return {offset:0,camera:0,tilt:0};
+ if(t<launch){
+  const p=t/launch;
+  // Ease out of the loop with a forward tangent, coming smoothly to rest.
+  const ease=1-(1-p)*(1-p);
+  return {offset:d*ease,camera:0,tilt:-3*Math.sin(Math.PI*p)};
+ }
+ const p=Math.min(1,(t-launch)/catchup),ease=p*p*(3-2*p);
+ // This is relative screen motion: the camera gains ground, not the bird
+ // turning backwards. Move the scenery by the same amount as it catches up.
+ return {offset:d*(1-ease),camera:d*ease,tilt:0};
+}
+
 let journeyPuffs=[],journeyPuffClock=-1,journeyFX=null;
 function moveJourneyFlightLayer(active){
  const layer=$('journeyFlightLayer'),art=$('journeyArt');
@@ -1627,12 +1644,22 @@ function paintJourney(t){
  if(journeyLastFrame&&t-journeyLastFrame<29){journeyRAF=requestAnimationFrame(paintJourney);return}
  const dt=journeyLastFrame?Math.min(.08,(t-journeyLastFrame)/1000):.033;journeyLastFrame=t;
  const f=journeyFlight;journeyTravel+=advanceJourneyFlight(f,dt,running,score);
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let glide=null;
+ if(running&&!reduced&&journeyLoopStart!==null){
+  const elapsed=f.clock-journeyLoopStart-journeyLoopDuration;
+  if(elapsed>=0){
+   glide=journeyGlidePose(elapsed);
+   const previous=journeyGlidePose(elapsed-dt);
+   // Additional forward camera travel, with parallax, while the bird coasts.
+   journeyTravel+=Math.max(0,glide.camera-previous.camera);
+  }
+ }
  const offset=factor=>(journeyTravel*factor)%journeyTile;
  const far=$('journeyFar'),mid=$('journeyMid'),near=$('journeyNear'),mascot=$('journeyMascot'),body=$('journeyBody'),wing=$('journeyWing');
  if(far)far.setAttribute('transform','translate('+(-offset(.18))+' 0)');
  if(mid)mid.setAttribute('transform','translate('+(-offset(.40))+' 0)');
  if(near)near.setAttribute('transform','translate('+(-offset(1))+' 0)');
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  let x=87+(reduced?f.forward*.4:f.forward);const terrain=journeyHill(x+offset(1));
  const bob=Math.sin(f.clock*3.8)*(reduced?1.5:5);
  let y=Math.max(60,Math.min(terrain-10,86+(terrain-119)*.22+bob-f.lift*(reduced?.45:1)));
@@ -1641,8 +1668,12 @@ function paintJourney(t){
   y+=journeyFlightLayout.baseY-86;
   if(journeyLoopStart!==null){
    const p=(f.clock-journeyLoopStart)/journeyLoopDuration;
-   if(p>=1||reduced){journeyLoopStart=null;journeyLoopOrigin=null}
-   else{const pose=journeyLoopPose(x,y,tilt,p,journeyFlightLayout,journeyLoopOrigin);x=pose.x;y=pose.y;tilt=pose.roll;looping=pose.looping;squash=pose.squash;stretch=pose.stretch;speed=pose.speed}
+   if(reduced){journeyLoopStart=null;journeyLoopOrigin=null}
+   else if(p<1){const pose=journeyLoopPose(x,y,tilt,p,journeyFlightLayout,journeyLoopOrigin);x=pose.x;y=pose.y;tilt=pose.roll;looping=pose.looping;squash=pose.squash;stretch=pose.stretch;speed=pose.speed}
+   else if(glide){
+    x+=glide.offset;tilt+=glide.tilt;
+    if(f.clock-journeyLoopStart>=journeyLoopDuration+journeyGlideOut+journeyCameraCatchup){journeyLoopStart=null;journeyLoopOrigin=null}
+   }
   }
  }
  if(mascot)mascot.setAttribute('transform','translate('+x.toFixed(2)+' '+y.toFixed(2)+') scale('+($('game').classList.contains('journey-portrait')?1.23:1)+')');
