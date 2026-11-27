@@ -296,7 +296,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .forest-giant-eyes{transform-box:fill-box;transform-origin:center;animation:forestGiantBlink 8.8s ease-in-out infinite}
 @keyframes forestGiantBlink{0%,53%,57%,100%{transform:scaleY(1)}55%{transform:scaleY(.09)}}
 @media(prefers-reduced-motion:reduce){.forest-giant-eyes{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v50</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v51</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -1041,7 +1041,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v50',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v51',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1058,7 +1058,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v50',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v51',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1113,7 +1113,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v50',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v51',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1584,13 +1584,13 @@ function journeyWeirdSky(w){
 const journeyWorldArtwork={
  candy:[
  [
- ['<path d="M-64 0Q-67 -38 -44 -50Q-51 -83 -23 -93Q-14 -128 13 -117Q41 -124 47 -90Q74 -73 65 -41L70 0Z" fill="#b493ca"/><path d="M-45 -50Q-33 -67 -18 -53Q-12 -85 13 -79Q33 -84 43 -58Q59 -57 63 -41Q44 -24 26 -36Q6 -23 -9 -40Q-28 -27 -45 -50Z" fill="#e9b5d1"/><path d="M-31 -84Q-14 -105 3 -96M15 -109Q31 -107 34 -94" stroke="#f6d9df" stroke-width="5" fill="none" stroke-linecap="round"/>',80,1.1],
- ['<path d="M-65 0Q-60 -40 -38 -44Q-30 -78 0 -65Q28 -92 52 -56Q74 -46 67 0Z" fill="#98b8c7"/><path d="M-55 -25Q-36 -45 -18 -30Q6 -52 24 -34Q43 -53 61 -31" fill="none" stroke="#ddc7e5" stroke-width="8" stroke-linecap="round"/><g fill="#f6c9d5"><circle cx="-34" cy="-42" r="5"/><circle cx="25" cy="-53" r="5"/></g>',86,1],
+ ['<path d="M-64 0Q-67 -38 -44 -50Q-51 -83 -23 -93Q-14 -128 13 -117Q41 -124 47 -90Q74 -73 65 -41L70 0Z" fill="#b493ca"/><defs><clipPath id="__candy_mountain1__"><path d="M-64 0Q-67 -38 -44 -50Q-51 -83 -23 -93Q-14 -128 13 -117Q41 -124 47 -90Q74 -73 65 -41L70 0Z"/></clipPath></defs><g clip-path="url(#__candy_mountain1__)"><path d="M-45 -50Q-33 -64 -18 -53Q-11 -82 12 -77Q32 -81 42 -58Q54 -55 60 -42Q44 -29 26 -38Q7 -27 -9 -41Q-28 -30 -45 -50Z" fill="#e9b5d1"/><path d="M-20 -91Q-14 -105 2 -106M16 -108Q29 -108 34 -96" stroke="#f6d9df" stroke-width="4" fill="none" stroke-linecap="round"/></g>',80,1.1],
+ ['<path d="M-65 0Q-60 -40 -38 -44Q-30 -78 0 -65Q28 -92 52 -56Q74 -46 67 0Z" fill="#98b8c7"/><defs><clipPath id="__candy_mountain2__"><path d="M-65 0Q-60 -40 -38 -44Q-30 -78 0 -65Q28 -92 52 -56Q74 -46 67 0Z"/></clipPath></defs><g clip-path="url(#__candy_mountain2__)"><path d="M-48 -22Q-34 -38 -18 -29Q4 -47 24 -33Q42 -46 56 -29" fill="none" stroke="#ddc7e5" stroke-width="7" stroke-linecap="round"/><g fill="#f6c9d5"><circle cx="-31" cy="-40" r="4"/><circle cx="25" cy="-53" r="4.5"/></g></g>',86,1],
  ['<g class="world-bob"><path d="M-45 -8Q-52 -23 -32 -28Q-29 -47 -8 -38Q8 -51 24 -33Q47 -38 50 -17Q62 -4 40 4H-29Q-48 5 -45 -8Z" fill="#f9e2dc"/><path d="M-30 -7Q-4 -1 15 -9T46 -9" stroke="#e9bfd4" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="-13" cy="-20" r="2" fill="#ab799a"/><circle cx="5" cy="-20" r="2" fill="#ab799a"/></g>',-105,.9],
- ['<path d="M-40 0V-56L-28 -56V-90L-14 -101L0 -90V-63H10V-113L23 -125L37 -113V-50H46V0Z" fill="#b5a0cf"/><path d="M-28 -90L-14 -101L0 -90M10 -113L23 -125L37 -113" stroke="#f1c7d7" stroke-width="7" fill="none"/><g fill="#f8dfc6"><rect x="-20" y="-76" width="7" height="13" rx="3"/><rect x="19" y="-95" width="7" height="15" rx="3"/><rect x="20" y="-44" width="8" height="15" rx="3"/></g>',92,.9]
+ ['<path d="M-40 0V-56L-28 -56V-90L-14 -101L0 -90V-63H10V-113L23 -125L37 -113V-50H46V0Z" fill="#b5a0cf"/><path d="M-28 -90L-14 -101L0 -90L0 -85L-14 -95L-28 -85Z M10 -113L23 -125L37 -113L37 -108L23 -119L10 -108Z" fill="#f1c7d7"/><g fill="#f8dfc6"><rect x="-20" y="-76" width="7" height="13" rx="3"/><rect x="19" y="-95" width="7" height="15" rx="3"/><rect x="20" y="-44" width="8" height="15" rx="3"/></g>',92,.9]
  ],
  [
- ['<path d="M-34 0L-22 -38H22L34 0Z" fill="#c982ad"/><path d="M-23 -33L-15 -4M-8 -35L-5 0M8 -35L5 0M22 -33L15 -4" stroke="#e5b1ca" stroke-width="4"/><path d="M-28 -38Q-43 -51 -21 -57Q-29 -72 -5 -73Q0 -96 17 -78Q37 -79 31 -60Q49 -51 28 -38Z" fill="#f6d6d9"/><path d="M-24 -51Q0 -46 24 -57M-14 -67Q6 -62 17 -70" fill="none" stroke="#e7a7c6" stroke-width="4" stroke-linecap="round"/><circle cx="13" cy="-83" r="7" fill="#dc7198"/><path d="M13 -90Q11 -101 22 -101" stroke="#749d85" stroke-width="2" fill="none"/>',104,1],
+ ['<path d="M-34 0L-22 -38H22L34 0Z" fill="#c982ad"/><path d="M-21 -32L-14 -4M-8 -34L-5 -4M8 -34L5 -4M21 -32L14 -4" stroke="#e5b1ca" stroke-width="4" stroke-linecap="round"/><path d="M-28 -38Q-43 -51 -21 -57Q-29 -72 -5 -73Q0 -96 17 -78Q37 -79 31 -60Q49 -51 28 -38Z" fill="#f6d6d9"/><path d="M-22 -52Q-1 -45 24 -56M-12 -66Q5 -62 17 -69" fill="none" stroke="#e7a7c6" stroke-width="3.5" stroke-linecap="round"/><circle cx="13" cy="-83" r="7" fill="#dc7198"/><path d="M13 -90Q11 -101 22 -101" stroke="#749d85" stroke-width="2" fill="none"/>',104,1],
  ['<path d="M-4 0V-63" stroke="#f8e7ca" stroke-width="7" stroke-linecap="round"/><g transform="translate(-4 -65)"><path d="M0 24C-14 9 -36 -3 -25 -20Q-15 -33 0 -17Q15 -33 25 -20C36 -3 14 9 0 24Z" fill="#e694b3"/><path d="M-20 -14Q-7 -21 0 -5Q11 -19 20 -14M-17 2Q0 12 17 2" fill="none" stroke="#fbe2d7" stroke-width="4" stroke-linecap="round"/></g>',107,.95],
  ['<path d="M-43 0V-37Q-43 -54 -25 -54H25Q43 -54 43 -37V0Z" fill="#b883c0"/><path d="M-48 -35Q-30 -71 0 -71T48 -35Q26 -22 18 -37Q0 -24 -17 -37Q-35 -24 -48 -35Z" fill="#f0c4d2"/><path d="M-9 0V-24Q0 -35 9 -24V0" fill="#795c9f"/><rect x="-31" y="-25" width="13" height="14" rx="4" fill="#f7e0bb"/><rect x="18" y="-25" width="13" height="14" rx="4" fill="#f7e0bb"/><g stroke="#e694b3" stroke-width="3"><path d="M-22 -54l6 -4M7 -58l5 6M28 -47l7 -3"/></g>',110,1],
  ['<path d="M-4 0V-37" stroke="#f7e4c9" stroke-width="5"/><g transform="translate(-4 -43)"><circle r="24" fill="#90c9be"/><path d="M0 -19C22 -19 22 15 0 17C-17 18 -22 -7 -6 -12C10 -17 16 3 2 6C-3 7 -7 3 -4 0" stroke="#f8efda" stroke-width="4" fill="none" stroke-linecap="round"/></g>',105,1]
@@ -1599,7 +1599,7 @@ const journeyWorldArtwork={
  ['<path d="M-31 0L-22 -11L-16 -7Q0 -28 18 -8L26 -13L34 0L24 11L16 8Q0 28 -16 8L-24 13Z" fill="#e19b99"/><ellipse rx="19" ry="16" fill="#f3caab"/><path d="M-10 -8Q0 -13 8 -8" stroke="#fff1d6" stroke-width="3" fill="none" stroke-linecap="round"/>',14,.7],
  ['<g class="world-jelly"><path d="M-22 0L-20 -18Q-20 -31 -9 -33L-12 -40Q-4 -46 0 -38Q8 -47 14 -39L11 -32Q22 -27 22 -14L24 0Q0 10 -22 0Z" fill="#a3d0b3"/><path d="M-14 -19Q-11 -29 -5 -29" stroke="#e9f4d7" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="-5" cy="-17" r="2" fill="#567b70"/><circle cx="7" cy="-17" r="2" fill="#567b70"/><path d="M-2 -9Q2 -5 6 -9" stroke="#567b70" fill="none"/></g>',2,1],
  ['<path d="M-30 2Q-29 -20 -15 -20Q-17 -35 0 -35Q15 -35 15 -20Q32 -20 30 2Z" fill="#e9b3d3"/><path d="M-23 -7Q-9 -13 0 -6T24 -7" stroke="#f9e1e4" stroke-width="5" fill="none" stroke-linecap="round"/><g fill="#a67ab3"><circle cx="-13" cy="-10" r="2"/><circle cx="9" cy="-17" r="2.5"/></g>',3,1.05],
- ['<path d="M-7 0V-31Q-7 -50 8 -50Q23 -50 23 -35" stroke="#fff0dc" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M-11 -9l8 -6M-11 -23l8 -6M-9 -38l9 -1M5 -54l4 9M20 -48l-7 6M27 -38l-9 -1" stroke="#d77ea5" stroke-width="4"/>',0,1],
+ ['<path d="M-12 0V-31C-12 -46 -4 -55 8 -55C20 -55 28 -46 28 -35Q28 -30 23 -30Q18 -30 18 -35C18 -42 14 -45 8 -45C2 -45 -2 -40 -2 -31V0Z" fill="#fff0dc"/><defs><clipPath id="__candy_cane__"><path d="M-12 0V-31C-12 -46 -4 -55 8 -55C20 -55 28 -46 28 -35Q28 -30 23 -30Q18 -30 18 -35C18 -42 14 -45 8 -45C2 -45 -2 -40 -2 -31V0Z"/></clipPath></defs><g clip-path="url(#__candy_cane__)"><path d="M-17 -6L4 -19L4 -12L-17 1Z M-17 -22L4 -35L4 -28L-17 -15Z M-13 -41L2 -47L7 -42L-10 -33Z M1 -57L10 -57L14 -43L7 -42Z M19 -56L25 -50L16 -39L11 -44Z M30 -45L31 -38L16 -33L16 -40Z" fill="#d77ea5"/><path d="M-10 -3V-31Q-10 -48 2 -51" stroke="#fff9ee" stroke-width="1.3" opacity=".75" fill="none" stroke-linecap="round"/></g><path d="M-12 0H-2" stroke="#c889ab" stroke-width="1.2" stroke-linecap="round"/>',0,1],
  ['<path d="M-42 0Q-24 -12 -8 -5T26 -5T45 0V13Q20 6 -2 14T-42 12Z" fill="#efb3d2"/><path d="M-30 4Q-10 0 0 6T30 4" stroke="#f9d9df" stroke-width="3" fill="none" stroke-linecap="round"/><g fill="#f6e2c6"><ellipse cx="-21" cy="3" rx="4" ry="2"/><ellipse cx="18" cy="6" rx="3" ry="2"/></g>',32,1.15]
  ]
  ],
@@ -1724,7 +1724,7 @@ function journeyArtScale(kind,depth,index,variation=1){
  const low=journeyLowProp(kind,depth,index);
  // Composition, not optical perspective: big landmarks behind, medium
  // subjects in the middle, little accents in front. Preserve parallax speeds.
- const targetHeight=depth===0?(kind==='monster'?104:130):depth===1?64:low?15:28;
+ const targetHeight=depth===0?(kind==='monster'?104:130):depth===1?64:kind==='candy'&&index===3?34:low?15:28;
  const maxWidth=depth===0?(kind==='monster'?144:166):depth===1?94:low?40:44;
  return Math.min(2.6,targetHeight/h*variation,maxWidth/width);
 }
@@ -1742,6 +1742,21 @@ function journeyLayerRidge(x,depth){
  const base=depth===0?93:110,amp=depth===0?20:14,period=depth===0?80:66,phase=depth===0?.8:1.7;
  const cycles=Math.max(1,Math.round(journeyTile/(2*Math.PI*period))),a=2*Math.PI*x/journeyTile*cycles;
  return base+amp*Math.sin(a+phase)+amp*.32*Math.sin(2*a+phase*.8);
+}
+// Seat the whole footprint on the terrain rather than its centre alone.
+const candyFootprints=[
+ [[-58,66],[-59,63],null,[-40,46]],
+ [[-34,34],[-7.5,-.5],[-43,43],[-6.5,-1.5]],
+ [[-19,19],[-20,22],[-29,29],[-12,-2],[-38,41]]
+];
+function candyGroundContact(x,depth,index,scale,low){
+ const foot=candyFootprints[depth][index];
+ if(!foot)return null;
+ const lo=foot[0]*scale,hi=foot[1]*scale;
+ let surface=-Infinity;
+ for(let j=0;j<=32;j++)surface=Math.max(surface,journeyLayerRidge(x+lo+(hi-lo)*j/32,depth));
+ const inset=depth===2?(low?30:19):3;
+ return {y:surface+inset,x:(lo+hi)/2,width:Math.max(2,(hi-lo)*.5)};
 }
 function journeyDetailedLayers(w){
  const catalog=journeyWorldArtwork[w.kind];if(!catalog)return null;
@@ -1761,9 +1776,13 @@ function journeyDetailedLayers(w){
    if(low)baseline+=12;
    if(floating&&depth===2)baseline=journeyLayerRidge(x,depth)-8;
    const ground=!floating&&!low;
-   const shadowWidth=Math.min(depth===2?10:16,journeyArtWidths[w.kind][depth][index]*scale*.25);
-   const shadow=ground&&depth>0?'<ellipse cx="0" cy="1" rx="'+shadowWidth.toFixed(2)+'" ry="'+(depth===2?2:3.5)+'" fill="'+w.ground+'" opacity=".20"/>':'';
-   html+='<g transform="translate('+x+' '+baseline.toFixed(2)+')" stroke-linecap="round" stroke-linejoin="round">'+shadow+'<g transform="scale('+scale.toFixed(3)+')">'+item[0]+'</g></g>';
+   const contact=w.kind==='candy'&&!floating?candyGroundContact(x,depth,index,scale,low):null;
+   if(contact)baseline=contact.y;
+   const shadowWidth=contact?Math.min(depth===2?13:24,contact.width):Math.min(depth===2?10:16,journeyArtWidths[w.kind][depth][index]*scale*.25);
+   const shadowX=contact?contact.x.toFixed(2):'0';
+   const shadow=ground&&depth>0?'<ellipse cx="'+shadowX+'" cy="1" rx="'+shadowWidth.toFixed(2)+'" ry="'+(depth===2?2:3.5)+'" fill="'+w.ground+'" opacity=".20"/>':'';
+   const artwork=w.kind==='candy'?item[0].replace(/__candy_([a-z0-9]+)__/g,(_,name)=>'candy_'+name+'_'+depth+'_'+(tile+1)+'_'+i):item[0];
+   html+='<g transform="translate('+x+' '+baseline.toFixed(2)+')" stroke-linecap="round" stroke-linejoin="round">'+shadow+'<g transform="scale('+scale.toFixed(3)+')">'+artwork+'</g></g>';
   }
   return html;
  });
