@@ -236,7 +236,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 @media(prefers-reduced-motion:reduce){
  #game.journey-portrait .journey-reward-pop{animation:journeyPortraitAward 2.4s ease-out both!important}
 }
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v41</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v42</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -981,7 +981,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v41',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v42',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -998,7 +998,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v41',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v42',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1053,7 +1053,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v41',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v42',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1459,7 +1459,7 @@ function renderJourneyScenery(worldNumber){
  $('journeyStaffWeather').innerHTML=journeyStaffAtmosphere(w.kind,worldNumber);
  let distant=w.kind==='crystal'?'<path d="M0 0H340L318 30L288 7L260 47L234 10L202 26L174 6L142 35L111 5L77 29L40 7L0 38Z" fill="#25263e"/>':w.kind==='snow'?'<path d="M0 112L60 34L87 63L137 12L189 78L232 40L280 88L315 25L340 57V145H0Z" fill="#a4bfd6"/><path d="M34 68L60 34L87 63L71 57L60 66L49 56Z M101 60L137 12L175 60L148 48L137 60L125 42Z M291 58L315 25L340 57L316 45Z" fill="#edf6fc"/>':w.kind==='space'?'<g fill="#f1ddbb"><circle cx="32" cy="24" r="1.4"/><circle cx="92" cy="42" r="1.8"/><circle cx="195" cy="15" r="1.1"/><circle cx="315" cy="57" r="1.7"/></g><ellipse cx="258" cy="40" rx="36" ry="9" stroke="#d8b5dc" stroke-width="2" fill="none" transform="rotate(-16 258 40)"/>':'<g fill="#fff6df" opacity=".28"><ellipse cx="68" cy="35" rx="35" ry="7"/><ellipse cx="94" cy="29" rx="19" ry="8"/><ellipse cx="226" cy="20" rx="27" ry="5"/></g>';
  let props='';for(let tile=-1;tile<=2;tile++)for(let i=0;i<15;i++){let x=tile*journeyTile+i*journeyTile/15+((i*17)%21);props+=journeyProp(w.kind,x,journeyHill(x)+1,.6+(i%4)*.16,w,i)}
- const mascot='<g id="journeyTrail" pointer-events="none" opacity="0"><path id="journeyTrailOuter" stroke="#fff5cd" stroke-width="2.4" stroke-linecap="round" fill="none"/><path id="journeyTrailInner" stroke="#fff9e9" stroke-width="1.4" stroke-linecap="round" fill="none"/><circle id="journeySpark0" r="1.8" fill="#fff5cc"/><circle id="journeySpark1" r="1" fill="#fff5cc"/><circle id="journeySpark2" r="1" fill="#fff5cc"/><circle id="journeySpark3" r="1.8" fill="#fff5cc"/><circle id="journeySpark4" r="1" fill="#fff5cc"/><circle id="journeySpark5" r="1" fill="#fff5cc"/><circle id="journeySpark6" r="1.8" fill="#fff5cc"/></g><g id="journeyMascot"><g id="journeyBody"><g fill="#593f38"><rect id="journeyFoot1" x="-9" y="-8" width="9" height="6" rx="3"/><rect id="journeyFoot2" x="3" y="-8" width="9" height="6" rx="3"/></g><path d="M-11 -23Q-31 -31 -32 -23Q-26 -16 -12 -15L-28 -10Q-21 -6 -9 -14Z" fill="#d98279"/><ellipse cx="-1" cy="-22" rx="20" ry="18" fill="#df9c73"/><ellipse cx="5" cy="-23" rx="15" ry="14" fill="#ffebcb"/><g id="journeyWing"><path d="M-9 -26Q-24 -37 -33 -28Q-35 -18 -18 -14Q-10 -17 -9 -26Z" fill="#f4c693" stroke="#d69a70" stroke-width="1.1"/><path d="M-29 -26Q-21 -22 -15 -22" stroke="#deab82" stroke-width="1.3" stroke-linecap="round" fill="none"/></g><path d="M-21 -26Q-23 -49 -4 -49Q13 -50 19 -34Q-3 -39 -21 -26Z" fill="#8fa975"/><path d="M-10 -46Q-18 -53 -20 -50Q-18 -43 -10 -46" fill="#8b674f"/><path d="M-6 -46Q-2 -37 -1 -32" stroke="#6e895c" stroke-width="1.2" fill="none"/><path d="M-12 -31Q0 -39 19 -34" stroke="#e8bc83" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="8" cy="-24" r="1.6" fill="#463b3c"/><circle cx="16" cy="-24" r="1.4" fill="#463b3c"/><ellipse cx="4" cy="-19" rx="3" ry="2" fill="#e9a8a0"/><path d="M10 -19Q13 -16 15 -19" stroke="#654345" stroke-width="1.1" stroke-linecap="round" fill="none"/></g></g>';
+ const mascot='<g id="journeyTrail" pointer-events="none" opacity="0"><path id="journeyTrailOuter" stroke="#fff5cd" stroke-width="2.4" stroke-linecap="round" fill="none"/><path id="journeyTrailInner" stroke="#fff9e9" stroke-width="1.4" stroke-linecap="round" fill="none"/><circle id="journeySpark0" r="1.8" fill="#fff5cc"/><circle id="journeySpark1" r="1" fill="#fff5cc"/><circle id="journeySpark2" r="1" fill="#fff5cc"/><circle id="journeySpark3" r="1.8" fill="#fff5cc"/><circle id="journeySpark4" r="1" fill="#fff5cc"/><circle id="journeySpark5" r="1" fill="#fff5cc"/><circle id="journeySpark6" r="1.8" fill="#fff5cc"/></g><g id="journeyMascot"><g id="journeyBody"><g fill="#593f38"><rect id="journeyFoot1" x="-9" y="-8" width="9" height="6" rx="3"/><rect id="journeyFoot2" x="3" y="-8" width="9" height="6" rx="3"/></g><path d="M-11 -23Q-31 -31 -32 -23Q-26 -16 -12 -15L-28 -10Q-21 -6 -9 -14Z" fill="#d98279"/><ellipse id="journeyTorso" cx="-1" cy="-22" rx="20" ry="18" fill="#df9c73"/><ellipse id="journeyCheek" cx="5" cy="-23" rx="15" ry="14" fill="#ffebcb"/><g id="journeyWing"><path d="M-9 -26Q-24 -37 -33 -28Q-35 -18 -18 -14Q-10 -17 -9 -26Z" fill="#f4c693" stroke="#d69a70" stroke-width="1.1"/><path d="M-29 -26Q-21 -22 -15 -22" stroke="#deab82" stroke-width="1.3" stroke-linecap="round" fill="none"/></g><g id="journeyHat"><path d="M-21 -26Q-23 -49 -4 -49Q13 -50 19 -34Q-3 -39 -21 -26Z" fill="#8fa975"/><path d="M-10 -46Q-18 -53 -20 -50Q-18 -43 -10 -46" fill="#8b674f"/><path d="M-6 -46Q-2 -37 -1 -32" stroke="#6e895c" stroke-width="1.2" fill="none"/><path d="M-12 -31Q0 -39 19 -34" stroke="#e8bc83" stroke-width="2" stroke-linecap="round" fill="none"/></g><circle id="journeyEye1" cx="8" cy="-24" r="1.6" fill="#463b3c"/><circle id="journeyEye2" cx="16" cy="-24" r="1.4" fill="#463b3c"/><g id="journeyExpression"><ellipse cx="4" cy="-19" rx="3" ry="2" fill="#e9a8a0"/><path d="M10 -19Q13 -16 15 -19" stroke="#654345" stroke-width="1.1" stroke-linecap="round" fill="none"/></g></g></g>';
  svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs><rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant+'<g id="journeyFar"><path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/></g><g id="journeyMid"><path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/></g><g id="journeyNear"><path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>'+props+'</g><rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
  if($('game').classList.contains('journey-portrait'))moveJourneyFlightLayer(true);
  // World changes blend in without delaying the next question.
@@ -1498,34 +1498,54 @@ function syncJourneyFlightGeometry(w,h){
  moveJourneyFlightLayer(true);
 }
 // Native curved flight, with shared tangents at each segment boundary.
+// A true elliptical orbit, anchored to the launch position. The small
+// settling offset is spread over the entire revolution, not a sharp exit.
 function journeyLoopPose(x,y,roll,progress,g,origin=null){
  const p=Math.max(0,Math.min(1,progress)),smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
  const from=origin||{x,y,roll};
- if(p<=0)return {x:from.x,y:from.y,roll:from.roll,sx:1,sy:1,speed:0,looping:true};
- if(p>=1)return {x,y,roll,sx:1,sy:1,speed:0,looping:false};
- const q=p-(.12/(2*Math.PI))*Math.sin(2*Math.PI*p);
- const nodes=[
-  [from.x,from.y,130,0],
-  [g.loopCX+g.loopRX-6,g.loopCY+g.loopRY*.33+28,0,-380],
-  [g.loopCX,g.loopCY-g.loopRY+28,-340,0],
-  [g.loopCX-g.loopRX+5,g.loopCY+g.loopRY*.08+28,0,340],
-  [x,y,110,0]
- ];
- const cuts=[0,.28,.51,.73,1];let i=0;while(i<3&&q>cuts[i+1])i++;
- const dt=cuts[i+1]-cuts[i],t=(q-cuts[i])/dt,u=1-t,a=nodes[i],b=nodes[i+1];
- const c1=[a[0]+a[2]*dt/3,a[1]+a[3]*dt/3],c2=[b[0]-b[2]*dt/3,b[1]-b[3]*dt/3];
- const vx=3*u*u*(c1[0]-a[0])+6*u*t*(c2[0]-c1[0])+3*t*t*(b[0]-c2[0]);
- const vy=3*u*u*(c1[1]-a[1])+6*u*t*(c2[1]-c1[1])+3*t*t*(b[1]-c2[1]);
- const px=u*u*u*a[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*b[0];
- const py=u*u*u*a[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*b[1];
- const tangent=Math.atan2(vy,vx)*180/Math.PI,turn=tangent+360*Math.round((-360*p-tangent)/360);
- const entry=smooth(p/.075),exit=smooth((1-p)/.15);
- const angle=p<.075?from.roll+(turn-from.roll)*entry:p>.85?(roll-360)+(turn-(roll-360))*exit:turn;
- const speed=Math.hypot(vx,vy)/dt/journeyLoopDuration*(1-.12*Math.cos(2*Math.PI*p));
- const anticipation=p<.085?Math.sin(Math.PI*p/.085):0;
- const stretch=1+Math.min(1,speed/300)*entry*exit*.21-anticipation*.13;
- return {x:px,y:py,roll:angle,sx:stretch,sy:1/stretch,speed,looping:true};
+ if(p<=0)return {x:from.x,y:from.y,roll:from.roll,squash:0,stretch:0,speed:0,looping:true};
+ if(p>=1)return {x,y,roll,squash:0,stretch:0,speed:0,looping:false};
+ const rx=g.loopRX,theta0=Math.acos(Math.max(-.88,Math.min(.88,(from.x-g.loopCX)/rx)));
+ const high=g.loopCY-g.loopRY;
+ const ry=Math.max(30,(from.y-28-high)/(1+Math.sin(theta0)));
+ const cy=from.y-28-ry*Math.sin(theta0),cx=from.x-rx*Math.cos(theta0);
+ const q=p-.18*Math.sin(2*Math.PI*p)/(2*Math.PI);
+ const theta=theta0-2*Math.PI*q;
+ const settle=p*p*p*(10+p*(-15+6*p)),ds=30*p*p*(1-p)*(1-p);
+ const px=cx+rx*Math.cos(theta)+(x-from.x)*settle;
+ const py=cy+ry*Math.sin(theta)+28+(y-from.y)*settle;
+ const angular=2*Math.PI*(1-.18*Math.cos(2*Math.PI*p));
+ const vx=rx*Math.sin(theta)*angular+(x-from.x)*ds;
+ const vy=-ry*Math.cos(theta)*angular+(y-from.y)*ds;
+ const tangent=Math.atan2(vy,vx)*180/Math.PI;
+ const turn=tangent+360*Math.round((-360*p-tangent)/360);
+ const entry=smooth(p/.13),exit=smooth((1-p)/.16);
+ const angle=p<.13?from.roll+(turn-from.roll)*entry:p>.84?(roll-360)+(turn-(roll-360))*exit:turn;
+ const speed=Math.hypot(vx,vy)/journeyLoopDuration;
+ const squash=p<.11?Math.sin(Math.PI*p/.11):p>.85?.32*Math.sin(Math.PI*(p-.85)/.15):0;
+ const stretch=Math.min(1,speed/400)*entry*exit*(1-squash);
+ return {x:px,y:py,roll:angle,squash,stretch,speed,looping:true};
 }
+// Shape keys affect only the soft torso and cheek. Rigid features retain
+// their own silhouettes and shift a little with the flesh instead of scaling.
+function journeyBirdShape(squash=0,stretch=0){
+ const d=Math.max(0,Math.min(1,squash)),e=Math.max(0,Math.min(1,stretch));
+ return {torsoRx:20+2.4*d+1.5*e,torsoRy:18-2.7*d-.9*e,torsoY:-22+1.8*d,
+ cheekRx:15+1.1*d+.8*e,cheekRy:14-1.3*d-.45*e,cheekY:-23+1.25*d,
+ eye1X:8-.65*d+.6*e,eye2X:16+1.25*d+1.2*e,eyeY:-24+1.15*d,
+ hatY:2.0*d-.45*e,hatX:.4*e,expressionX:.65*d+.8*e,expressionY:1.05*d,wingY:1.4*d};
+}
+function articulateJourneyBird(squash,stretch){
+ const a=journeyBirdShape(squash,stretch);
+ const set=(id,attrs)=>{const el=$(id);if(el)for(const [k,v] of Object.entries(attrs)){const val=typeof v==='number'?String(Math.round(v*100)/100):v;if(el.getAttribute(k)!==val)el.setAttribute(k,val)}};
+ set('journeyTorso',{rx:a.torsoRx,ry:a.torsoRy,cy:a.torsoY});
+ set('journeyCheek',{rx:a.cheekRx,ry:a.cheekRy,cy:a.cheekY});
+ set('journeyEye1',{cx:a.eye1X,cy:a.eyeY});set('journeyEye2',{cx:a.eye2X,cy:a.eyeY});
+ set('journeyHat',{transform:'translate('+a.hatX.toFixed(2)+' '+a.hatY.toFixed(2)+')'});
+ set('journeyExpression',{transform:'translate('+a.expressionX.toFixed(2)+' '+a.expressionY.toFixed(2)+')'});
+ return a;
+}
+
 function ensureJourneyFX(){
  const layer=$('journeyFlightLayer');
  if(journeyFX&&journeyFX.parentNode===layer)return journeyFX;
@@ -1596,20 +1616,21 @@ function paintJourney(t){
  let x=87+(reduced?f.forward*.4:f.forward);const terrain=journeyHill(x+offset(1));
  const bob=Math.sin(f.clock*3.8)*(reduced?1.5:5);
  let y=Math.max(60,Math.min(terrain-10,86+(terrain-119)*.22+bob-f.lift*(reduced?.45:1)));
- let tilt=f.roll+(reduced?0:Math.sin(f.clock*3.8)*2.2),looping=false,sx=1,sy=1,speed=0;
+ let tilt=f.roll+(reduced?0:Math.sin(f.clock*3.8)*2.2),looping=false,squash=0,stretch=0,speed=0;
  if(journeyFlightLayout&&$('game').classList.contains('journey-portrait')){
   y+=journeyFlightLayout.baseY-86;
   if(journeyLoopStart!==null){
    const p=(f.clock-journeyLoopStart)/journeyLoopDuration;
    if(p>=1||reduced){journeyLoopStart=null;journeyLoopOrigin=null}
-   else{const pose=journeyLoopPose(x,y,tilt,p,journeyFlightLayout,journeyLoopOrigin);x=pose.x;y=pose.y;tilt=pose.roll;looping=pose.looping;sx=pose.sx;sy=pose.sy;speed=pose.speed}
+   else{const pose=journeyLoopPose(x,y,tilt,p,journeyFlightLayout,journeyLoopOrigin);x=pose.x;y=pose.y;tilt=pose.roll;looping=pose.looping;squash=pose.squash;stretch=pose.stretch;speed=pose.speed}
   }
  }
  if(mascot)mascot.setAttribute('transform','translate('+x.toFixed(2)+' '+y.toFixed(2)+') scale('+($('game').classList.contains('journey-portrait')?1.23:1)+')');
- if(body)body.setAttribute('transform','translate(0 -23) rotate('+tilt.toFixed(2)+') scale('+sx.toFixed(3)+' '+sy.toFixed(3)+') translate(0 23)');
+ if(body)body.setAttribute('transform','rotate('+tilt.toFixed(2)+' 0 -23)');
+ const shape=articulateJourneyBird(squash,stretch);
  journeyLastBirdPose={x,y,roll:tilt};
  if($('game').classList.contains('journey-portrait'))paintJourneyTransitionFX(f,dt,{x,y,roll:tilt,looping,speed},reduced);
- if(wing)wing.setAttribute('transform','rotate('+((reduced?5:18)*Math.sin(f.clock*(15+Math.max(0,f.speedBoost)*.09))).toFixed(2)+' -9 -23)');
+ if(wing)wing.setAttribute('transform','translate(0 '+shape.wingY.toFixed(2)+') rotate('+((reduced?5:18)*Math.sin(f.clock*(15+Math.max(0,f.speedBoost)*.09))-stretch*9).toFixed(2)+' -9 -23)');
  const foot1=$('journeyFoot1'),foot2=$('journeyFoot2');
  if(foot1)foot1.setAttribute('transform','rotate(-23 -4 -6)');
  if(foot2)foot2.setAttribute('transform','rotate(-22 7 -6)');
