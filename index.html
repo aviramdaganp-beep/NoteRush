@@ -292,7 +292,11 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 @keyframes melodyShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .journey-test-world:not([hidden]){display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#dad1e5;margin:0 0 15px}
 .journey-test-world select{font:inherit;max-width:220px;background:#34344f;color:#fff;border:1px solid #ffffff33;border-radius:8px;padding:7px}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v48</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+/* Rare, slow blinks for the one forest guardian; never fade its silhouette. */
+.forest-giant-eyes{transform-box:fill-box;transform-origin:center;animation:forestGiantBlink 8.8s ease-in-out infinite}
+@keyframes forestGiantBlink{0%,53%,57%,100%{transform:scaleY(1)}55%{transform:scaleY(.09)}}
+@media(prefers-reduced-motion:reduce){.forest-giant-eyes{animation:none!important}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v49</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR CLEF</div><h2>איזה מפתח ננגן?</h2><p class="small">בחרו את האתגר שלכם.</p>
@@ -1037,7 +1041,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v48',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v49',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1054,7 +1058,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v48',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v49',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1109,7 +1113,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v48',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v49',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1543,10 +1547,30 @@ function journeyProp(kind,x,y,scale,w,i){
  if(kind==='crystal')return '<g '+common+'><path d="M-8 0L-8 -21L0 -36L9 -22L11 0Z" fill="'+(i%2?'#c2a0df':'#83d9d0')+'"/><path d="M0 -36V0H11L9 -22Z" fill="#fff" opacity=".22"/><path d="M-12 0L-20 -12L-17 -23L-8 -13L-6 0Z" fill="#97a5d8"/></g>';
  return '<g '+common+'><path d="M-14 -6Q-6 -15 0 -9T14 -6L10 0H-10Z" fill="#9d7cb7"/><path d="M0 -27L2 -20L9 -18L2 -16L0 -9L-2 -16L-9 -18L-2 -20Z" fill="#ffe1a1"/></g>';
 }
+// A single distant forest guardian, built as a composed silhouette, not a
+// scaled foreground sprite. It is opaque and recedes by palette, not transparency.
+function journeyForestGiant(){
+ return '<g id="journeyForestGiant" transform="translate(210 -255)" stroke-linecap="round" stroke-linejoin="round">'+
+ '<path d="M-167 350Q-168 244 -145 171Q-152 118 -123 67Q-116 46 -91 31Q-88 -10 -70 -41Q-79 -61 -91 -84Q-100 -106 -94 -132Q-79 -118 -65 -109Q-49 -93 -45 -72Q-20 -82 0 -77Q24 -81 46 -72Q55 -101 78 -115L103 -136Q109 -113 96 -88Q87 -68 75 -46Q91 -15 91 30Q125 46 143 88Q159 133 151 179Q172 244 174 350Z" fill="#293b46"/>'+
+ '<path d="M-93 -126Q-77 -104 -65 -93L-51 -70L-69 -54Q-83 -78 -91 -94Z M101 -130Q84 -104 70 -94L52 -72L71 -54Q89 -81 96 -100Z" fill="#465c60"/>'+
+ '<path d="M-135 176Q-142 115 -107 82Q-91 64 -65 63Q-42 86 0 87Q43 86 66 62Q105 63 127 105Q142 147 136 176Q97 158 74 174Q48 151 20 178Q-2 159 -25 177Q-54 149 -79 174Q-104 155 -135 176Z" fill="#344b51"/>'+
+ '<path d="M-80 -18Q-75 -59 -40 -62Q-18 -66 0 -54Q19 -66 43 -62Q77 -57 83 -17Q90 29 64 52Q41 73 0 72Q-43 72 -66 51Q-90 29 -80 -18Z" fill="#3e555a"/>'+
+ '<path d="M-77 -23Q-62 -43 -36 -40Q-15 -37 -3 -18Q-19 -24 -33 -22Q-57 -20 -73 -11Z M3 -18Q15 -37 37 -40Q62 -43 77 -23L73 -11Q57 -20 33 -22Q18 -24 3 -18Z" fill="#263842"/>'+
+ '<g class="forest-giant-eyes"><path d="M-69 -17Q-44 -25 -16 -13Q-39 4 -64 -4Z M16 -13Q44 -25 69 -17L64 -4Q39 4 16 -13Z" fill="#e6cf91"/><path d="M-45 -20Q-42 -11 -45 -4Q-48 -11 -45 -20Z M45 -20Q48 -11 45 -4Q42 -11 45 -20Z" fill="#33424a"/><path d="M-62 -14Q-41 -19 -24 -13M24 -13Q41 -19 62 -14" stroke="#f6e4af" stroke-width="1.8" fill="none"/></g>'+
+ '<path d="M-9 -14Q-12 -2 -16 9Q-8 13 0 10Q8 13 16 9Q12 -2 9 -14" fill="#33464e"/>'+
+ '<path d="M-51 24Q-34 14 -17 19Q0 26 17 19Q34 14 51 24Q38 51 0 52Q-38 51 -51 24Z" fill="#24353f"/>'+
+ '<path d="M-43 23L-30 35L-23 20L-11 22L-5 38L3 24L14 21L22 35L30 20L42 23Q21 28 0 28Q-22 28 -43 23Z" fill="#e1cba9"/>'+
+ '<path d="M-28 44Q-10 41 0 48Q10 41 28 44" stroke="#8d7778" stroke-width="3" fill="none"/>'+
+ '<path d="M-70 39Q-58 53 -43 59M43 59Q58 53 70 39M-52 -50Q-36 -56 -22 -49M22 -49Q36 -56 52 -50" stroke="#73867a" stroke-width="2.7" fill="none"/>'+
+ '<path d="M-122 124Q-102 101 -83 113M83 113Q102 101 122 124M-114 205Q-93 184 -71 197M71 197Q93 184 114 205" stroke="#526c65" stroke-width="4" fill="none"/>'+
+ '<path d="M-149 252Q-129 219 -111 231Q-96 216 -77 237Q-57 224 -40 248L-42 350H-163Z M149 252Q129 219 111 231Q96 216 77 237Q57 224 40 248L42 350H163Z" fill="#354e52"/>'+
+ '</g>';
+}
+
 function journeyWeirdSky(w){
  const k=w.kind;let html='';
  if(k==='candy')for(let i=0;i<8;i++){const x=(i*91+38)%340,y=-360+(i*83)%350,r=8+i%3*6;html+='<g transform="translate('+x+' '+y+')"><g class="world-bubble" style="animation-delay:'+(-i*.7)+'s"><circle r="'+r+'" fill="#f9e1ed" fill-opacity=".46" stroke="#fff0d9" stroke-width="1.3"/><path d="M-'+(r*.55)+' -'+(r*.2)+'Q-'+(r*.4)+' -'+(r*.7)+' 0 -'+(r*.66)+'" fill="none" stroke="#fff8ee" stroke-width="2" stroke-linecap="round"/></g></g>'}
- if(k==='monster')for(let i=0;i<7;i++){const x=(i*103+31)%340,y=-300+i*46;html+='<g transform="translate('+x+' '+y+')" opacity=".55"><g class="world-blink" style="animation-delay:'+(-i*.83)+'s"><ellipse cx="-8" rx="5" ry="3" fill="#e9e2a7"/><ellipse cx="8" rx="5" ry="3" fill="#e9e2a7"/><circle cx="-7" r="1.6" fill="#394753"/><circle cx="9" r="1.6" fill="#394753"/></g></g>'}
+
  if(k==='lava')for(let i=0;i<14;i++){const x=(i*73+21)%340,y=-350+(i*47)%440;html+='<g transform="translate('+x+' '+y+')"><circle class="world-ember" r="'+(1.5+i%3)+'" fill="'+w.accent+'" style="animation-delay:'+(-i*.44)+'s"/></g>'}
  if(k==='carnival')html+='<g transform="translate(245 -240)" opacity=".55"><circle r="49" fill="none" stroke="#e1b9b5" stroke-width="3"/><g class="world-wheel"><circle r="40" fill="none" stroke="#e1b9b5" stroke-width="1.5"/>'+Array.from({length:8},(_,i)=>'<g transform="rotate('+(i*45)+')"><path d="M0 0V-49" stroke="#e1b9b5" stroke-width="1.4"/><rect x="-6" y="-53" width="12" height="8" rx="3" fill="#efc598"/></g>').join('')+'</g><path d="M-27 75L0 0L27 75" fill="none" stroke="#e1b9b5" stroke-width="4"/></g>';
  if(k==='slime')for(let i=0;i<9;i++){const x=(i*83+18)%340,y=-350+(i*73)%410;html+='<g transform="translate('+x+' '+y+')"><circle class="world-bubble" r="'+(3+i%4*3)+'" fill="#dff4bc" fill-opacity=".48" stroke="#e6f5cb" stroke-width="1.2" style="animation-delay:'+(-i*.5)+'s"/></g>'}
@@ -1581,21 +1605,21 @@ const journeyWorldArtwork={
  ],
  monster:[
  [
- ['<path d="M-66 0Q-59 -55 -39 -76L-53 -113L-30 -99L-16 -143L-1 -110L17 -132L31 -97L58 -111L45 -70Q64 -48 68 0Z" fill="#334950"/><path d="M-30 -76Q-15 -88 -2 -76M14 -80Q29 -91 42 -77" stroke="#8eaa89" stroke-width="4" fill="none" stroke-linecap="round"/><g class="world-blink" fill="#d6dcaa"><ellipse cx="-17" cy="-64" rx="10" ry="5"/><ellipse cx="24" cy="-65" rx="10" ry="5"/></g>',78,1.05],
- ['<path d="M-68 0L-43 -63L-52 -107L-26 -81L-17 -133L-4 -90L20 -120L19 -72L51 -100L40 -53L67 0Z" fill="#3c5457"/><path d="M-40 -30L-19 -54L-10 -40L8 -65L24 -37L45 -42" stroke="#5c7770" fill="none" stroke-width="4"/>',85,.9],
- ['<g class="world-bob"><path d="M0 -7Q-22 -42 -56 -25Q-38 -13 -44 8Q-22 -6 -9 10Q0 26 9 10Q22 -6 44 8Q38 -13 56 -25Q22 -42 0 -7Z" fill="#344452"/><path d="M-10 -6L-8 -19L0 -12L8 -19L10 -6" fill="#344452"/><g fill="#d3dda0"><circle cx="-5" cy="0" r="2"/><circle cx="5" cy="0" r="2"/></g></g>',-130,.85]
+ ['<path d="M-37 3Q-29 -13 -25 -34Q-20 -52 -22 -66Q-15 -61 -8 -45Q0 -65 5 -86Q15 -74 15 -49Q26 -68 36 -65Q26 -47 30 -30L39 3Z" fill="#344c50"/><path d="M-23 -31Q-9 -39 -1 -25Q12 -43 28 -35M-18 -13Q-6 -23 6 -15" stroke="#657c70" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-38 4Q0 -3 39 4" fill="none" stroke="#415c57" stroke-width="3"/>',78,1],
+ ['<path d="M-46 2Q-31 -12 -23 -43Q-13 -75 -4 -69Q4 -60 6 -43Q17 -61 22 -60Q30 -46 34 -25L48 2Z" fill="#3e5858"/><path d="M-25 -29Q-18 -43 -13 -43M6 -42Q12 -54 22 -60" fill="none" stroke="#71877a" stroke-width="3.5" stroke-linecap="round"/><g fill="#a6b68a"><ellipse cx="-8" cy="-23" rx="4" ry="2.8"/><ellipse cx="8" cy="-24" rx="4" ry="2.8"/></g><path d="M-12 -16Q0 -10 12 -16" stroke="#2f484a" stroke-width="2.3" fill="none"/>',85,1],
+ ['<path d="M-39 3Q-33 -18 -17 -20Q-15 -48 0 -52Q17 -48 17 -20Q33 -18 39 3Z" fill="#526c64"/><path d="M-14 -19Q-12 -44 0 -46Q12 -43 14 -19Q0 -25 -14 -19Z" fill="#738b76"/><path d="M-24 -7Q-18 -12 -13 -7M13 -7Q20 -13 26 -7" stroke="#9aa98a" stroke-width="2.5" fill="none" stroke-linecap="round"/>',85,1]
  ],
  [
- ['<path d="M-28 0Q-22 -22 -31 -48L-19 -45L-20 -68L-6 -50L9 -68L12 -46L28 -56Q37 -22 27 0Z" fill="#506c67"/><ellipse cx="0" cy="-29" rx="18" ry="16" fill="#a6bf95"/><g class="world-blink"><ellipse cx="0" cy="-31" rx="10" ry="7" fill="#e3dfb5"/><ellipse cx="2" cy="-31" rx="3.5" ry="6" fill="#3b4e55"/></g><path d="M-8 -17Q0 -12 8 -17" stroke="#3d5358" stroke-width="2" fill="none"/>',105,1],
- ['<path d="M-31 0Q-17 -17 -18 -42L-30 -62L-13 -59L-7 -83L3 -63L23 -78L19 -54Q37 -38 28 0Z" fill="#6f786b"/><path d="M-21 -8Q0 -18 23 -8L19 0H-18Z" fill="#3b5558"/><g class="world-blink"><circle cx="-10" cy="-37" r="6" fill="#e7cf95"/><circle cx="12" cy="-37" r="6" fill="#e7cf95"/><circle cx="-8" cy="-36" r="2" fill="#39484e"/><circle cx="14" cy="-36" r="2" fill="#39484e"/></g><path d="M-13 -24Q0 -35 15 -24L10 -17H-8Z" fill="#3a4a50"/><path d="M-8 -25l4 7 4 -7 5 7 4 -7" fill="#ead5bc"/>',105,.9],
- ['<path d="M0 0Q-7 -28 0 -52Q12 -65 20 -58" stroke="#537a66" stroke-width="7" fill="none"/><path d="M7 -55Q1 -83 28 -76Q47 -65 28 -53Z" fill="#ad8f98"/><path d="M10 -56Q30 -49 39 -63" stroke="#f1c6b1" stroke-width="4" fill="none"/><path d="M15 -60l4 9 5 -8 5 5 4 -9" fill="#f4e0c1"/><path d="M0 -27Q-26 -41 -26 -22Q-14 -12 0 -27" fill="#79a17b"/>',105,1.1],
- ['<g class="world-bob"><path d="M-32 -9Q-31 -40 -7 -42Q13 -64 30 -42Q47 -22 33 -4L21 7L8 -3L-3 9L-17 -4L-32 5Z" fill="#829393"/><g class="world-blink" fill="#e3dbaf"><ellipse cx="-9" cy="-22" rx="4" ry="7"/><ellipse cx="12" cy="-22" rx="4" ry="7"/></g><ellipse cx="2" cy="-9" rx="5" ry="4" fill="#51636b"/></g>',-8,.9]
+ ['<path d="M-27 1Q-32 -13 -25 -30Q-28 -45 -25 -56Q-15 -56 -9 -45Q-6 -68 5 -66Q13 -61 14 -44Q26 -54 30 -48Q25 -33 31 -20Q37 -8 28 1Z" fill="#3d5558"/><path d="M-20 -5Q-22 -23 -17 -37Q0 -47 20 -36Q27 -24 22 -4Q0 3 -20 -5Z" fill="#68877a"/><path d="M-15 -35Q0 -45 15 -35Q20 -22 11 -17Q0 -12 -11 -17Q-20 -23 -15 -35Z" fill="#b9c49a"/><g class="world-blink"><ellipse cx="1" cy="-30" rx="11" ry="8" fill="#e7dfb1"/><ellipse cx="4" cy="-30" rx="3.3" ry="6.4" fill="#34494f"/><circle cx="5" cy="-33" r="1.5" fill="#f7ebca"/></g><path d="M-7 -12Q0 -8 8 -12" stroke="#354e50" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M-23 1Q-18 -5 -12 0M14 0Q19 -5 24 1" fill="none" stroke="#9caa82" stroke-width="2.4" stroke-linecap="round"/>',105,1],
+ ['<path d="M-30 2Q-29 -8 -25 -20Q-31 -34 -23 -47Q-35 -56 -30 -66Q-15 -64 -12 -53Q-7 -60 1 -60Q12 -61 17 -52Q20 -65 32 -69Q37 -55 26 -43Q36 -29 29 -13L30 2Z" fill="#525c63"/><path d="M-21 -13Q-24 -32 -16 -44Q0 -53 17 -43Q28 -28 21 -13Q0 -5 -21 -13Z" fill="#7e8175"/><g class="world-blink"><path d="M-17 -36Q-10 -42 -2 -34Q-9 -25 -17 -36Z M3 -34Q11 -43 19 -36Q12 -25 3 -34Z" fill="#f0d09c"/><ellipse cx="-8" cy="-34" rx="2" ry="4" fill="#3a424e"/><ellipse cx="11" cy="-34" rx="2" ry="4" fill="#3a424e"/></g><path d="M-17 -21Q0 -29 18 -21Q13 -7 0 -9Q-12 -8 -17 -21Z" fill="#333f4a"/><path d="M-12 -22Q-9 -13 -6 -22L-1 -24Q2 -15 5 -24L10 -22Q13 -13 15 -22" fill="#e4cfac"/><path d="M-25 1Q-21 -5 -17 0M18 0Q23 -5 27 1" stroke="#9eac8b" stroke-width="2.3" fill="none" stroke-linecap="round"/>',105,1],
+ ['<path d="M-8 1Q-8 -19 2 -37Q10 -51 23 -55" stroke="#3c645b" stroke-width="9" stroke-linecap="round" fill="none"/><path d="M-7 -16Q-34 -35 -33 -17Q-23 -5 -7 -16ZM-2 -28Q16 -40 25 -24Q13 -15 -2 -28Z" fill="#739c77"/><path d="M10 -53Q5 -76 25 -79Q43 -83 48 -63Q49 -53 39 -49Q22 -45 10 -53Z" fill="#a78692"/><path d="M13 -54Q28 -61 44 -59Q37 -48 13 -54Z" fill="#403e50"/><path d="M17 -55L22 -48L27 -56L33 -50L38 -58" fill="#ead7b6" stroke="#ead7b6" stroke-linejoin="round" stroke-width="1.2"/><path d="M18 -70Q29 -76 38 -70" fill="none" stroke="#caa8ac" stroke-width="3" stroke-linecap="round"/>',105,1],
+ ['<path d="M-28 3Q-21 -14 -19 -28Q-31 -39 -25 -55Q-9 -51 -5 -39Q0 -45 5 -39Q9 -51 25 -55Q31 -39 19 -28Q21 -14 28 3Z" fill="#364d53"/><path d="M-17 -19Q-14 -37 0 -35Q14 -37 17 -19Q0 -11 -17 -19Z" fill="#5e7876"/><g class="world-blink"><ellipse cx="-7" cy="-25" rx="4" ry="3.5" fill="#decf94"/><ellipse cx="7" cy="-25" rx="4" ry="3.5" fill="#decf94"/><circle cx="-6" cy="-25" r="1.5" fill="#33454c"/><circle cx="8" cy="-25" r="1.5" fill="#33454c"/></g><path d="M-5 -14L0 -10L5 -14" fill="#c6aa85"/><path d="M-24 0Q0 -7 24 0" stroke="#6d8975" stroke-width="2.3" fill="none"/>',106,1]
  ],
  [
- ['<path d="M-27 0Q-28 -12 -14 -14L-19 -28L-8 -23L0 -38L8 -24L19 -30L14 -14Q29 -12 27 0Z" fill="#859471"/><g class="world-blink"><circle cx="-7" cy="-15" r="4" fill="#e5d394"/><circle cx="8" cy="-15" r="4" fill="#e5d394"/><circle cx="-6" cy="-15" r="1.5" fill="#34464b"/><circle cx="9" cy="-15" r="1.5" fill="#34464b"/></g>',1,1],
- ['<path d="M-28 0Q-20 -15 -17 -4M-14 0L-22 -23M-3 0L0 -34M10 0L23 -29M18 0Q33 -18 34 -4" stroke="#7b9979" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M-4 -33Q0 -42 4 -33L0 -26Z" fill="#d6cc91"/>',4,1.1],
- ['<path d="M-24 0Q-23 -29 0 -29Q23 -29 24 0Z" fill="#b38a97"/><path d="M-13 -8L-23 -22M-17 -2L-34 -8M13 -8L23 -22M17 -2L34 -8" stroke="#6e6177" stroke-width="4" stroke-linecap="round"/><g class="world-blink"><circle cx="-7" cy="-14" r="5" fill="#f0d9b1"/><circle cx="7" cy="-14" r="5" fill="#f0d9b1"/><circle cx="-6" cy="-14" r="2" fill="#574a63"/><circle cx="8" cy="-14" r="2" fill="#574a63"/></g>',5,.85],
- ['<path d="M-36 8Q-23 -12 -5 1Q12 -10 36 4Q15 18 -10 16Z" fill="#4b716c"/><ellipse cx="-7" cy="3" rx="11" ry="4" fill="#d2d89f" opacity=".65"/><path d="M13 -5Q20 -16 24 -5" stroke="#9aac8b" stroke-width="2" fill="none"/>',30,1]
+ ['<path d="M-28 1Q-33 -13 -18 -19Q-24 -33 -14 -35Q-8 -35 -6 -25Q-3 -44 6 -42Q14 -39 13 -26Q24 -33 28 -24Q29 -18 23 -15Q34 -9 27 1Z" fill="#748b70"/><path d="M-18 -3Q-19 -16 -7 -20Q8 -24 19 -13Q22 -6 18 -3Z" fill="#a2ad82"/><g class="world-blink"><circle cx="-7" cy="-12" r="4" fill="#f0dca4"/><circle cx="8" cy="-12" r="4" fill="#f0dca4"/><circle cx="-6" cy="-12" r="1.6" fill="#364b51"/><circle cx="9" cy="-12" r="1.6" fill="#364b51"/></g><path d="M-4 -4Q0 -2 4 -4" stroke="#4e6a62" stroke-width="1.4" fill="none" stroke-linecap="round"/>',1,1],
+ ['<path d="M-28 3Q-33 -11 -20 -24Q-7 -18 -7 -2Q-14 -33 0 -44Q12 -34 8 -4Q17 -32 30 -28Q38 -15 24 3Z" fill="#769477"/><path d="M-24 -20Q-17 -13 -14 -4M0 -37V-7M28 -22L17 -5" stroke="#b1be91" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M-4 -43Q0 -50 4 -43Q5 -38 0 -36Q-5 -38 -4 -43Z" fill="#decd8f"/>',4,1],
+ ['<g stroke="#665568" stroke-width="4.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-13 -14Q-29 -29 -37 -11M-16 -9Q-33 -16 -39 0M-13 -5Q-29 0 -31 5M13 -14Q29 -29 37 -11M16 -9Q33 -16 39 0M13 -5Q29 0 31 5"/></g><path d="M-21 0Q-27 -16 -13 -26Q0 -37 13 -26Q27 -16 21 0Q0 7 -21 0Z" fill="#a18491"/><path d="M-13 -24Q0 -32 13 -24L9 -19Q0 -23 -9 -19Z" fill="#c0a2a5"/><g class="world-blink"><ellipse cx="-7" cy="-12" rx="5" ry="5.5" fill="#eed7ad"/><ellipse cx="7" cy="-12" rx="5" ry="5.5" fill="#eed7ad"/><circle cx="-6" cy="-12" r="2" fill="#4e4256"/><circle cx="8" cy="-12" r="2" fill="#4e4256"/></g><path d="M-3 -4L0 0L3 -4" fill="#ead6b9"/>',5,1],
+ ['<path d="M-40 6Q-32 -6 -20 -3Q-11 -16 2 -9Q16 -15 23 -3Q36 -6 40 6Q22 20 -3 16Q-23 21 -40 6Z" fill="#48736a"/><path d="M-32 6Q-19 0 -9 7Q2 12 15 4Q23 0 32 6" fill="none" stroke="#84a78a" stroke-width="3" stroke-linecap="round"/><ellipse cx="-11" cy="1" rx="8" ry="3" fill="#c3cf9c"/><path d="M10 -5Q17 -19 23 -6" stroke="#b1bd91" stroke-width="2.4" fill="none" stroke-linecap="round"/>',30,1]
  ]
  ],
  lava:[
@@ -1675,19 +1699,54 @@ const journeyWorldArtwork={
  ]
  ]
 };
+// Physical art dimensions measured in the local SVG coordinate system.
+// Low objects are sized by width rather than stretching their silhouettes.
+const journeyArtDimensions={
+ candy:[[128,80,55,125],[101,87,71,68],[56,46,35,59,16]],
+ monster:[[89,73,55],[69,71,84,58],[44,53,37,29]],
+ lava:[[150,119,66],[108,89,50,56],[34,28,47,33]],
+ carnival:[[102,111,64],[82,80,94,65],[54,32,49,19]],
+ slime:[[124,113,42],[84,78,86,46],[39,34,32,33]],
+ dream:[[142,74,88],[83,98,69,54],[35,37,30,24]]
+};
+// Floating objects are intentional; all others sit on their own depth plane.
+function journeyArtFloating(kind,depth,index){
+ return depth===0&&((kind==='candy'&&index===2)||(kind==='lava'&&index===2)||(kind==='carnival'&&index===2)||(kind==='slime'&&index===2)||(kind==='dream'&&index<2))||
+ depth===1&&kind==='dream'&&(index===0||index===2)||depth===2&&kind==='dream'&&index===1;
+}
+function journeyLowProp(kind,depth,index){
+ if(depth!==2)return false;
+ return (kind==='candy'&&(index===0||index===4))||(kind==='monster'&&index===3)||(kind==='lava'&&index===1)||(kind==='carnival'&&index===3)||(kind==='slime'&&index===1)||(kind==='dream'&&index===3);
+}
+function journeyLayerRidge(x,depth){
+ if(depth===2)return journeyHill(x);
+ const base=depth===0?93:110,amp=depth===0?20:14,period=depth===0?80:66,phase=depth===0?.8:1.7;
+ const cycles=Math.max(1,Math.round(journeyTile/(2*Math.PI*period))),a=2*Math.PI*x/journeyTile*cycles;
+ return base+amp*Math.sin(a+phase)+amp*.32*Math.sin(2*a+phase*.8);
+}
 function journeyDetailedLayers(w){
  const catalog=journeyWorldArtwork[w.kind];if(!catalog)return null;
- // Exactly periodic placements; one tile repeats with no teleport at the wrap.
- // The far, middle and near planes have different rhythms and authored art.
- const layouts=[[28,187,348,510,610],[10,107,218,326,443,551,644],[22,78,146,203,282,355,420,485,558,627]];
+ // Unevenly spaced scenes with breathing room between clusters; repeat only
+ // at the full tile boundary. Full opacity preserves clean silhouettes.
+ const layouts=[[35,220,407,578],[62,201,355,510],[42,173,306,433,573]];
  return catalog.map((assets,depth)=>{
   let html='';
   const positions=layouts[depth];
   for(let tile=-1;tile<=2;tile++)for(let i=0;i<positions.length;i++){
-   const item=assets[(i+(depth===1?Math.floor(i/3):0))%assets.length];
-   const x=positions[i]+tile*journeyTile,baseline=depth===2?journeyHill(x)+item[1]:item[1]+((i*19)%15-7);
-   const scale=item[2]*(.88+((i*7+depth*3)%5)*.065);
-   html+='<g transform="translate('+x+' '+baseline.toFixed(2)+') scale('+scale.toFixed(3)+')"'+(depth===0?' opacity=".72"':depth===1?' opacity=".94"':'')+'>'+item[0]+'</g>';
+   const index=i%assets.length,item=assets[index],x=positions[i]+tile*journeyTile;
+   const floating=journeyArtFloating(w.kind,depth,index),low=journeyLowProp(w.kind,depth,index);
+   const height=journeyArtDimensions[w.kind][depth][index];
+   // Explicit depth hierarchy: small far silhouettes, medium middle figures,
+   // and much larger foreground characters. Low pools and sweets are accents.
+   const target=depth===0?43:depth===1?67:low?27:85;
+   const variation=[.92,1.06,1,1.1,.96][(i+depth)%5];
+   const scale=Math.min(2.15,target/height*variation);
+   let baseline=floating?item[1]:journeyLayerRidge(x,depth)+2;
+   if(low)baseline+=13;
+   if(floating&&depth===2)baseline=journeyLayerRidge(x,depth)-25;
+   const ground=!floating&&!low;
+   const shadow=ground&&depth>0?'<ellipse cx="0" cy="1" rx="'+(depth===2?18:13)+'" ry="3.5" fill="'+w.ground+'" opacity=".20"/>':'';
+   html+='<g transform="translate('+x+' '+baseline.toFixed(2)+')" stroke-linecap="round" stroke-linejoin="round">'+shadow+'<g transform="scale('+scale.toFixed(3)+')">'+item[0]+'</g></g>';
   }
   return html;
  });
@@ -1768,7 +1827,7 @@ function renderJourneyScenery(worldNumber){
  const detailed=journeyDetailedLayers(w);
  let props='';if(!detailed)for(let tile=-1;tile<=2;tile++)for(let i=0;i<15;i++){let x=tile*journeyTile+i*journeyTile/15+((i*17)%21);props+=journeyProp(w.kind,x,journeyHill(x)+1,.6+(i%4)*.16,w,i)}
  const mascot='<g id="journeyTrail" pointer-events="none" opacity="0"><path id="journeyTrailOuter" stroke="#fff5cd" stroke-width="2.4" stroke-linecap="round" fill="none"/><path id="journeyTrailInner" stroke="#fff9e9" stroke-width="1.4" stroke-linecap="round" fill="none"/><circle id="journeySpark0" r="1.8" fill="#fff5cc"/><circle id="journeySpark1" r="1" fill="#fff5cc"/><circle id="journeySpark2" r="1" fill="#fff5cc"/><circle id="journeySpark3" r="1.8" fill="#fff5cc"/><circle id="journeySpark4" r="1" fill="#fff5cc"/><circle id="journeySpark5" r="1" fill="#fff5cc"/><circle id="journeySpark6" r="1.8" fill="#fff5cc"/></g><g id="journeyMascot"><g id="journeyBody"><g fill="#593f38"><rect id="journeyFoot1" x="-9" y="-8" width="9" height="6" rx="3"/><rect id="journeyFoot2" x="3" y="-8" width="9" height="6" rx="3"/></g><path d="M-11 -23Q-31 -31 -32 -23Q-26 -16 -12 -15L-28 -10Q-21 -6 -9 -14Z" fill="#d98279"/><ellipse id="journeyTorso" cx="-1" cy="-22" rx="20" ry="18" fill="#df9c73"/><ellipse id="journeyCheek" cx="5" cy="-23" rx="15" ry="14" fill="#ffebcb"/><g id="journeyWing"><path d="M-9 -26Q-24 -37 -33 -28Q-35 -18 -18 -14Q-10 -17 -9 -26Z" fill="#f4c693" stroke="#d69a70" stroke-width="1.1"/><path d="M-29 -26Q-21 -22 -15 -22" stroke="#deab82" stroke-width="1.3" stroke-linecap="round" fill="none"/></g><g id="journeyHat"><path d="M-21 -26Q-23 -49 -4 -49Q13 -50 19 -34Q-3 -39 -21 -26Z" fill="#8fa975"/><path d="M-10 -46Q-18 -53 -20 -50Q-18 -43 -10 -46" fill="#8b674f"/><path d="M-6 -46Q-2 -37 -1 -32" stroke="#6e895c" stroke-width="1.2" fill="none"/><path d="M-12 -31Q0 -39 19 -34" stroke="#e8bc83" stroke-width="2" stroke-linecap="round" fill="none"/></g><circle id="journeyEye1" cx="8" cy="-24" r="1.6" fill="#463b3c"/><circle id="journeyEye2" cx="16" cy="-24" r="1.4" fill="#463b3c"/><g id="journeyExpression"><ellipse cx="4" cy="-19" rx="3" ry="2" fill="#e9a8a0"/><path d="M10 -19Q13 -16 15 -19" stroke="#654345" stroke-width="1.1" stroke-linecap="round" fill="none"/></g></g></g>';
- svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs><rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant+journeyWeirdSky(w)+'<g id="journeyFar"><path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/>'+(detailed?detailed[0]:'')+'</g><g id="journeyMid"><path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/>'+(detailed?detailed[1]:'')+'</g><g id="journeyNear"><path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>'+ (detailed?detailed[2]:props)+'</g><rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
+ svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs><rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant+journeyWeirdSky(w)+(w.kind==='monster'?journeyForestGiant():'')+'<g id="journeyFar"><path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/>'+(detailed?detailed[0]:'')+'</g><g id="journeyMid"><path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/>'+(detailed?detailed[1]:'')+'</g><g id="journeyNear"><path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>'+ (detailed?detailed[2]:props)+'</g><rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
  if($('game').classList.contains('journey-portrait'))moveJourneyFlightLayer(true);
  // World changes blend in without delaying the next question.
  svg.classList.remove('journey-arrive');void svg.getBoundingClientRect();svg.classList.add('journey-arrive');
@@ -1966,6 +2025,11 @@ function paintJourney(t){
  if(far)far.setAttribute('transform','translate('+(-offset(rich?.12:.18))+' 0)');
  if(mid)mid.setAttribute('transform','translate('+(-offset(rich?.42:.40))+' 0)');
  if(near)near.setAttribute('transform','translate('+(-offset(1))+' 0)');
+ const giant=$('journeyForestGiant');
+ if(giant){
+  const g=journeyFlightLayout,headY=g?g.staffMid-(g.loopRY*.78)-52:-255;
+  giant.setAttribute('transform','translate('+(207+Math.sin(journeyTravel/520)*22).toFixed(2)+' '+headY.toFixed(2)+')');
+ }
  let x=87+(reduced?f.forward*.4:f.forward);const terrain=journeyHill(x+offset(1));
  const bob=Math.sin(f.clock*3.8)*(reduced?1.5:5);
  let y=Math.max(60,Math.min(terrain-10,86+(terrain-119)*.22+bob-f.lift*(reduced?.45:1)));
