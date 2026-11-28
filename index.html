@@ -459,7 +459,20 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .crystal-sparkle{transform-box:fill-box;transform-origin:center;animation:crystalSparkle 5.6s ease-in-out infinite;opacity:.18}
 @keyframes crystalSparkle{0%,100%{opacity:.12;transform:translate(0,0) scale(.7)}46%{opacity:.85;transform:translate(2px,-5px) scale(1.12)}72%{opacity:.25;transform:translate(3px,-8px) scale(.8)}}
 @media(prefers-reduced-motion:reduce){.crystal-mist,.crystal-hover-large,.crystal-hover-small,.crystal-local-light,.crystal-facet-glint,.crystal-sparkle{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v80</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+
+/* Moon: small, quiet animations, no atmospheric particles or glow filters. */
+.moon-antenna{transform-box:fill-box;transform-origin:50% 100%;animation:moonAntenna 7.4s ease-in-out infinite}
+@keyframes moonAntenna{0%,60%,100%{transform:rotate(0)}68%,80%{transform:rotate(12deg)}90%{transform:rotate(-3deg)}}
+.moon-rover-lamp{animation:moonLamp 2.8s ease-in-out infinite}
+@keyframes moonLamp{0%,60%,100%{opacity:.32}68%,86%{opacity:1}}
+.moon-rover-dust{opacity:0;animation:moonRoverDust 8.8s linear infinite}
+@keyframes moonRoverDust{0%,66%,100%{opacity:0;transform:translate(0,0)}68%{opacity:.7;animation-timing-function:ease-out}79%{opacity:.5;transform:translate(var(--dust-x),var(--dust-y));animation-timing-function:ease-in}91%{opacity:0;transform:translate(calc(var(--dust-x) * 1.4),5px)}}
+.moon-alien-peek{animation:moonAlienPeek 10.2s ease-in-out infinite;animation-delay:-4.1s}
+@keyframes moonAlienPeek{0%,29%,83%,100%{transform:translate(0,35px)}43%,65%{transform:translate(7px,-3px)}74%{transform:translate(2px,9px)}}
+.moon-alien-eyes{transform-box:fill-box;transform-origin:center;animation:moonAlienBlink 10.2s ease-in-out infinite;animation-delay:-4.1s}
+@keyframes moonAlienBlink{0%,49%,54%,61%,66%,100%{transform:scaleY(1)}51%,63%{transform:scaleY(.12)}}
+@media(prefers-reduced-motion:reduce){.moon-antenna,.moon-rover-lamp,.moon-rover-dust,.moon-alien-peek,.moon-alien-eyes{animation:none!important}.moon-rover-dust{opacity:0}.moon-alien-peek{transform:translate(5px,0)}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v81</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1204,7 +1217,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v80',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v81',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1221,7 +1234,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v80',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v81',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1276,7 +1289,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v80',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v81',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1681,7 +1694,7 @@ const journeyWorlds=[
  {name:['יער הפטריות','Mushroom forest'],sky:'#c6d6ad',sun:'#f8e1aa',far:'#95b79a',mid:'#6a9b7d',near:'#548a6b',ground:'#3b705a',accent:'#f0d9a4',kind:'mushroom'},
  {name:['ממלכת הקרח','Frostland'],sky:'#63788f',sun:'#b9cbd9',far:'#8499af',mid:'#7189a1',near:'#829bb3',ground:'#9eb3c9',accent:'#dce8f2',kind:'snow'},
  {name:['ממלכת הקריסטלים','Crystal kingdom'],sky:'#363650',sun:'#bde9e5',far:'#7766a4',mid:'#655b86',near:'#645281',ground:'#51476d',accent:'#b6ebe4',kind:'crystal'},
- {name:['בין הכוכבים','Starlight'],sky:'#292a4d',sun:'#e5b1d7',far:'#514b83',mid:'#6d5e9a',near:'#71528b',ground:'#40345d',accent:'#ffe3a5',kind:'space'},
+ {name:['הירח','The Moon'],sky:'#1b2033',sun:'#a4d4df',far:'#677288',mid:'#8d97a9',near:'#a4adbd',ground:'#a9b2c1',accent:'#d5e2ef',kind:'space'},
  {name:['ממלכת הממתקים','Candy kingdom'],sky:'#f5bfd7',sun:'#fff1ca',far:'#c6a4d9',mid:'#98c9c3',near:'#dc91bb',ground:'#ad639d',accent:'#fff0c4',kind:'candy'},
  {name:['יער המפלצות','Monster forest'],sky:'#41495d',sun:'#d2dfaa',far:'#354b50',mid:'#637f77',near:'#405c58',ground:'#23383f',accent:'#e1d99a',kind:'monster'},
  {name:['ממלכת הלבה','Lava kingdom'],sky:'#8c4c55',sun:'#ffc16b',far:'#674657',mid:'#553d4b',near:'#9c514e',ground:'#3c3443',accent:'#ffc373',kind:'lava'},
@@ -2641,12 +2654,85 @@ function crystalKingdomWeather(){
  }
  return html+'</g>';
 }
+// Moon: an exposed, airless landscape. A fixed Earth, three moving
+// terrain planes and small, infrequent signs of life and exploration.
+function moonBackdrop(){
+ let stars='';
+ for(let i=0;i<54;i++){
+  const x=(i*83+17)%340,y=-850+(i*127+41)%940,r=i%13===0?1.25:i%4===0?.82:.48;
+  stars+='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" opacity="'+(.29+(i%6)*.11).toFixed(2)+'"/>';
+ }
+ return '<defs><linearGradient id="moonSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111624"/><stop offset=".65" stop-color="#1b2033"/><stop offset="1" stop-color="#30384e"/></linearGradient>'+
+ '<radialGradient id="moonEarthOcean" cx=".31" cy=".26" r=".83"><stop offset="0" stop-color="#8ac6d6"/><stop offset=".46" stop-color="#4789b5"/><stop offset=".83" stop-color="#2f507f"/><stop offset="1" stop-color="#26334f"/></radialGradient>'+
+ '<linearGradient id="moonEarthShade" x1="0" y1="0" x2="1" y2=".72"><stop offset=".28" stop-color="#18253c" stop-opacity="0"/><stop offset=".8" stop-color="#18253c" stop-opacity=".16"/><stop offset="1" stop-color="#121a30" stop-opacity=".82"/></linearGradient>'+
+ '<radialGradient id="moonEarthHalo"><stop offset=".68" stop-color="#9ddce8" stop-opacity="0"/><stop offset=".79" stop-color="#9ddce8" stop-opacity=".2"/><stop offset="1" stop-color="#9ddce8" stop-opacity="0"/></radialGradient>'+
+ '<clipPath id="moonEarthClip"><circle r="47"/></clipPath></defs>'+
+ '<rect x="0" y="-900" width="340" height="1140" fill="url(#moonSky)"/><g fill="#d5e2ef">'+stars+'</g>'+
+ '<g transform="translate(247 -110)"><circle r="60" fill="url(#moonEarthHalo)"/><circle r="47" fill="url(#moonEarthOcean)"/>'+
+ '<g clip-path="url(#moonEarthClip)"><g fill="#9dbb9f"><path d="M-44 -29L-34 -36L-24 -37L-18 -30L-9 -32L-3 -24L-11 -14L-23 -14L-26 -5L-16 1L-18 7L-30 3L-34 -8L-44 -12Z"/><path d="M-15 3L-5 0L6 9L9 18L2 26L-1 38L-9 44L-14 29L-17 20L-20 12Z"/><path d="M7 -36L18 -42L35 -36L46 -22L43 -13L32 -15L26 -9L19 -15L8 -13L2 -20L9 -26Z"/><path d="M10 -10L23 -12L30 -2L25 10L17 24L10 14L5 1Z"/><path d="M36 17L45 15L52 28L43 34L31 28Z"/></g>'+
+ '<g fill="none" stroke="#e5f2ec" stroke-linecap="round"><path d="M-53 -22Q-34 -11 -19 -20T15 -26T51 -12M-45 16Q-21 8 -4 16T39 15" stroke-width="4.2" opacity=".55"/><path d="M-36 -39Q-12 -28 7 -37M-26 30Q-5 24 13 35M5 -3Q20 4 38 -1" stroke-width="2.6" opacity=".64"/><path d="M-35 43Q-5 35 24 43M-28 -45Q-7 -39 12 -47" stroke-width="5" opacity=".72"/></g><circle r="47" fill="url(#moonEarthShade)"/></g><circle r="47" fill="none" stroke="#a4d4df" stroke-opacity=".60" stroke-width=".9"/></g>';
+}
+function moonRim(variant=0){
+ const main=variant?'#778297':'#838da0',light=variant?'#b6bfcb':'#c3c9d2';
+ return '<g><path d="M-85 0L-73 -12L-64 -17L-54 -36L-38 -45L-28 -37L-19 -19L-5 -14L13 -15L27 -27L37 -45L54 -47L67 -24L78 -16L89 0Z" fill="'+main+'"/>'+
+ '<path d="M-85 0L-73 -12L-64 -17L-54 -36L-38 -45L-42 -22L-52 -6L-41 0Z M13 -15L27 -27L37 -45L54 -47L43 -28L38 -6L53 0Z" fill="'+light+'"/>'+
+ '<path d="M-38 -45L-28 -37L-19 -19L-5 -14L13 -15L27 -27L19 -7L0 0H-41L-30 -18Z" fill="#626d83"/>'+
+ '<path d="M-73 -12L-54 -17L-45 -29M45 -27L54 -47M-19 -19L-6 -14L13 -15" stroke="#ccd2db" stroke-opacity=".55" stroke-width="1.5" fill="none"/></g>';
+}
+function moonCrater(rx=32,ry=9,variant=0){
+ const x=rx,y=ry;
+ // Offset inner floor and contrasting rims suggest a depression, not a mound.
+ return '<g><ellipse cy="2" rx="'+(x*1.10)+'" ry="'+(y*1.12)+'" fill="#929bad"/><ellipse rx="'+x+'" ry="'+y+'" fill="#bbc2cf"/><ellipse cy="-1" rx="'+(x*.85)+'" ry="'+(y*.76)+'" fill="#5b657a"/>'+
+ '<ellipse cy="'+(y*.16)+'" rx="'+(x*.68)+'" ry="'+(y*.47)+'" fill="#858fa2"/><path d="M-'+(x*.93)+' 0Q0 '+(y*1.65)+' '+(x*.93)+' 0" stroke="#c6ccd6" stroke-width="'+(variant?1.3:1.7)+'" fill="none"/><path d="M-'+(x*.73)+' -'+(y*.35)+'Q0 -'+(y*.95)+' '+(x*.73)+' -'+(y*.35)+'" stroke="#4b566d" stroke-width="1.3" opacity=".6" fill="none"/></g>';
+}
+function moonRock(variant=0){
+ return variant===1?'<g><path d="M-22 0L-21 -13L-7 -24L10 -18L22 -4L16 0Z" fill="#778196"/><path d="M-21 -13L-7 -24L10 -18L0 -9Z" fill="#b9c1cd"/><path d="M0 -9L10 -18L22 -4L16 0H0Z" fill="#515d73"/><path d="M-14 -11L-7 -16" stroke="#d2d7df" stroke-width="1.3"/></g>':'<g><path d="M-29 0L-23 -16L-9 -31L10 -33L22 -18L31 -2L23 0Z" fill="#8993a5"/><path d="M-23 -16L-9 -31L10 -33L8 -16L-5 -10Z" fill="#bdc5d0"/><path d="M8 -16L10 -33L22 -18L31 -2L15 0L-5 -10Z" fill="#5d697f"/><path d="M-29 0L-23 -16L-5 -10L15 0Z" fill="#9ba5b5"/><path d="M-19 -16L-10 -24L0 -24" stroke="#d1d6df" stroke-width="1.6" fill="none"/></g>';
+}
+function moonRover(){
+ const wheel=x=>'<g transform="translate('+x+' -9)"><circle r="9.7" fill="#353d50"/><circle r="7.5" fill="#535e71" stroke="#a1abba" stroke-width="1.1"/><circle r="3.6" fill="#bcc4ce"/><path d="M-6 0H6M0 -6V6M-4 -4L4 4M4 -4L-4 4" stroke="#808c9f" stroke-width="1.1"/></g>';
+ return '<g><ellipse cy="2" rx="46" ry="4.5" fill="#343c52" opacity=".22"/>'+
+ '<g fill="#c4cbd5" pointer-events="none"><g transform="translate(-42 -4)"><circle class="moon-rover-dust" r="1.8" style="--dust-x:-23px;--dust-y:-12px;animation-delay:-.3s"/></g><g transform="translate(-34 -3)"><circle class="moon-rover-dust" r="1.2" style="--dust-x:-16px;--dust-y:-18px;animation-delay:-.42s"/></g><g transform="translate(-42 -1)"><circle class="moon-rover-dust" r="2.2" style="--dust-x:-29px;--dust-y:-8px;animation-delay:-.52s"/></g></g>'+
+ '<path d="M-37 -14L-23 -23H23L37 -14M-24 -23L-12 -7M24 -23L12 -7" stroke="#6c7889" stroke-width="4" fill="none"/>'+wheel(-32)+wheel(0)+wheel(32)+
+ '<path d="M-39 -19L-39 -36L-28 -42H28L40 -32V-19Z" fill="#a6adb9"/><path d="M-39 -36L-28 -42H28L40 -32H-33Z" fill="#d8dbe0"/><path d="M-33 -32H40V-19H-33Z" fill="#b5bec9"/>'+
+ '<rect x="-27" y="-30" width="17" height="8" rx="1.6" fill="#6f7d91"/><path d="M-23 -27H-14" stroke="#b7c5d3" stroke-width="1.1"/><rect x="15" y="-29" width="15" height="7" rx="1.5" fill="#8997a9"/>'+
+ '<g transform="translate(-20 -42) rotate(-15)"><rect x="-26" y="-14" width="52" height="14" rx="1" fill="#394e72" stroke="#aab6c8" stroke-width="1.4"/><path d="M-13 -14V0M0 -14V0M13 -14V0M-26 -7H26" stroke="#7798b9" stroke-width=".8"/></g>'+
+ '<path d="M21 -41V-60H27V-43" fill="#8f9bae"/><rect x="17" y="-67" width="16" height="10" rx="2" fill="#ccd1da"/><rect x="25" y="-65" width="6" height="5" rx="1" fill="#455672"/>'+
+ '<g transform="translate(0 -42)"><g class="moon-antenna"><path d="M0 0L-3 -19" stroke="#b7c3d1" stroke-width="2.4" fill="none"/><g transform="translate(-3 -19) rotate(-25)"><path d="M-11 -5Q0 11 11 -5" fill="#d0d6df" stroke="#94a2b4" stroke-width="1.3"/><path d="M0 3V-6" stroke="#8997ad" stroke-width="1.5"/><circle cy="-6" r="1.6" fill="#c7e8e5"/></g></g></g>'+
+ '<circle cx="34" cy="-29" r="2.2" fill="#9bf2d9" class="moon-rover-lamp"/><path d="M-35 -19H38" stroke="#747f91" stroke-width="1.3"/></g>';
+}
+function moonAlien(){
+ return '<g><g class="moon-alien-peek"><path d="M-14 0Q-20 -23 -10 -31Q0 -40 10 -31Q18 -23 14 0Z" fill="#819e91"/>'+
+ '<path d="M-13 -22Q-26 -34 -20 -47Q-16 -57 0 -58Q17 -57 22 -44Q26 -32 13 -22Q0 -16 -13 -22Z" fill="#a5c7af"/><path d="M-16 -47Q-8 -56 4 -54Q11 -54 16 -49" stroke="#c8ded0" stroke-width="2.4" fill="none"/>'+
+ '<g class="moon-alien-eyes"><ellipse cx="-8" cy="-39" rx="6.4" ry="9.5" fill="#303f4a" transform="rotate(-19 -8 -39)"/><ellipse cx="9" cy="-39" rx="6.4" ry="9.5" fill="#303f4a" transform="rotate(19 9 -39)"/><ellipse cx="-10" cy="-42" rx="1.7" ry="2.3" fill="#deede6"/><ellipse cx="7" cy="-42" rx="1.7" ry="2.3" fill="#deede6"/></g>'+
+ '<path d="M-3 -26Q0 -24 3 -26" stroke="#647d78" stroke-width="1.3" fill="none"/></g>'+
+ '<g transform="translate(-3 1) scale(1.08)">'+moonRock(0)+'</g></g>';
+}
+function journeyMoonLayers(w){
+ const rim=moonRim(),rim2=moonRim(1),rock=moonRock(),rock2=moonRock(1),rover=moonRover(),alien=moonAlien();
+ const layouts=[
+  [{x:76,art:rim,s:1.22,lo:-85,hi:89},{x:258,art:rim2,s:.92,lo:-85,hi:89},{x:464,art:rim,s:1.34,lo:-85,hi:89},{x:620,art:rim2,s:.72,lo:-85,hi:89}],
+  [{x:39,art:moonCrater(49,12),s:.84,flat:true},{x:132,art:rover,s:.78,lo:-40,hi:40},{x:254,art:rock,s:.84,lo:-29,hi:31},{x:344,art:moonCrater(52,14),s:.90,flat:true},{x:458,art:alien,s:.60,lo:-34,hi:34},{x:576,art:rock2,s:.90,lo:-22,hi:22}],
+  [{x:18,art:moonCrater(28,8),s:.72,flat:true},{x:82,art:rock2,s:.48},{x:143,art:moonCrater(21,7,1),s:.72,flat:true},{x:202,art:rock,s:.49},{x:278,art:moonCrater(35,10),s:.86,flat:true},{x:361,art:rock2,s:.47},{x:428,art:moonCrater(22,7,1),s:.76,flat:true},{x:491,art:rock,s:.43},{x:560,art:moonCrater(34,10),s:.81,flat:true},{x:629,art:rock2,s:.51}]
+ ];
+ return layouts.map((items,depth)=>{
+  let html='';
+  for(let tile=-1;tile<=2;tile++)for(let i=0;i<items.length;i++){
+   const p=items[i],x=p.x+tile*journeyTile;
+   let y=journeyLayerRidge(x,depth);
+   if(depth<2&&!p.flat){for(let j=0;j<=24;j++)y=Math.max(y,journeyLayerRidge(x+p.s*(p.lo+(p.hi-p.lo)*j/24),depth));y+=2;}
+   else y+=p.flat?(depth===1?13:17+(i%3)*4):6+(i%3)*4;
+   html+='<g transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
+  }
+  return html;
+ });
+}
 function journeyDetailedLayers(w){
  if(w.kind==='meadow')return journeyMeadowLayers(w);
  if(w.kind==='desert')return journeyDesertLayers(w);
  if(w.kind==='mushroom')return journeyJungleLayers(w);
  if(w.kind==='snow')return journeySnowLayers(w);
  if(w.kind==='crystal')return journeyCrystalLayers(w);
+ if(w.kind==='space')return journeyMoonLayers(w);
  const catalog=journeyWorldArtwork[w.kind];if(!catalog)return null;
  // Unevenly spaced scenes with breathing room between clusters; repeat only
  // at the full tile boundary. Full opacity preserves clean silhouettes.
@@ -2679,6 +2765,7 @@ function journeyDetailedLayers(w){
 function journeyWeather(w){
  if(w.kind==='snow')return snowStormWeather();
  if(w.kind==='crystal')return crystalKingdomWeather();
+ if(w.kind==='space')return '';
  if(w.kind==='ocean')return '<g fill="none" stroke="#a7d3b9" stroke-width="1.1" stroke-linecap="round" opacity=".32"><path d="M12 173Q34 165 58 173M85 193Q111 184 133 191M180 165Q208 157 234 166M268 194Q294 184 325 193"/></g>';
  const counts=w.kind==='snow'?17:w.kind==='space'?22:12;let html='';
  for(let i=0;i<counts;i++){const x=(i*79+23)%340,y=(i*41+9)%145,delay=(i%9)*-.8,duration=4+(i%6)*1.1;
@@ -2695,7 +2782,7 @@ function journeyStaffAtmosphere(kind,worldNumber=0){
   mushroom:['#a5c6a0','#668f77','#47745f','#e9dcb4','spore'],
   snow:['#a7bbcb','#526c84','#3f5871','#d1e2ed','cloud'],
   crystal:['#a49ac5','#625982','#484467','#bbebe3','crystal'],
-  space:['#a385b6','#755f9b','#514477','#e6bbd2','nebula'],
+  space:['#a4adbd','#626d83','#424e65','#d5e2ef','crystal'],
   candy:['#f6c6db','#be729f','#a25c91','#fff1d6','cloud'],
   monster:['#81968a','#4b6665','#344b53','#d5e2b1','spore'],
   lava:['#bb7d77','#714952','#513944','#ffc78b','crystal'],
@@ -2910,7 +2997,7 @@ function renderJourneyScenery(worldNumber){
  let props='';if(!detailed)for(let tile=-1;tile<=2;tile++)for(let i=0;i<15;i++){let x=tile*journeyTile+i*journeyTile/15+((i*17)%21);props+=journeyProp(w.kind,x,journeyHill(x)+1,.6+(i%4)*.16,w,i)}
  let mascot='<g id="journeyTrail" pointer-events="none" opacity="0"><path id="journeyTrailOuter" stroke="#fff5cd" stroke-width="2.4" stroke-linecap="round" fill="none"/><path id="journeyTrailInner" stroke="#fff9e9" stroke-width="1.4" stroke-linecap="round" fill="none"/><circle id="journeySpark0" r="1.8" fill="#fff5cc"/><circle id="journeySpark1" r="1" fill="#fff5cc"/><circle id="journeySpark2" r="1" fill="#fff5cc"/><circle id="journeySpark3" r="1.8" fill="#fff5cc"/><circle id="journeySpark4" r="1" fill="#fff5cc"/><circle id="journeySpark5" r="1" fill="#fff5cc"/><circle id="journeySpark6" r="1.8" fill="#fff5cc"/></g><g id="journeyMascot"><g id="journeyBody"><g fill="#593f38"><rect id="journeyFoot1" x="-9" y="-8" width="9" height="6" rx="3"/><rect id="journeyFoot2" x="3" y="-8" width="9" height="6" rx="3"/></g><path d="M-11 -23Q-31 -31 -32 -23Q-26 -16 -12 -15L-28 -10Q-21 -6 -9 -14Z" fill="#d98279"/><ellipse id="journeyTorso" cx="-1" cy="-22" rx="20" ry="18" fill="#df9c73"/><ellipse id="journeyCheek" cx="5" cy="-23" rx="15" ry="14" fill="#ffebcb"/><g id="journeyWing"><path d="M-9 -26Q-24 -37 -33 -28Q-35 -18 -18 -14Q-10 -17 -9 -26Z" fill="#f4c693" stroke="#d69a70" stroke-width="1.1"/><path d="M-29 -26Q-21 -22 -15 -22" stroke="#deab82" stroke-width="1.3" stroke-linecap="round" fill="none"/></g><g id="journeyHat"><path d="M-21 -26Q-23 -49 -4 -49Q13 -50 19 -34Q-3 -39 -21 -26Z" fill="#8fa975"/><path d="M-10 -46Q-18 -53 -20 -50Q-18 -43 -10 -46" fill="#8b674f"/><path d="M-6 -46Q-2 -37 -1 -32" stroke="#6e895c" stroke-width="1.2" fill="none"/><path d="M-12 -31Q0 -39 19 -34" stroke="#e8bc83" stroke-width="2" stroke-linecap="round" fill="none"/></g><circle id="journeyEye1" cx="8" cy="-24" r="1.6" fill="#463b3c"/><circle id="journeyEye2" cx="16" cy="-24" r="1.4" fill="#463b3c"/><g id="journeyExpression"><ellipse cx="4" cy="-19" rx="3" ry="2" fill="#e9a8a0"/><path d="M10 -19Q13 -16 15 -19" stroke="#654345" stroke-width="1.1" stroke-linecap="round" fill="none"/></g></g></g>';
  if(journeyCharacter==='mia')mascot=mascot.slice(0,mascot.indexOf('<g id="journeyBody">'))+'<g id="journeyBody">'+miaRiderMarkup(w.kind==='ocean','mia',w.kind)+'</g></g>';
- svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs>'+(w.kind==='ocean'?oceanBackdrop():w.kind==='snow'?snowStormBackdrop():w.kind==='crystal'?crystalKingdomBackdrop():'<rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant)+journeyWeirdSky(w)+(w.kind==='monster'?journeyForestGiant():'')+'<g id="journeyFar">'+(w.kind==='crystal'?'':'<path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/>')+(detailed?detailed[0]:'')+'</g><g id="journeyMid">'+(w.kind==='crystal'?'':'<path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/>')+(w.kind==='slime'?slimeTerrainFilm(1):'')+(detailed?detailed[1]:'')+'</g><g id="journeyNear">'+(w.kind==='crystal'?'':'<path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>')+(w.kind==='slime'?slimeTerrainFilm(2):w.kind==='snow'?snowTerrainMantle():'')+(detailed?detailed[2]:props)+'</g>'+(w.kind==='ocean'?oceanSceneLighting():'')+'<rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
+ svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs>'+(w.kind==='ocean'?oceanBackdrop():w.kind==='snow'?snowStormBackdrop():w.kind==='crystal'?crystalKingdomBackdrop():w.kind==='space'?moonBackdrop():'<rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant)+journeyWeirdSky(w)+(w.kind==='monster'?journeyForestGiant():'')+'<g id="journeyFar">'+(w.kind==='crystal'?'':'<path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/>')+(detailed?detailed[0]:'')+'</g><g id="journeyMid">'+(w.kind==='crystal'?'':'<path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/>')+(w.kind==='slime'?slimeTerrainFilm(1):'')+(detailed?detailed[1]:'')+'</g><g id="journeyNear">'+(w.kind==='crystal'?'':'<path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>')+(w.kind==='slime'?slimeTerrainFilm(2):w.kind==='snow'?snowTerrainMantle():'')+(detailed?detailed[2]:props)+'</g>'+(w.kind==='ocean'?oceanSceneLighting():'')+'<rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
  if($('game').classList.contains('journey-portrait'))moveJourneyFlightLayer(true);
  // World changes blend in without delaying the next question.
  svg.classList.remove('journey-arrive');void svg.getBoundingClientRect();svg.classList.add('journey-arrive');
