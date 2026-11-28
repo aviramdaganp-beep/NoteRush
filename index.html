@@ -399,7 +399,14 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 #game.journey-portrait.journey-buttons .journey-opening #readytitle{font-size:22px;margin:0}
 #game.journey-portrait.journey-buttons .journey-opening .journey-test-world:not([hidden]){margin-bottom:6px;gap:3px}
 #game.journey-portrait.journey-buttons .journey-opening #readydetails{margin:4px 0 6px}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v73</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+
+/* Gentle opening-world motion, never affecting notation or character rigs. */
+.meadow-breeze{transform-box:fill-box;transform-origin:50% 100%;animation:meadowBreeze 4.8s ease-in-out infinite;animation-delay:var(--meadow-delay,0s)}
+@keyframes meadowBreeze{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}
+.meadow-cow-tail{transform-box:fill-box;transform-origin:100% 0%;animation:meadowCowTail 7.2s ease-in-out infinite}
+@keyframes meadowCowTail{0%,70%,100%{transform:rotate(0)}77%{transform:rotate(-11deg)}85%{transform:rotate(8deg)}92%{transform:rotate(-4deg)}}
+@media(prefers-reduced-motion:reduce){.meadow-breeze,.meadow-cow-tail{animation:none!important}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v74</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1144,7 +1151,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v73',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v74',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1161,7 +1168,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v73',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v74',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1216,7 +1223,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v73',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v74',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -2178,7 +2185,71 @@ function candyGroundContact(x,depth,index,scale,low,kind='candy'){
  const inset=depth===2?(kind==='ocean'?(low?18:10):low?30:19):3;
  return {y:surface+inset,x:(lo+hi)/2,width:Math.max(2,(hi-lo)*.5)};
 }
+// Meadow: a deliberately sparse pastoral composition. Each object is
+// authored in local coordinates with its ground contact at y=0.
+function journeyMeadowLayers(w){
+ const farm='<g><ellipse cx="0" cy="1" rx="47" ry="5" fill="#76977e" opacity=".34"/>'+
+ '<path d="M-43 -2V-41L-8 -64L38 -41V-2Z" fill="#e5cfaa"/>'+
+ '<path d="M-43 -41L-8 -64V-2H-43Z" fill="#d5bb98"/>'+
+ '<path d="M-8 -60L38 -40V-2H-8Z" fill="#f4dfba"/>'+
+ '<path d="M-51 -41L-9 -72L45 -41L36 -36L-9 -61L-43 -35Z" fill="#ad7363"/>'+
+ '<path d="M-51 -41L-9 -72L-8 -62L-43 -35Z" fill="#91685f"/>'+
+ '<path d="M-1 -65L15 -56L15 -73L5 -78L-1 -75Z" fill="#ab8471"/><path d="M-3 -77L7 -81L18 -75L8 -71Z" fill="#8e6f66"/>'+
+ '<path d="M-40 -39L-9 -61L-9 -54L-39 -33Z" fill="#c4a486"/>'+
+ '<path d="M3 -2V-25Q11 -33 20 -25V-2Z" fill="#806e5f"/><path d="M7 -21V-3" stroke="#a89173" stroke-width="1.4"/><circle cx="16" cy="-12" r="1.4" fill="#e6bf81"/>'+
+ '<g fill="#f5e9ce" stroke="#a58d77" stroke-width="2.4"><rect x="-33" y="-29" width="13" height="14" rx="1"/><rect x="25" y="-29" width="10" height="13" rx="1"/></g>'+
+ '<g fill="#8ba7a0"><rect x="-30.5" y="-26.5" width="8" height="9"/><rect x="27" y="-26.5" width="6" height="8"/></g><path d="M-26.5 -27V-17M-31 -22H-22M30 -27V-18M27 -22H33" stroke="#f8e8ca" stroke-width="1"/>'+
+ '<circle cx="-9" cy="-47" r="5" fill="#ad9278"/><circle cx="-9" cy="-47" r="3.2" fill="#91a59a"/>'+
+ '<path d="M-46 -2H40" stroke="#b69b80" stroke-width="3"/>'+
+ '<path d="M-52 -1Q-56 -12 -49 -12Q-44 -20 -39 -10Q-32 -15 -30 -1Z" fill="#769d79"/><path d="M29 -1Q30 -12 36 -9Q40 -17 46 -9Q54 -9 52 -1Z" fill="#88a77c"/></g>';
+ const tree='<g><path d="M-3 0L-5 -23L-15 -38L-11 -40L0 -29L8 -45L12 -43L4 -22L5 0Z" fill="#a18c72"/>'+
+ '<path d="M-30 -24Q-40 -38 -25 -47Q-27 -64 -10 -67Q2 -79 16 -68Q34 -65 34 -49Q45 -37 33 -27Q22 -17 5 -23Q-12 -17 -30 -24Z" fill="#86a68d"/>'+
+ '<path d="M-28 -45Q-28 -62 -10 -64Q2 -74 14 -64Q27 -62 31 -50Q17 -57 9 -49Q-9 -54 -28 -45Z" fill="#a8bc98"/><path d="M-27 -25Q-10 -18 5 -24Q24 -16 34 -29Q19 -31 8 -35Q-9 -29 -27 -25Z" fill="#759780"/></g>';
+ const cow='<g><ellipse cx="0" cy="1.5" rx="29" ry="3" fill="#335c4b" opacity=".19"/>'+
+ '<g class="meadow-cow-tail"><path d="M-27 -30Q-40 -31 -39 -19Q-40 -14 -43 -11" stroke="#77655b" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M-43 -15Q-48 -13 -46 -7Q-41 -6 -40 -12Z" fill="#5c554e"/></g>'+
+ '<path d="M-20 -17L-23 -1Q-20 2 -16 0L-13 -18M13 -17L13 -1Q17 1 20 0L21 -18" fill="#b7ac99"/>'+
+ '<path d="M-27 -19L-28 -2Q-25 2 -20 0L-17 -20M8 -19L8 -2Q10 2 15 0L18 -19" fill="#f2e3ca"/>'+
+ '<path d="M-28 -5L-20 -5L-20 0Q-25 2 -28 -1Z M8 -5H15V0Q10 2 8 -2Z" fill="#645a54"/>'+
+ '<path d="M-22 -19Q-24 -9 -13 -9Q-3 -10 -5 -19Z" fill="#d6a59c"/>'+
+ '<path d="M-32 -29Q-32 -43 -14 -45L12 -43Q25 -42 28 -30L25 -19Q12 -14 -4 -16L-23 -17Q-32 -20 -32 -29Z" fill="#f3e8d3"/>'+
+ '<path d="M-30 -38Q-23 -44 -15 -45Q-9 -39 -13 -33Q-6 -25 -16 -22Q-29 -24 -30 -30Z M2 -42Q16 -43 23 -35Q19 -26 12 -29Q7 -25 0 -30Q-4 -37 2 -42Z M-3 -19Q6 -23 9 -16L-5 -16Z" fill="#655f59"/>'+
+ '<path d="M-28 -20Q-4 -13 23 -20L25 -19Q12 -14 -4 -16L-23 -17Z" fill="#d8c9b1"/>'+
+ '<path d="M19 -39Q26 -50 37 -43Q46 -37 43 -24Q36 -14 23 -20Q17 -27 19 -39Z" fill="#eee1ca"/>'+
+ '<path d="M23 -40Q27 -46 33 -45L32 -36Q29 -32 24 -33Z" fill="#655f59"/>'+
+ '<path d="M24 -44Q17 -51 15 -44Q16 -40 23 -38Z M40 -43Q49 -48 49 -42Q47 -38 42 -37Z" fill="#77685c"/>'+
+ '<path d="M27 -45Q24 -52 29 -51L32 -45M37 -45Q39 -51 42 -49L41 -43" fill="#e3cba6"/>'+
+ '<ellipse cx="35" cy="-24" rx="12" ry="8.5" fill="#d9a6a0" transform="rotate(-6 35 -24)"/>'+
+ '<circle cx="28" cy="-35" r="1.7" fill="#4b4543"/><circle cx="40" cy="-35" r="1.5" fill="#4b4543"/>'+
+ '<ellipse cx="31" cy="-25" rx="1.5" ry="1.2" fill="#96716f"/><ellipse cx="40" cy="-26" rx="1.5" ry="1.2" fill="#96716f"/><path d="M34 -20Q37 -18 40 -21" stroke="#a77c79" stroke-width="1" fill="none"/></g>';
+ const fence='<g stroke-linecap="round" stroke-linejoin="round"><path d="M-34 -16L34 -13M-34 -7L34 -4" stroke="#b59d7b" stroke-width="4"/><path d="M-35 -17L34 -14M-35 -8L34 -5" stroke="#d5be97" stroke-width="1.2"/><path d="M-30 0V-24M0 0V-22M30 0V-23" stroke="#927c61" stroke-width="5"/><path d="M-31 -23V-2M-1 -21V-2M29 -22V-2" stroke="#c5ac86" stroke-width="1.4"/></g>';
+ const shrub='<g><path d="M-23 0Q-30 -13 -16 -16Q-18 -28 -6 -25Q2 -35 12 -24Q25 -26 25 -13Q32 -7 25 0Z" fill="#729d76"/><path d="M-24 -8Q-21 -15 -14 -12Q-8 -24 0 -17Q8 -27 15 -18Q22 -19 25 -12Q14 -14 9 -9Q-4 -14 -9 -8Z" fill="#94b58a"/></g>';
+ const grass='<g class="meadow-breeze"><path d="M-12 0Q-14 -10 -21 -17Q-10 -15 -5 -5Q-7 -19 -4 -25Q1 -15 1 -4Q5 -21 12 -22Q8 -11 6 0Q13 -10 21 -9Q15 -3 12 0Z" fill="#6b9c78"/><path d="M-4 -2Q-2 -12 -4 -19M5 -2Q8 -12 12 -17" stroke="#97b68a" stroke-width="1.2" fill="none"/></g>';
+ function flower(kind){
+  const stem='<path d="M0 0Q-2 -10 1 -19M0 -5Q-9 -12 -10 -7Q-6 -2 0 -5M0 -9Q6 -17 9 -12Q6 -8 0 -9" fill="#76a57b" stroke="#76a57b" stroke-width="1.5" stroke-linecap="round"/>';
+  let petals=kind==='daisy'?'<g fill="#fff3d9"><ellipse cy="-5" rx="2.8" ry="5"/><ellipse cy="5" rx="2.8" ry="5"/><ellipse cx="-5" rx="5" ry="2.8"/><ellipse cx="5" rx="5" ry="2.8"/><g transform="rotate(45)"><ellipse cy="-5" rx="2.8" ry="4.6"/><ellipse cy="5" rx="2.8" ry="4.6"/><ellipse cx="-5" rx="4.6" ry="2.8"/><ellipse cx="5" rx="4.6" ry="2.8"/></g></g><circle r="3.4" fill="#e4b76a"/>':kind==='poppy'?'<path d="M-1 -1Q-12 -3 -8 -9Q-3 -13 1 -5Q7 -13 11 -6Q13 2 5 4Q6 12 -1 10Q-9 9 -6 3Z" fill="#d98b82"/><path d="M-1 -1Q-7 -7 -9 -5M1 -1Q7 -5 9 -3" stroke="#e8a69a" stroke-width="1.6" fill="none"/><circle r="3.2" fill="#815c59"/>':'<g fill="#e8c878"><circle cy="-4.5" r="4"/><circle cx="4.4" cy="-1.2" r="4"/><circle cx="2.7" cy="4" r="4"/><circle cx="-2.7" cy="4" r="4"/><circle cx="-4.4" cy="-1.2" r="4"/></g><circle r="2.7" fill="#f6e1a1"/>';
+  return '<g class="meadow-breeze">'+stem+'<g transform="translate(1 -20)">'+petals+'</g></g>';
+ }
+ const daisies=flower('daisy'),poppies=flower('poppy'),buttercups=flower('buttercup');
+ const flowers='<g transform="translate(-9 0) scale(.78)">'+daisies+'</g><g transform="translate(5 -1) scale(.92)">'+buttercups+'</g><g transform="translate(13 1) scale(.55)">'+daisies+'</g>';
+ const layouts=[
+  [{x:47,art:tree,scale:.63,lo:-5,hi:5},{x:225,art:farm,scale:.85,lo:-43,hi:38},{x:467,art:tree,scale:.87,lo:-5,hi:5},{x:519,art:tree,scale:.53,lo:-5,hi:5}],
+  [{x:29,art:shrub,scale:.55,lo:-23,hi:25},{x:128,art:cow,scale:.86,lo:-28,hi:20},{x:285,art:fence,scale:.82,lo:-30,hi:30},{x:388,art:shrub,scale:.72,lo:-23,hi:25},{x:565,art:shrub,scale:.51,lo:-23,hi:25}],
+  [{x:16,art:grass,scale:.58},{x:58,art:flowers,scale:.58},{x:106,art:poppies,scale:.61},{x:164,art:grass,scale:.72},{x:207,art:buttercups,scale:.60},{x:249,art:daisies,scale:.68},{x:311,art:grass,scale:.50},{x:363,art:flowers,scale:.62},{x:408,art:poppies,scale:.67},{x:470,art:grass,scale:.72},{x:515,art:buttercups,scale:.58},{x:574,art:flowers,scale:.59},{x:634,art:grass,scale:.60}]
+ ];
+ return layouts.map((items,depth)=>{
+  let html='';
+  for(let tile=-1;tile<=2;tile++)for(let i=0;i<items.length;i++){
+   const item=items[i],x=tile*journeyTile+item.x,scale=item.scale;
+   let baseline=journeyLayerRidge(x,depth);
+   if(depth<2){for(let j=0;j<=24;j++)baseline=Math.max(baseline,journeyLayerRidge(x+scale*(item.lo+(item.hi-item.lo)*j/24),depth));baseline+=1.5;}
+   else baseline+=3+(i%3)*3;
+   html+='<g transform="translate('+x+' '+baseline.toFixed(2)+') scale('+scale+')" stroke-linecap="round" stroke-linejoin="round" style="--meadow-delay:'+(-i*.47)+'s">'+item.art+'</g>';
+  }
+  return html;
+ });
+}
 function journeyDetailedLayers(w){
+ if(w.kind==='meadow')return journeyMeadowLayers(w);
  const catalog=journeyWorldArtwork[w.kind];if(!catalog)return null;
  // Unevenly spaced scenes with breathing room between clusters; repeat only
  // at the full tile boundary. Full opacity preserves clean silhouettes.
