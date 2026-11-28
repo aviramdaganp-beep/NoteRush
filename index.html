@@ -406,7 +406,16 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .meadow-cow-tail{transform-box:fill-box;transform-origin:100% 0%;animation:meadowCowTail 7.2s ease-in-out infinite}
 @keyframes meadowCowTail{0%,70%,100%{transform:rotate(0)}77%{transform:rotate(-11deg)}85%{transform:rotate(8deg)}92%{transform:rotate(-4deg)}}
 @media(prefers-reduced-motion:reduce){.meadow-breeze,.meadow-cow-tail{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v75</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+
+/* Quiet wildlife and tropical leaves, on their existing parallax planes. */
+.jungle-leaf-sway{transform-box:fill-box;transform-origin:50% 100%;animation:jungleLeafSway 5.8s ease-in-out infinite;animation-delay:var(--jungle-delay,0s)}
+@keyframes jungleLeafSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(3.5deg)}}
+.jungle-squirrel-tail{transform-box:fill-box;transform-origin:85% 88%;animation:jungleTailFlick 7.6s ease-in-out infinite}
+@keyframes jungleTailFlick{0%,65%,100%{transform:rotate(0)}73%{transform:rotate(-9deg)}82%{transform:rotate(7deg)}91%{transform:rotate(-3deg)}}
+.jungle-bird-head{transform-box:fill-box;transform-origin:45% 80%;animation:jungleBirdLook 6.5s ease-in-out infinite}
+@keyframes jungleBirdLook{0%,55%,100%{transform:rotate(0)}65%,79%{transform:rotate(-11deg)}88%{transform:rotate(4deg)}}
+@media(prefers-reduced-motion:reduce){.jungle-leaf-sway,.jungle-squirrel-tail,.jungle-bird-head{animation:none!important}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v76</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1151,7 +1160,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v75',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v76',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1168,7 +1177,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v75',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v76',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1223,7 +1232,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v75',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v76',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1625,7 +1634,7 @@ function boostJourneyFlight(f,correct,bonus=false){
 const journeyWorlds=[
  {name:['האחו','Meadow'],sky:'#e7dfc4',sun:'#f5be78',far:'#a5bea9',mid:'#83ac96',near:'#5c9276',ground:'#386b60',accent:'#f7b5ad',kind:'meadow'},
  {name:['הדיונות','Dunes'],sky:'#f1c698',sun:'#ffebad',far:'#da9b78',mid:'#c88665',near:'#bf6d53',ground:'#8d4f49',accent:'#d2c083',kind:'desert'},
- {name:['יער הפטריות','Mushroom forest'],sky:'#c7b2d9',sun:'#ffe0b1',far:'#9b91bf',mid:'#79669e',near:'#675183',ground:'#453859',accent:'#e8a6c9',kind:'mushroom'},
+ {name:['יער הפטריות','Mushroom forest'],sky:'#c6d6ad',sun:'#f8e1aa',far:'#95b79a',mid:'#6a9b7d',near:'#548a6b',ground:'#3b705a',accent:'#f0d9a4',kind:'mushroom'},
  {name:['ממלכת הקרח','Frostland'],sky:'#c8dfe9',sun:'#f3f2d5',far:'#a5bed5',mid:'#799ebf',near:'#91b5d0',ground:'#536c98',accent:'#eaf6fa',kind:'snow'},
  {name:['מערת הקריסטלים','Crystal cavern'],sky:'#353451',sun:'#8dd8cf',far:'#4c486c',mid:'#51466f',near:'#645281',ground:'#342e4c',accent:'#85dcd3',kind:'crystal'},
  {name:['בין הכוכבים','Starlight'],sky:'#292a4d',sun:'#e5b1d7',far:'#514b83',mid:'#6d5e9a',near:'#71528b',ground:'#40345d',accent:'#ffe3a5',kind:'space'},
@@ -2310,9 +2319,73 @@ function paintDesertTumble(time,reduced){
   if(node.getAttribute('transform')!==pose)node.setAttribute('transform',pose);
  }
 }
+// Mushroom forest: warm tropical woodland, with three separate depth
+// planes and a few quiet wildlife encounters. Not the dark monster forest.
+function journeyJungleLayers(w){
+ const kapok='<g><path d="M-22 0Q-7 -19 -8 -54L-11 -97L-22 -121L-13 -128L0 -106L13 -139L22 -134L9 -102L12 -60Q12 -15 25 0L8 -5L1 0L-9 -5Z" fill="#827c5d"/>'+
+ '<path d="M-7 -6Q0 -34 -2 -66L-4 -104L2 -113L5 -68Q4 -28 10 -5Z" fill="#a59a73"/>'+
+ '<path d="M-12 -81Q-30 -92 -41 -111M8 -96Q33 -102 46 -124" stroke="#827c5d" stroke-width="8" fill="none"/>'+
+ '<path d="M-69 -112Q-81 -132 -57 -143Q-64 -162 -40 -172Q-31 -185 -8 -173Q10 -190 33 -174Q61 -181 66 -157Q86 -148 74 -127Q66 -111 44 -118Q26 -104 8 -118Q-10 -104 -27 -117Q-48 -103 -69 -112Z" fill="#638f78"/>'+
+ '<path d="M-66 -143Q-62 -162 -40 -163Q-26 -181 -8 -169Q10 -183 30 -168Q55 -175 62 -153Q45 -160 30 -150Q7 -162 -10 -149Q-28 -161 -45 -148Z" fill="#8eae88"/>'+
+ '<path d="M-60 -117Q-44 -135 -25 -126Q-7 -142 11 -127Q30 -139 44 -126Q64 -140 72 -131Q65 -111 44 -118Q26 -104 8 -118Q-10 -104 -27 -117Q-48 -103 -60 -117Z" fill="#537e6e"/>'+
+ '<path d="M-48 -117Q-50 -97 -41 -87Q-37 -79 -42 -69M53 -118Q58 -103 51 -91Q45 -80 51 -70" stroke="#6c9679" stroke-width="2.7" fill="none"/>'+
+ '<g fill="#91a981"><ellipse cx="-45" cy="-94" rx="3.6" ry="7" transform="rotate(-30 -45 -94)"/><ellipse cx="53" cy="-87" rx="3.8" ry="7" transform="rotate(30 53 -87)"/></g></g>';
+ const palm='<g><path d="M-11 0Q1 -36 -5 -71Q-8 -89 -17 -105L-9 -110Q5 -92 10 -66Q17 -37 5 0Z" fill="#8c886c"/>'+
+ '<path d="M-5 -5Q7 -41 1 -71Q-2 -90 -12 -104" stroke="#b1a17a" stroke-width="3" fill="none"/>'+
+ '<path d="M0 -23L10 -26M3 -42L12 -45M0 -63L9 -66M-5 -85L3 -88" stroke="#6f8067" stroke-width="2" fill="none"/>'+
+ '<path d="M-11 -106Q-44 -147 -71 -111Q-35 -124 -11 -106Q-55 -110 -65 -76Q-39 -94 -11 -106Q-31 -143 -12 -153Q-8 -130 -11 -106Q10 -147 42 -137Q12 -129 -11 -106Q33 -123 59 -88Q25 -104 -11 -106Q25 -96 27 -66Q6 -87 -11 -106Z" fill="#709e7d"/>'+
+ '<path d="M-11 -106Q-42 -125 -71 -111M-11 -106Q-41 -97 -65 -76M-11 -106Q-8 -139 -12 -153M-11 -106Q10 -133 42 -137M-11 -106Q27 -115 59 -88" stroke="#aac194" stroke-width="2" fill="none"/></g>';
+ const fern='<g class="jungle-leaf-sway"><path d="M0 0Q-4 -19 -22 -40M0 0Q2 -27 2 -48M0 0Q15 -24 28 -34" stroke="#8fbb7b" stroke-width="2.5" fill="none"/>'+
+ '<g fill="#5f996d"><path d="M-5 -11Q-20 -9 -27 -20Q-15 -22 -8 -16Q-23 -20 -30 -33Q-18 -34 -14 -26Q-22 -35 -22 -40Q-10 -37 -6 -26Q-5 -18 -5 -11Z"/>'+
+ '<path d="M0 -13Q-11 -23 -10 -34Q-4 -34 0 -26Q-5 -42 2 -48Q9 -40 5 -29Q13 -38 15 -32Q15 -21 4 -15Z"/>'+
+ '<path d="M7 -10Q10 -23 19 -25Q18 -29 28 -34Q30 -24 22 -19Q32 -23 36 -16Q25 -9 13 -10Z"/></g><path d="M-8 -16L-22 -31M2 -17L3 -40M12 -13L27 -29" stroke="#a4c48a" stroke-width="1.2" fill="none"/></g>';
+ const broadleaf='<g class="jungle-leaf-sway"><path d="M0 0Q-6 -25 -25 -32M0 0Q8 -27 23 -40M0 0Q0 -26 -4 -51" stroke="#a2b77c" stroke-width="2.3" fill="none"/>'+
+ '<path d="M-9 -14Q-36 -9 -39 -34Q-39 -41 -31 -40Q-9 -37 -9 -14Z M8 -16Q1 -47 27 -51Q37 -50 34 -41Q28 -22 8 -16Z M-3 -22Q-23 -42 -9 -58Q-3 -65 3 -58Q16 -41 -3 -22Z" fill="#4e8767"/>'+
+ '<path d="M-12 -17L-34 -35M10 -21L30 -46M-3 -26L-5 -55" stroke="#91b67f" stroke-width="1.6" fill="none"/>'+
+ '<path d="M-21 -25L-30 -24M-25 -29L-23 -36M20 -33L28 -31M24 -39L20 -44M-5 -40L-13 -44M-4 -48L3 -51" stroke="#78a775" stroke-width="1.4" fill="none"/></g>';
+ function mushroom(color,shade,spots){
+  return '<g><ellipse cy="1" rx="17" ry="3" fill="#3e6651" opacity=".24"/><path d="M-6 0Q-9 -14 -3 -27H5Q9 -14 9 0Q1 3 -6 0Z" fill="#e8d7b5"/><path d="M4 -25Q3 -11 6 0H9Q9 -14 5 -27Z" fill="#c7b99e"/>'+
+  '<path d="M-25 -24Q-23 -45 -4 -49Q15 -52 24 -32L28 -24Q4 -13 -25 -24Z" fill="'+color+'"/><path d="M-25 -24Q0 -33 28 -24Q5 -13 -25 -24Z" fill="'+shade+'"/><path d="M-20 -34Q-15 -46 -2 -45" fill="none" stroke="#f5d4b3" stroke-width="2.8" opacity=".6"/>'+
+  '<g fill="'+spots+'"><ellipse cx="-10" cy="-36" rx="3" ry="2.4"/><ellipse cx="8" cy="-40" rx="3.5" ry="2.8"/><ellipse cx="15" cy="-32" rx="2.6" ry="2.1"/><ellipse cx="-3" cy="-43" rx="1.8" ry="1.6"/></g></g>';
+ }
+ const coral=mushroom('#d88e83','#a96665','#f6d6b7'),gold=mushroom('#d8b875','#aa8b5e','#f5e2b2');
+ const mushroomPair='<g transform="translate(-12 0) scale(.83)">'+coral+'</g><g transform="translate(13 2) scale(.54)">'+gold+'</g>';
+ const stump='<g><path d="M-28 0L-22 -13L-23 -34L22 -34L19 -13L29 0L10 -4L0 0L-10 -4Z" fill="#8a7457"/><path d="M-15 -27L-14 -9L-22 -2M9 -29L7 -10L14 -3M-1 -25L-3 -11" fill="none" stroke="#655d4b" stroke-width="2.5"/><ellipse cy="-34" rx="23" ry="7" fill="#c6aa79"/><ellipse cy="-34" rx="15" ry="4" fill="none" stroke="#9e835e" stroke-width="1.5"/><ellipse cy="-34" rx="7" ry="2" fill="#b39367"/><path d="M-26 -4Q-22 -12 -12 -8Q-6 -15 0 -7Q12 -12 17 -5L19 0H-27Z" fill="#86a96c"/></g>';
+ const squirrel='<g><ellipse cx="0" cy="1" rx="20" ry="2.8" fill="#36594a" opacity=".2"/>'+
+ '<g class="jungle-squirrel-tail"><path d="M-10 -11Q-38 -9 -41 -31Q-45 -50 -31 -61Q-16 -72 -5 -60Q2 -51 -5 -43Q-12 -37 -20 -44Q-26 -49 -28 -41Q-30 -28 -10 -23Z" fill="#a86f52"/><path d="M-33 -56Q-20 -68 -9 -60Q-1 -52 -6 -46Q-12 -54 -21 -51Q-35 -46 -33 -30Q-41 -43 -33 -56Z" fill="#ce9767"/><path d="M-29 -20Q-19 -13 -10 -14L-10 -23Q-25 -28 -28 -37Q-32 -29 -29 -20Z" fill="#8d5d48"/></g>'+
+ '<path d="M-17 -11Q-18 -25 -9 -35Q3 -41 12 -27Q19 -15 11 -3L-9 0Q-17 -3 -17 -11Z" fill="#bd8158"/><path d="M1 -30Q14 -29 14 -15Q14 -3 4 -4Q-4 -14 1 -30Z" fill="#e7c99a"/>'+
+ '<ellipse cx="-5" cy="-4" rx="12" ry="5" fill="#ad704f"/><ellipse cx="10" cy="-2" rx="8" ry="3.5" fill="#bd8158"/>'+
+ '<path d="M-4 -39Q-7 -54 0 -54Q8 -52 8 -40M10 -40Q14 -54 19 -49Q22 -44 16 -36" fill="#a96f50"/><path d="M0 -50Q4 -51 5 -43L1 -43Z" fill="#dfa98a"/>'+
+ '<path d="M-8 -33Q-9 -46 4 -47Q18 -49 23 -36Q24 -25 10 -24Q-4 -24 -8 -33Z" fill="#c38a5e"/><path d="M9 -29Q17 -35 23 -34Q28 -29 20 -25L12 -25Z" fill="#e9cda3"/>'+
+ '<ellipse cx="13" cy="-38" rx="2.6" ry="3" fill="#463e38"/><circle cx="12.4" cy="-39.2" r=".8" fill="#fff1d5"/><circle cx="23" cy="-32" r="2.1" fill="#5a4940"/>'+
+ '<path d="M8 -23Q18 -21 19 -13M-1 -21Q7 -17 14 -17" stroke="#a66c4d" stroke-width="4.5" fill="none"/><path d="M15 -17Q21 -24 25 -18L24 -10Q18 -8 15 -17Z" fill="#b18b59"/><path d="M15 -18Q20 -24 25 -18L24 -16L15 -16Z" fill="#795e47"/></g>';
+ const bird='<g transform="translate(0 -41)"><path d="M-3 8L-4 15L-9 16M5 8L6 15L11 16" stroke="#a78d58" stroke-width="2.5" fill="none"/>'+
+ '<path d="M-11 -4L-32 -6L-27 4L-10 7L-29 9L-18 12L-5 7Z" fill="#427f79"/>'+
+ '<path d="M-14 -3Q-13 -17 3 -19Q15 -17 19 -6Q20 8 5 10Q-8 12 -14 -3Z" fill="#6ba69b"/><path d="M2 -13Q17 -14 18 -3Q15 8 4 9Q-2 7 -3 1Z" fill="#e8d5a5"/>'+
+ '<g class="jungle-bird-head"><circle cx="11" cy="-16" r="11" fill="#568f88"/><path d="M9 -26Q5 -32 0 -31Q1 -25 5 -23M12 -26Q16 -33 19 -31L17 -25" fill="#457e78"/><path d="M16 -20Q22 -20 25 -15L18 -13Z" fill="#d8ac6f"/><circle cx="15" cy="-19" r="2.3" fill="#354b46"/><circle cx="14.5" cy="-19.6" r=".7" fill="#fff5d5"/></g>'+
+ '<path d="M-10 -5Q-16 -15 -3 -14Q9 -12 4 -4Q-2 3 -10 -5Z" fill="#3f7e77"/><path d="M-11 -10Q-3 -12 2 -7" stroke="#82b6a3" stroke-width="1.5" fill="none"/></g>';
+ const birdStump=stump+bird;
+ const layouts=[
+  [{x:68,art:kapok,scale:.76,lo:-22,hi:25},{x:229,art:palm,scale:.81,lo:-11,hi:5},{x:418,art:kapok,scale:.90,lo:-22,hi:25},{x:589,art:palm,scale:.71,lo:-11,hi:5}],
+  [{x:40,art:mushroomPair,scale:.92,lo:-26,hi:20},{x:146,art:squirrel,scale:.86,lo:-17,hi:18},{x:273,art:broadleaf,scale:1.02,lo:-3,hi:3},{x:390,art:birdStump,scale:.88,lo:-28,hi:29},{x:522,art:mushroomPair,scale:1.12,lo:-26,hi:20},{x:625,art:fern,scale:.77,lo:-4,hi:4}],
+  [{x:14,art:fern,scale:.56},{x:75,art:gold,scale:.42},{x:130,art:broadleaf,scale:.60},{x:202,art:mushroomPair,scale:.50},{x:270,art:fern,scale:.66},{x:337,art:coral,scale:.45},{x:411,art:broadleaf,scale:.58},{x:479,art:gold,scale:.42},{x:545,art:fern,scale:.64},{x:622,art:mushroomPair,scale:.48}]
+ ];
+ return layouts.map((items,depth)=>{
+  let html='';
+  for(let tile=-1;tile<=2;tile++)for(let i=0;i<items.length;i++){
+   const item=items[i],x=tile*journeyTile+item.x,scale=item.scale;
+   let baseline=journeyLayerRidge(x,depth);
+   if(depth<2){for(let j=0;j<=24;j++)baseline=Math.max(baseline,journeyLayerRidge(x+scale*(item.lo+(item.hi-item.lo)*j/24),depth));baseline+=1.5;}
+   else baseline+=4+(i%3)*3;
+   html+='<g transform="translate('+x+' '+baseline.toFixed(2)+') scale('+scale+')" stroke-linecap="round" stroke-linejoin="round" style="--jungle-delay:'+(-i*.59)+'s">'+item.art+'</g>';
+  }
+  return html;
+ });
+}
 function journeyDetailedLayers(w){
  if(w.kind==='meadow')return journeyMeadowLayers(w);
  if(w.kind==='desert')return journeyDesertLayers(w);
+ if(w.kind==='mushroom')return journeyJungleLayers(w);
  const catalog=journeyWorldArtwork[w.kind];if(!catalog)return null;
  // Unevenly spaced scenes with breathing room between clusters; repeat only
  // at the full tile boundary. Full opacity preserves clean silhouettes.
@@ -2356,7 +2429,7 @@ function journeyStaffAtmosphere(kind,worldNumber=0){
  const themes={
   meadow:['#a8c2ad','#638b7d','#527e73','#e0e2bc','cloud'],
   desert:['#e6b486','#ad765d','#99634f','#f1cc9e','dust'],
-  mushroom:['#c6a5d2','#8e72a7','#75608f','#f1c6dd','spore'],
+  mushroom:['#a5c6a0','#668f77','#47745f','#e9dcb4','spore'],
   snow:['#d1e3e9','#7899b5','#6688ab','#eef7f4','cloud'],
   crystal:['#8b7ea7','#59577e','#454466','#a0d4cf','crystal'],
   space:['#a385b6','#755f9b','#514477','#e6bbd2','nebula'],
