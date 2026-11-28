@@ -490,7 +490,19 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .candy-bubble-pop{transform-box:fill-box;transform-origin:center;opacity:0;animation:candyBubblePop 7.4s linear infinite}
 @keyframes candyBubblePop{0%,75%,100%{opacity:0;transform:translate(3px,-12px) scale(.8)}77%{opacity:.85;transform:translate(3px,-12px) scale(1.1)}83%{opacity:0;transform:translate(3px,-12px) scale(1.5)}}
 @media(prefers-reduced-motion:reduce){.candy-cloud-float,.candy-lollipop-spin,.candy-gummy-hop,.candy-gummy-squish,.candy-gummy-shadow,.candy-syrup-flow,.candy-pool-ripple,.candy-bubble-cycle,.candy-bubble-pop{animation:none!important}.candy-bubble-pop{opacity:0}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v86</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+
+/* Enchanted candy garden: the flower opens and sheds a few sugar sparks;
+   the bubble is born from a plant rather than filling the whole sky. */
+.candy-flower-bloom{animation:candyFlowerBloom 7.8s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyFlowerBloom{0%,30%,100%{transform:scale(.83) rotate(-5deg)}51%,76%{transform:scale(1) rotate(5deg)}}
+.candy-flower-pollen{opacity:0;animation:candyFlowerPollen 7.8s ease-out infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyFlowerPollen{0%,43%,100%{opacity:0;transform:translate(0,0)}57%{opacity:.95;transform:translate(2px,-5px)}83%{opacity:0;transform:translate(7px,-21px)}}
+.candy-plant-bubble{opacity:0;animation:candyPlantBubble 8s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyPlantBubble{0%,17%{opacity:0;transform:translate(0,0) scale(.16)}29%{opacity:.85;transform:translate(0,-9px) scale(.6)}48%{opacity:.9;transform:translate(0,-16px) scale(1)}77%{opacity:.88;transform:translate(12px,-55px) scale(1.02)}79%,100%{opacity:0;transform:translate(12px,-55px) scale(1.1)}}
+.candy-plant-pop{opacity:0;animation:candyPlantPop 8s linear infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyPlantPop{0%,77%,100%{opacity:0;transform:translate(12px,-55px) scale(.7)}79%{opacity:.9;transform:translate(12px,-55px) scale(1)}85%{opacity:0;transform:translate(12px,-55px) scale(1.6)}}
+@media(prefers-reduced-motion:reduce){.candy-flower-bloom,.candy-flower-pollen,.candy-plant-bubble,.candy-plant-pop{animation:none!important}.candy-flower-pollen,.candy-plant-bubble,.candy-plant-pop{opacity:0}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v87</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1235,7 +1247,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v86',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v87',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1252,7 +1264,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v86',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v87',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1307,7 +1319,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v86',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v87',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1713,7 +1725,7 @@ const journeyWorlds=[
  {name:['ממלכת הקרח','Frostland'],sky:'#63788f',sun:'#b9cbd9',far:'#8499af',mid:'#7189a1',near:'#829bb3',ground:'#9eb3c9',accent:'#dce8f2',kind:'snow'},
  {name:['ממלכת הקריסטלים','Crystal kingdom'],sky:'#363650',sun:'#bde9e5',far:'#7766a4',mid:'#655b86',near:'#645281',ground:'#51476d',accent:'#b6ebe4',kind:'crystal'},
  {name:['הירח','The Moon'],sky:'#1b2033',sun:'#a4d4df',far:'#677288',mid:'#8d97a9',near:'#a4adbd',ground:'#a9b2c1',accent:'#d5e2ef',kind:'space'},
- {name:['ממלכת הממתקים','Candy kingdom'],sky:'#eac0d9',sun:'#fff1d4',far:'#b39acb',mid:'#9bc8b6',near:'#e5a5c3',ground:'#996c83',accent:'#fff0d4',kind:'candy'},
+ {name:['ממלכת הממתקים','Candy kingdom'],sky:'#e4bdd7',sun:'#fff1d4',far:'#b9a4cf',mid:'#a8cbbd',near:'#e5b5cc',ground:'#a37b8c',accent:'#fff0d4',kind:'candy'},
  {name:['יער המפלצות','Monster forest'],sky:'#41495d',sun:'#d2dfaa',far:'#354b50',mid:'#637f77',near:'#405c58',ground:'#23383f',accent:'#e1d99a',kind:'monster'},
  {name:['ממלכת הלבה','Lava kingdom'],sky:'#8c4c55',sun:'#ffc16b',far:'#674657',mid:'#553d4b',near:'#9c514e',ground:'#3c3443',accent:'#ffc373',kind:'lava'},
  {name:['הקרנבל המקולל','Cursed carnival'],sky:'#82678e',sun:'#ffdfaf',far:'#9b779b',mid:'#98718f',near:'#815777',ground:'#503a60',accent:'#ffda9c',kind:'carnival'},
@@ -2071,7 +2083,7 @@ function paintOcean(time,reduced,g=journeyFlightLayout){
 
 function journeyWeirdSky(w){
  const k=w.kind;let html='';
- if(k==='candy')html+=candyKingdomBubbles();
+ if(k==='candy')html+='';
 
  if(k==='lava')for(let i=0;i<14;i++){const x=(i*73+21)%340,y=-350+(i*47)%440;html+='<g transform="translate('+x+' '+y+')"><circle class="world-ember" r="'+(1.5+i%3)+'" fill="'+w.accent+'" style="animation-delay:'+(-i*.44)+'s"/></g>'}
  if(k==='carnival')html+=carnivalWheel()+journeyCarnivalClown();
@@ -2814,7 +2826,7 @@ function paintMoonAliens(midTravel,reduced,clock,midSpeed){
 // Three illustrated depth planes share a palette and a consistent light source.
 function candyKingdomBackdrop(){
  const gradients=[
-  ['candySky',['#bfa5d8','#f1c4d7','#f8d7c5']],
+  ['candySky',['#af9bcc','#e4bdd7','#f7d5c5']],
   ['candyStrawberry',['#fbe1e5','#eb9dbd','#b96091']],
   ['candyMint',['#e0f5df','#a0d7c3','#519d98']],
   ['candyBlueberry',['#e4d8f5','#b49bd5','#806cae']],
@@ -2832,7 +2844,7 @@ function candyKingdomBackdrop(){
  defs+='<radialGradient id="candySunHaze"><stop offset="0" stop-color="#fff4d9" stop-opacity=".65"/><stop offset="1" stop-color="#fff4d9" stop-opacity="0"/></radialGradient></defs>';
  const cloud=(x,y,scale,tone)=>'<g transform="translate('+x+' '+y+') scale('+scale+')"><g class="candy-cloud-float" style="--candy-delay:'+(-x*.025)+'s"><path d="M-60 4Q-79 -9 -64 -23Q-64 -43 -42 -42Q-32 -66 -8 -53Q14 -70 34 -51Q58 -53 62 -32Q83 -27 78 -10Q91 4 69 15Q52 26 32 18Q13 30 -8 18Q-33 28 -46 17Q-61 20 -60 4Z" fill="url(#candy'+tone+')" opacity=".76"/><path d="M-57 -22Q-48 -41 -29 -34Q-22 -52 -6 -44Q10 -57 24 -42Q41 -48 52 -30" stroke="#fff3e7" stroke-width="4" fill="none" stroke-linecap="round" opacity=".52"/><path d="M-48 1Q-29 13 -10 6Q9 19 32 7Q51 16 66 3" stroke="#b485b2" stroke-width="3" fill="none" opacity=".25"/></g></g>';
  return defs+'<rect x="0" y="-900" width="340" height="1140" fill="url(#candySky)"/><ellipse cx="258" cy="-156" rx="152" ry="161" fill="url(#candySunHaze)"/>'+
- cloud(47,-476,.74,'Frosting')+cloud(279,-392,.96,'Blueberry')+cloud(70,-264,1.13,'Strawberry')+cloud(285,-205,.76,'Frosting')+cloud(12,-95,.82,'Vanilla')+
+ cloud(47,-476,.65,'Frosting')+cloud(279,-392,.78,'Blueberry')+cloud(65,-264,.92,'Strawberry')+cloud(285,-125,.69,'Vanilla')+
  '<g fill="#fff3df" opacity=".5"><circle cx="106" cy="-339" r="1.6"/><circle cx="228" cy="-494" r="2"/><circle cx="183" cy="-173" r="1.4"/><circle cx="312" cy="-82" r="1.8"/></g>';
 }
 function candySprinkles(n=12,spread=46,y=-30){
@@ -2918,7 +2930,7 @@ function candyTerrainFrosting(){
  const top=[],bottom=[],edge=[];
  for(let x=-20;x<=1380;x+=4){
   const y=journeyHill(x),a=2*Math.PI*x/journeyTile;
-  const d=12+4*Math.sin(5*a)+11*Math.pow(Math.sin(7*a+.4),10)+6*Math.pow(Math.cos(3*a),12);
+  const d=10+3*Math.sin(3*a)+8*Math.pow(Math.sin(5*a+.4),10);
   top.push((top.length?'L':'M')+x+' '+y.toFixed(2));bottom.push('L'+x+' '+(y+d).toFixed(2));edge.push((edge.length?'L':'M')+x+' '+(y+2.4).toFixed(2));
  }
  let h='<path d="'+top.join(' ')+bottom.reverse().join(' ')+'Z" fill="url(#candyFrosting)"/><path d="'+edge.join(' ')+'" stroke="#ffe6dd" stroke-width="1.8" fill="none" opacity=".72"/>';
@@ -2929,31 +2941,48 @@ function candyTerrainFrosting(){
  }
  return h;
 }
+// A quiet enchanted confectionery garden. Each scene has a single focus:
+ // a sugar ribbon, a blooming candy flower, or a tiny living sweet.
+function candySugarRibbon(){
+ return '<g><path d="M-92 0Q-103 -63 -57 -102Q-12 -141 30 -113Q59 -94 40 -64Q15 -32 -13 -53Q-34 -72 -16 -88Q-7 -97 7 -89" stroke="#a47aa9" stroke-width="22" fill="none" stroke-linecap="round"/>'+
+ '<path d="M-92 0Q-103 -63 -57 -102Q-12 -141 30 -113Q59 -94 40 -64Q15 -32 -13 -53Q-34 -72 -16 -88Q-7 -97 7 -89" stroke="url(#candyStrawberry)" stroke-width="18" fill="none" stroke-linecap="round"/>'+
+ '<path d="M-92 0Q-103 -63 -57 -102Q-12 -141 30 -113Q59 -94 40 -64Q15 -32 -13 -53Q-34 -72 -16 -88Q-7 -97 7 -89" stroke="#fff0e0" stroke-width="5" stroke-dasharray="13 19" fill="none" opacity=".83"/>'+
+ '<path d="M-99 -9Q-104 -58 -72 -90Q-43 -121 -17 -124M-11 -50Q16 -35 36 -59" stroke="#fff6e9" stroke-width="2.4" fill="none" opacity=".7"/>'+
+ '<path d="M55 1Q77 -37 61 -68Q45 -95 19 -91" stroke="#8e89b9" stroke-width="12" fill="none"/><path d="M55 1Q77 -37 61 -68Q45 -95 19 -91" stroke="url(#candyBlueberry)" stroke-width="9" fill="none"/>'+
+ '<g fill="#fff0d8"><circle cx="-61" cy="-102" r="3"/><circle cx="36" cy="-103" r="2.3"/><circle cx="55" cy="-43" r="2.1"/></g></g>';
+}
+function candySugarFlower(tone='Strawberry',variant=0){
+ const other=tone==='Strawberry'?'Mint':'Blueberry';
+ const petal='<path d="M0 6Q-12 0 -15 -13Q-18 -29 -8 -37Q0 -43 8 -37Q18 -29 15 -13Q12 0 0 6Z" fill="url(#candy'+tone+')" stroke="#f6e2dc" stroke-width=".8"/><path d="M-9 -15Q-13 -27 -5 -34" stroke="#fff8ed" stroke-width="2.4" opacity=".7" fill="none"/><path d="M5 -33Q13 -23 9 -12" stroke="#a56d9c" stroke-width="1.5" opacity=".3" fill="none"/>';
+ let petals='';for(let i=0;i<6;i++)petals+='<g transform="rotate('+(i*60)+')">'+petal+'</g>';
+ return '<g><path d="M-8 0Q-1 -28 -8 -54Q-11 -70 1 -90" stroke="#73aa9d" stroke-width="6.8" fill="none"/><path d="M-10 0Q-3 -30 -10 -53Q-13 -72 -1 -89" stroke="#c8ead1" stroke-width="2.2" fill="none"/>'+
+ '<path d="M-7 -27Q-31 -28 -38 -47Q-18 -49 -7 -27Z M-6 -46Q11 -67 29 -63Q24 -43 -6 -46Z" fill="url(#candyMint)"/><path d="M-31 -43L-8 -29M22 -58L-6 -47" stroke="#eef6da" stroke-width="1.6" fill="none" opacity=".75"/>'+
+ '<g transform="translate(1 -90) rotate('+(variant?17:-9)+')"><g class="candy-flower-bloom" style="transform-origin:0 0">'+petals+'<circle r="16.5" fill="url(#candyVanilla)" stroke="#f6e0cd" stroke-width="1.4"/><path d="M0 -12C15 -12 15 13 1 12C-12 11 -13 -5 -3 -6Q6 -7 5 2" stroke="#c78baa" stroke-width="3.4" fill="none"/><path d="M-10 -8Q-6 -14 0 -14" stroke="#fff9eb" stroke-width="2.3" fill="none"/></g>'+
+ '<g class="candy-flower-pollen" fill="#fff4d6"><path d="M-22 -44L-20 -48L-18 -44L-14 -42L-18 -40L-20 -36L-22 -40L-26 -42Z"/><circle cx="24" cy="-39" r="2.1"/><circle cx="36" cy="-19" r="1.6"/></g></g>'+
+ '<path d="M-5 -16Q8 -27 20 -19" stroke="#80b3a2" stroke-width="3.1" fill="none"/><g transform="translate(20 -19) rotate(45)"><path d="M0 4Q-13 -4 -9 -15Q0 -25 9 -15Q13 -4 0 4Z" fill="url(#candy'+other+')"/><path d="M-6 -13Q-5 -18 0 -18" stroke="#fff5e7" stroke-width="1.7" fill="none"/></g></g>';
+}
+function candyBubblePlant(){
+ return '<g><path d="M-3 0Q10 -26 0 -57" stroke="#6ca99c" stroke-width="5.5" fill="none"/><path d="M-2 -16Q-25 -35 -31 -30Q-29 -11 -2 -16Z M4 -33Q17 -48 30 -44Q26 -29 4 -33Z" fill="url(#candyMint)"/>'+
+ '<path d="M-20 -58Q-17 -38 0 -40Q17 -38 20 -58Q8 -72 0 -62Q-8 -72 -20 -58Z" fill="url(#candyBlueberry)"/><ellipse cy="-59" rx="17" ry="8" fill="#af78b0"/><ellipse cy="-59" rx="12" ry="5" fill="#eec5d6"/><path d="M-16 -56Q0 -49 16 -56" stroke="#f5e1e4" stroke-width="2.3" fill="none"/>'+
+ '<g transform="translate(0 -62)"><g class="candy-plant-bubble"><circle r="15" fill="#ffdae7" fill-opacity=".35" stroke="#fff3e8" stroke-width="1.4"/><circle cx="-3" cy="-3" r="12" fill="url(#candyStrawberry)" opacity=".17"/><path d="M-10 -3Q-9 -10 -3 -11" stroke="#fff9e9" stroke-width="2.4" fill="none"/><path d="M6 10Q11 6 12 1" stroke="#c38eb9" opacity=".55" stroke-width="1.4" fill="none"/></g><g class="candy-plant-pop" stroke="#fff7df" stroke-width="1.8" stroke-linecap="round"><path d="M0 -18v-5M18 0h5M0 18v5M-18 0h-5"/></g></g></g>';
+}
 function journeyCandyLayers(w){
  const far=[
-  {x:86,art:candyIceMountain('Blueberry'),s:1.04,lo:-105,hi:109},
-  {x:268,art:candyIceMountain('Mint',1),s:.91,lo:-105,hi:109},
-  {x:435,art:candyCastle(),s:.91,lo:-75,hi:75},
-  {x:592,art:candyIceMountain('Strawberry'),s:.94,lo:-105,hi:109}
+  {x:90,art:candyIceMountain('Blueberry'),s:.89,lo:-105,hi:109},
+  {x:306,art:candySugarRibbon(),s:.97,lo:-99,hi:62},
+  {x:538,art:candyIceMountain('Mint',1),s:.90,lo:-105,hi:109}
  ];
  const mid=[
-  {x:34,art:candyLollipop('Strawberry',-8),s:.77,lo:-9,hi:1},
-  {x:123,art:candyGingerHouse(),s:.85,lo:-42,hi:42},
-  {x:225,art:candyCupcake('Blueberry'),s:.86,lo:-26,hi:26},
-  {x:312,art:candyGummy('Mint'),s:.67,lo:-24,hi:24},
-  {x:436,art:candyLollipop('Mint',9),s:.92,lo:-9,hi:1},
-  {x:526,art:candyCupcake('Strawberry'),s:.72,lo:-26,hi:26},
-  {x:624,art:candyGummy('Pink'),s:.72,lo:-24,hi:24}
+  {x:55,art:candySugarFlower('Strawberry'),s:.83,lo:-13,hi:1},
+  {x:218,art:candyGummy('Mint'),s:.66,lo:-24,hi:24},
+  {x:378,art:candySugarFlower('Blueberry',1),s:.88,lo:-13,hi:1},
+  {x:545,art:candyBubblePlant(),s:.91,lo:-6,hi:6}
  ];
  const near=[
-  {x:24,art:candyWrapped('Caramel'),s:.59,flat:true},
-  {x:91,art:candyCane(),s:.49},
-  {x:158,art:candyChocolateChunk(),s:.61},
-  {x:236,art:candyJellyDrop('Blueberry'),s:.52},
-  {x:375,art:candyWaterfall(),s:.95,waterfall:true},
-  {x:513,art:candyWrapped('Strawberry'),s:.67,flat:true},
-  {x:578,art:candyJellyDrop('Mint'),s:.57},
-  {x:642,art:candyChocolateChunk(),s:.48}
+  {x:53,art:candyWrapped('Caramel'),s:.47,flat:true},
+  {x:205,art:candyJellyDrop('Mint'),s:.45},
+  {x:389,art:candyWaterfall(),s:.76,waterfall:true},
+  {x:594,art:candyChocolateChunk(),s:.48}
  ];
  return [far,mid,near].map((items,depth)=>{
   let html='';
