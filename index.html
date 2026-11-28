@@ -469,7 +469,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 @keyframes moonRoverDust{0%,66%,100%{opacity:0;transform:translate(0,0)}68%{opacity:.7;animation-timing-function:ease-out}79%{opacity:.5;transform:translate(var(--dust-x),var(--dust-y));animation-timing-function:ease-in}91%{opacity:0;transform:translate(calc(var(--dust-x) * 1.4),5px)}}
 .moon-alien-eyes{transform-box:fill-box;transform-origin:center}
 @media(prefers-reduced-motion:reduce){.moon-antenna,.moon-rover-lamp,.moon-rover-dust{animation:none!important}.moon-rover-dust{opacity:0}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v83</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v84</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1214,7 +1214,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v83',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v84',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1231,7 +1231,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v83',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v84',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1286,7 +1286,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v83',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v84',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -2753,14 +2753,15 @@ function journeyMoonLayers(w){
 function moonAlienPose(midTravel,tile,reduced=false){
  const lap=Math.floor(midTravel/journeyTile),offset=midTravel-lap*journeyTile;
  const screenX=458+tile*journeyTile-offset,encounter=lap+tile;
- const centers=[178,267,112,228,87,201,146,251];
+ const centers=[170,225,115,205,125,190,145,218];
  const center=centers[((encounter%centers.length)+centers.length)%centers.length];
- const p=(center+41-screenX)/87;
+ // Reserve a wide on-screen window, mostly for the held peek.
+ const p=(center+98-screenX)/196;
  if(reduced)return {visible:true,x:7,y:-3,blink:1,screenX,center};
  if(p<=0||p>=1)return {visible:false,x:0,y:65,blink:1,screenX,center};
  const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
- const rise=smooth(p/.30)*smooth((1-p)/.30);
- const blink=p>.43&&p<.57?1-.88*Math.sin(Math.PI*(p-.43)/.14):1;
+ const rise=smooth(p/.16)*smooth((1-p)/.16);
+ const blink=p>.47&&p<.53?1-.88*Math.sin(Math.PI*(p-.47)/.06):1;
  return {visible:rise>.002,x:7*rise,y:65-68*rise,blink,screenX,center};
 }
 function paintMoonAliens(midTravel,reduced){
