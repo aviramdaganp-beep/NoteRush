@@ -472,7 +472,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .moon-alien-eyes{transform-box:fill-box;transform-origin:center;animation:moonAlienBlink 10.2s ease-in-out infinite;animation-delay:-4.1s}
 @keyframes moonAlienBlink{0%,49%,54%,61%,66%,100%{transform:scaleY(1)}51%,63%{transform:scaleY(.12)}}
 @media(prefers-reduced-motion:reduce){.moon-antenna,.moon-rover-lamp,.moon-rover-dust,.moon-alien-peek,.moon-alien-eyes{animation:none!important}.moon-rover-dust{opacity:0}.moon-alien-peek{transform:translate(5px,0)}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v81</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v82</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1217,7 +1217,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v81',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v82',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1234,7 +1234,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v81',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v82',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1289,7 +1289,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v81',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v82',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -2668,9 +2668,34 @@ function moonBackdrop(){
  '<radialGradient id="moonEarthHalo"><stop offset=".68" stop-color="#9ddce8" stop-opacity="0"/><stop offset=".79" stop-color="#9ddce8" stop-opacity=".2"/><stop offset="1" stop-color="#9ddce8" stop-opacity="0"/></radialGradient>'+
  '<clipPath id="moonEarthClip"><circle r="47"/></clipPath></defs>'+
  '<rect x="0" y="-900" width="340" height="1140" fill="url(#moonSky)"/><g fill="#d5e2ef">'+stars+'</g>'+
- '<g transform="translate(247 -110)"><circle r="60" fill="url(#moonEarthHalo)"/><circle r="47" fill="url(#moonEarthOcean)"/>'+
+ '<g id="moonEarth" transform="translate(247 40) scale(.55)"><circle r="60" fill="url(#moonEarthHalo)"/><circle r="47" fill="url(#moonEarthOcean)"/>'+
  '<g clip-path="url(#moonEarthClip)"><g fill="#9dbb9f"><path d="M-44 -29L-34 -36L-24 -37L-18 -30L-9 -32L-3 -24L-11 -14L-23 -14L-26 -5L-16 1L-18 7L-30 3L-34 -8L-44 -12Z"/><path d="M-15 3L-5 0L6 9L9 18L2 26L-1 38L-9 44L-14 29L-17 20L-20 12Z"/><path d="M7 -36L18 -42L35 -36L46 -22L43 -13L32 -15L26 -9L19 -15L8 -13L2 -20L9 -26Z"/><path d="M10 -10L23 -12L30 -2L25 10L17 24L10 14L5 1Z"/><path d="M36 17L45 15L52 28L43 34L31 28Z"/></g>'+
  '<g fill="none" stroke="#e5f2ec" stroke-linecap="round"><path d="M-53 -22Q-34 -11 -19 -20T15 -26T51 -12M-45 16Q-21 8 -4 16T39 15" stroke-width="4.2" opacity=".55"/><path d="M-36 -39Q-12 -28 7 -37M-26 30Q-5 24 13 35M5 -3Q20 4 38 -1" stroke-width="2.6" opacity=".64"/><path d="M-35 43Q-5 35 24 43M-28 -45Q-7 -39 12 -47" stroke-width="5" opacity=".72"/></g><circle r="47" fill="url(#moonEarthShade)"/></g><circle r="47" fill="none" stroke="#a4d4df" stroke-opacity=".60" stroke-width=".9"/></g>';
+}
+// Keep the Earth outside the staff's actual screen bounds.
+function moonEarthPlacement(viewTop,staffTop,staffBottom,hudBottom){
+ const upperStart=Math.max(viewTop+10,hudBottom+8),upperEnd=staffTop-10;
+ const lowerStart=staffBottom+15,lowerEnd=68;
+ const upperRoom=upperEnd-upperStart,lowerRoom=lowerEnd-lowerStart;
+ const above=upperRoom>=104||upperRoom>=lowerRoom;
+ const start=above?upperStart:lowerStart,end=above?upperEnd:lowerEnd;
+ // In a very short viewport the lunar horizon can overlap the staff:
+ // use the upper corner of the lunar landscape instead of hiding the globe.
+ if(end-start<38){const room=Math.max(0,end-start);return {x:260,y:(start+end)/2,scale:room/120,above,compact:true};}
+ return {x:247,y:(start+end)/2,scale:Math.min(1,(end-start)/120),above,compact:false};
+}
+function syncMoonEarth(){
+ const earth=$('moonEarth');if(!earth)return;
+ const stage=$('stage'),staff=$('staff').querySelector('.notation-svg');
+ if(!$('game').classList.contains('journey-portrait')||!staff){earth.setAttribute('transform','translate(247 40) scale(.55)');return}
+ const a=stage.getBoundingClientRect(),b=staff.getBoundingClientRect();
+ if(a.width<=0||a.height<=0||b.height<=0)return;
+ const scale=a.width/340,viewTop=214-a.height/scale;
+ const hud=$('journeyHUD'),h=hud.getBoundingClientRect();
+ const hudBottom=viewTop+Math.max(75,(!hud.hidden&&h.height>0)?(h.bottom-a.top)/scale:0);
+ const p=moonEarthPlacement(viewTop,viewTop+(b.top-a.top)/scale,viewTop+(b.bottom-a.top)/scale,hudBottom);
+ const pose='translate('+p.x+' '+p.y.toFixed(2)+') scale('+p.scale.toFixed(3)+')';
+ if(earth.getAttribute('transform')!==pose)earth.setAttribute('transform',pose);
 }
 function moonRim(variant=0){
  const main=variant?'#778297':'#838da0',light=variant?'#b6bfcb':'#c3c9d2';
@@ -2999,6 +3024,7 @@ function renderJourneyScenery(worldNumber){
  if(journeyCharacter==='mia')mascot=mascot.slice(0,mascot.indexOf('<g id="journeyBody">'))+'<g id="journeyBody">'+miaRiderMarkup(w.kind==='ocean','mia',w.kind)+'</g></g>';
  svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs>'+(w.kind==='ocean'?oceanBackdrop():w.kind==='snow'?snowStormBackdrop():w.kind==='crystal'?crystalKingdomBackdrop():w.kind==='space'?moonBackdrop():'<rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant)+journeyWeirdSky(w)+(w.kind==='monster'?journeyForestGiant():'')+'<g id="journeyFar">'+(w.kind==='crystal'?'':'<path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/>')+(detailed?detailed[0]:'')+'</g><g id="journeyMid">'+(w.kind==='crystal'?'':'<path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/>')+(w.kind==='slime'?slimeTerrainFilm(1):'')+(detailed?detailed[1]:'')+'</g><g id="journeyNear">'+(w.kind==='crystal'?'':'<path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>')+(w.kind==='slime'?slimeTerrainFilm(2):w.kind==='snow'?snowTerrainMantle():'')+(detailed?detailed[2]:props)+'</g>'+(w.kind==='ocean'?oceanSceneLighting():'')+'<rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
  if($('game').classList.contains('journey-portrait'))moveJourneyFlightLayer(true);
+ if(w.kind==='space')syncMoonEarth();
  // World changes blend in without delaying the next question.
  svg.classList.remove('journey-arrive');void svg.getBoundingClientRect();svg.classList.add('journey-arrive');
 }
@@ -3067,6 +3093,7 @@ function syncJourneyFlightGeometry(w,h){
  journeyFlightLayout=journeyFlightGeometry(w,h,b.top-a.top,b.height);
  stage.style.setProperty('--journey-comic-y',journeyFlightLayout.comicY+'px');
  moveJourneyFlightLayer(true);
+ if(journeyWorldIndex===5)syncMoonEarth();
 }
 // Native curved flight, with shared tangents at each segment boundary.
 // A true elliptical orbit, anchored to the launch position. The small
