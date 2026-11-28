@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>NoteRush · Fountain lab</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#211e2c;color:#f8f1ec;font:15px/1.5 system-ui,-apple-system,sans-serif}main{max-width:700px;margin:auto;padding:22px 14px 36px}h1{font-size:24px;line-height:1.2;margin:0 0 6px}p{margin:0;color:#c9c0d0;font-size:13px}.scene{margin:18px auto 12px;max-width:440px;overflow:hidden;border-radius:15px;border:1px solid #786d8c;background:#e5c0ed}.scene svg{width:100%;display:block;height:auto}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:13px 0}button{appearance:none;border:1px solid #70667d;color:#f8f1ec;background:#373142;border-radius:9px;padding:10px 13px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#e7c0d1;color:#322433;border-color:#e7c0d1}button:focus-visible,input:focus-visible{outline:2px solid #f3c89c;outline-offset:3px}.scrub{max-width:440px;margin:auto;display:flex;gap:10px;align-items:center;direction:ltr}.scrub input{width:100%;accent-color:#e7c0d1}.time{font-variant-numeric:tabular-nums;min-width:54px;color:#d8cedb;font-size:12px}.caption{max-width:440px;margin:12px auto;text-align:center}
+</style></head>
+<body><main><h1>מעבדת המזרקה</h1><p>NoteRush · אבטיפוס 01 · שוקולד נוזלי</p>
+<div class="scene"><svg id="scene" viewBox="0 0 340 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="מזרקת שוקולד מונפשת">
+<defs>
+<linearGradient id="sky" x2="0" y2="1"><stop stop-color="#b4b6e4"/><stop offset=".67" stop-color="#ebc7e8"/><stop offset="1" stop-color="#ffe1c5"/></linearGradient>
+<linearGradient id="ground" x2="0" y2="1"><stop stop-color="#b7dfc4"/><stop offset="1" stop-color="#8cbfae"/></linearGradient>
+<linearGradient id="biscuit" x1="0" y1="0" x2=".87" y2=".85"><stop stop-color="#fce2b6"/><stop offset=".43" stop-color="#e6b77b"/><stop offset=".78" stop-color="#c48a57"/><stop offset="1" stop-color="#a56849"/></linearGradient>
+<linearGradient id="chocolate" x1="0" y1="0" x2="1" y2=".12"><stop stop-color="#572e2d"/><stop offset=".22" stop-color="#8f5037"/><stop offset=".44" stop-color="#b77a53"/><stop offset=".59" stop-color="#9b5a3d"/><stop offset=".84" stop-color="#704035"/><stop offset="1" stop-color="#4f2b30"/></linearGradient>
+<linearGradient id="pool" x2=".3" y2="1"><stop stop-color="#60362e"/><stop offset=".47" stop-color="#a66a47"/><stop offset="1" stop-color="#744035"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#ffecd0" stop-opacity=".65"/><stop offset="1" stop-color="#ffecd0" stop-opacity="0"/></radialGradient>
+</defs>
+<g id="environment"><rect width="340" height="230" fill="url(#sky)"/><ellipse cx="259" cy="63" rx="100" ry="90" fill="url(#halo)"/><path d="M0 128L39 73L58 93L91 30L112 52L146 117L177 75L196 90L229 40L251 59L275 99L306 75L340 115V230H0Z" fill="#aba5ce"/><path d="M64 82L91 30L112 52L129 83Q117 75 113 85Q103 72 97 78Q90 65 83 77Q77 70 64 82ZM208 73L229 40L251 59L263 80Q251 69 243 76Q230 63 223 76Z" fill="#e6bb83"/><path d="M0 137Q68 110 140 140T340 133V230H0Z" fill="#b7a4ca"/><path d="M0 160Q60 142 120 158T246 155T340 151V230H0Z" fill="url(#ground)"/><path d="M0 211Q96 192 172 208T340 204V230H0Z" fill="#d9a0b8"/><path d="M0 211Q96 192 172 208T340 204" stroke="#f7d8da" stroke-width="8" fill="none"/></g>
+<g id="fountain" transform="translate(170 188)" stroke-linecap="round" stroke-linejoin="round">
+<!-- One generous basin; no stacked bowls obscuring the flow. -->
+<ellipse cy="6" rx="78" ry="10" fill="#755565" opacity=".19"/>
+<path d="M-70 -16Q-67 4 -48 9Q0 21 48 9Q67 4 70 -16Z" fill="url(#biscuit)" stroke="#ae7955" stroke-width="1"/>
+<g fill="none" stroke="#b98459" opacity=".55" stroke-width="2.1"><path d="M-57 -5L-49 5M-43 0L-37 9M-28 3L-24 12M-14 5L-12 14M0 6V15M14 5L12 14M28 3L24 12M43 0L37 9M57 -5L49 5"/></g>
+<ellipse cy="-16" rx="70" ry="16" fill="#ffe6bc" stroke="#cb9865" stroke-width="1.2"/>
+<ellipse cy="-16" rx="62" ry="11.7" fill="url(#pool)"/>
+<path d="M-56 -17Q-39 -23 -23 -21M21 -11Q42 -8 55 -15" stroke="#d8a179" stroke-width="1.5" opacity=".65" fill="none"/>
+<!-- Sculpted cookie pedestal and nozzle. -->
+<path d="M-19 -16Q-13 -24 -10 -41L-13 -47H13L10 -41Q13 -24 19 -16Q0 -10 -19 -16Z" fill="url(#biscuit)" stroke="#a66f4d" stroke-width="1"/>
+<path d="M-8 -38Q-7 -26 -12 -19" stroke="#ffe8be" stroke-width="2.4" fill="none"/>
+<ellipse cy="-47" rx="15" ry="5" fill="#f5d6a5" stroke="#bd865d" stroke-width="1"/><ellipse cy="-47.5" rx="10" ry="2.9" fill="#704034"/>
+<!-- The two arcs are rooted at the nozzle and land on the same basin. -->
+<g id="arcs" fill="url(#chocolate)" stroke="#683831" stroke-width=".7">
+<path id="left"/><path id="right"/>
+<path id="jet"/>
+</g>
+<g fill="none" stroke="#f0bc8e" stroke-width="1.25" opacity=".76"><path id="leftLight"/><path id="rightLight"/><path id="jetLight"/></g>
+<g id="drops" fill="url(#chocolate)" stroke="#683831" stroke-width=".55">
+<g id="drop0"><path d="M0 -4.4C3 -1 3.6 1.7 1.4 3.2C-1 4.6 -3.4 2 -2.5 -.7Z"/><path d="M-.7 -1.8L-1.1 .5" stroke="#e7b38a" stroke-width=".85"/></g>
+<g id="drop1"><path d="M0 -3.6C2.6 -1 3.1 1.5 1.2 2.8C-1 3.8 -2.9 1.8 -2.1 -.6Z"/><path d="M-.6 -1.4L-.9 .2" stroke="#e7b38a" stroke-width=".75"/></g>
+<g id="drop2"><path d="M0 -3.1C2.4 -1 2.7 1.2 1 2.3C-1 3.2 -2.5 1.5 -1.9 -.6Z"/></g></g>
+<g fill="none" stroke="#edb98c" stroke-width="1.05"><ellipse id="rippleL" cx="-42" cy="-17" rx="9" ry="2.4"/><ellipse id="rippleR" cx="42" cy="-17" rx="9" ry="2.4"/></g>
+<g fill="#a56b49" stroke="#6a3932" stroke-width=".6"><path id="splashL" d="M-47 -17Q-49 -24 -45 -22Q-44 -18 -42 -18Q-39 -23 -37 -21Q-36 -18 -39 -16Z"/><path id="splashR" d="M37 -17Q35 -23 39 -22Q40 -18 42 -18Q45 -24 47 -21Q48 -18 45 -16Z"/></g>
+<!-- The front lip restores depth and covers the very bottom of the pool. -->
+<path d="M-68 -13Q-55 0 0 0Q55 0 68 -13" fill="none" stroke="#f9ddb1" stroke-width="3.2"/><path d="M-59 -7Q0 10 59 -7" fill="none" stroke="#cf9966" stroke-width="1.2"/>
+</g></svg></div>
+<div class="controls"><button id="play" aria-pressed="true">השהיה</button><button id="slow" aria-pressed="false">½ מהירות</button><button id="zoom" aria-pressed="false">הגדלה ×2</button><button id="restart">מהתחלה</button></div>
+<div class="scrub"><input id="scrub" type="range" min="0" max="3.2" step=".01" value="0" aria-label="זמן במחזור"><span id="time" class="time">0.00 s</span></div>
+<p class="caption">מצב רגיל מדמה את קנה המידה במשחק. הגדלה מאפשרת לבחון את הצורה, הברק והתפרקות הטיפות. העיצוב והאנימציה עדיין לא הוטמעו בשלב עצמו.</p></main>
+<script>
+'use strict';
+// Hand-drawn key poses with exactly matching cubic path topology.
+// Arc outlines vary subtly; their source and impact remain anchored.
+const poses=[
+{t:0,
+ left:'M-4 -48 C-17 -76 -36 -87 -47 -64 C-55 -48 -48 -28 -43 -17 C-42 -15 -39 -15 -39 -18 C-44 -35 -48 -48 -42 -62 C-33 -81 -18 -71 -8 -46 Z',
+ right:'M4 -48 C17 -76 36 -87 47 -64 C55 -48 48 -28 43 -17 C42 -15 39 -15 39 -18 C44 -35 48 -48 42 -62 C33 -81 18 -71 8 -46 Z',
+ jet:'M-5 -47 C-4 -65 -7 -83 -3 -99 C-1 -106 3 -106 4 -99 C7 -84 3 -67 5 -47 Z',
+ leftLight:'M-12 -61 C-26 -79 -39 -78 -45 -62 C-50 -49 -46 -34 -43 -26',
+ rightLight:'M12 -61 C26 -79 39 -78 45 -62 C50 -49 46 -34 43 -26',
+ jetLight:'M-2 -57 C-1 -72 -4 -88 -1 -100'},
+{t:.7,
+ left:'M-4 -48 C-19 -79 -36 -89 -48 -65 C-56 -49 -48 -29 -43 -17 C-42 -15 -39 -15 -39 -18 C-45 -35 -49 -49 -43 -64 C-34 -83 -18 -74 -8 -46 Z',
+ right:'M4 -48 C17 -74 35 -85 46 -63 C54 -47 48 -27 43 -17 C42 -15 39 -15 39 -18 C43 -34 47 -47 41 -61 C32 -79 18 -69 8 -46 Z',
+ jet:'M-5 -47 C-6 -68 -2 -88 -4 -108 C-4 -116 2 -120 5 -110 C7 -90 2 -68 5 -47 Z',
+ leftLight:'M-12 -62 C-26 -81 -39 -80 -46 -63 C-51 -50 -46 -35 -43 -26',
+ rightLight:'M12 -60 C26 -77 39 -76 44 -61 C49 -48 46 -33 43 -26',
+ jetLight:'M-2 -57 C-3 -75 0 -94 -1 -110'},
+{t:1.12,
+ left:'M-4 -48 C-18 -77 -36 -88 -47 -64 C-55 -48 -48 -28 -43 -17 C-42 -15 -39 -15 -39 -18 C-44 -35 -47 -49 -42 -63 C-33 -82 -18 -72 -8 -46 Z',
+ right:'M4 -48 C19 -79 36 -89 48 -65 C56 -49 48 -29 43 -17 C42 -15 39 -15 39 -18 C45 -35 49 -49 43 -64 C34 -83 18 -74 8 -46 Z',
+ jet:'M-5 -47 C-4 -65 -6 -86 -2 -104 C-1 -110 5 -111 5 -102 C7 -85 3 -67 5 -47 Z',
+ leftLight:'M-12 -61 C-26 -80 -39 -79 -45 -62 C-50 -49 -46 -34 -43 -26',
+ rightLight:'M12 -62 C26 -81 39 -80 46 -63 C51 -50 46 -35 43 -26',
+ jetLight:'M-2 -57 C-1 -73 -3 -90 0 -104'},
+{t:1.85,
+ left:'M-4 -48 C-16 -73 -35 -84 -46 -63 C-54 -47 -48 -27 -43 -17 C-42 -15 -39 -15 -39 -18 C-43 -34 -47 -47 -41 -61 C-32 -78 -17 -69 -8 -46 Z',
+ right:'M4 -48 C18 -77 36 -87 47 -64 C55 -48 48 -28 43 -17 C42 -15 39 -15 39 -18 C44 -35 48 -48 42 -62 C33 -81 18 -72 8 -46 Z',
+ jet:'M-5 -47 C-3 -64 -4 -80 -1 -94 C1 -100 4 -101 5 -94 C6 -80 3 -64 5 -47 Z',
+ leftLight:'M-12 -59 C-25 -76 -38 -75 -44 -61 C-49 -48 -46 -33 -43 -26',
+ rightLight:'M12 -61 C26 -79 39 -78 45 -62 C50 -49 46 -34 43 -26',
+ jetLight:'M-2 -57 C0 -70 -1 -82 1 -95'},
+{t:2.5,
+ left:'M-4 -48 C-18 -78 -35 -87 -47 -65 C-54 -50 -49 -28 -43 -17 C-42 -15 -39 -15 -39 -18 C-45 -35 -48 -50 -42 -63 C-33 -80 -18 -73 -8 -46 Z',
+ right:'M4 -48 C16 -75 35 -86 46 -63 C54 -48 48 -27 43 -17 C42 -15 39 -15 39 -18 C44 -34 47 -48 41 -62 C32 -80 17 -70 8 -46 Z',
+ jet:'M-5 -47 C-4 -67 -3 -85 -5 -102 C-4 -110 2 -112 4 -103 C6 -85 3 -67 5 -47 Z',
+ leftLight:'M-12 -62 C-26 -80 -39 -78 -45 -63 C-50 -50 -46 -34 -43 -26',
+ rightLight:'M12 -60 C25 -78 39 -77 44 -61 C49 -49 46 -33 43 -26',
+ jetLight:'M-2 -57 C-1 -74 -1 -90 -2 -103'}
+];
+const duration=3.2,keys=['left','right','jet','leftLight','rightLight','jetLight'];
+poses.push({...poses[0],t:duration});
+const num=/-?\d+(?:\.\d+)?/g;
+function morph(a,b,p){const dest=b.match(num).map(Number);let j=0;return a.replace(num,v=>(Number(v)+(dest[j++]-Number(v))*p).toFixed(2))}
+function smooth(p){return p*p*(3-2*p)}
+function frameAt(t){
+ t=((t%duration)+duration)%duration;
+ let i=0;while(i<poses.length-2&&t>poses[i+1].t)i++;
+ const a=poses[i],b=poses[i+1],p=smooth((t-a.t)/(b.t-a.t)),out={};
+ for(const k of keys)out[k]=morph(a[k],b[k],p);
+ return out;
+}
+// Launches follow the peak poses; gravity is represented by a parabola.
+// The particles are large viscous drops, not spray.
+const launches=[{start:.60,life:1.23,x:-1,y:-111,vx:-20,vy:-33,g:148},{start:.83,life:1.18,x:3,y:-111,vx:28,vy:-24,g:150},{start:2.40,life:1.1,x:-2,y:-105,vx:-23,vy:-28,g:146}];
+function dropAt(t,i){
+ const d=launches[i],a=((t-d.start)%duration+duration)%duration;
+ if(a>=d.life)return {opacity:0,x:0,y:0,rotation:0};
+ const x=d.x+d.vx*a,y=d.y+d.vy*a+.5*d.g*a*a;
+ return {x,y,rotation:Math.atan2(d.vx,-(d.vy+d.g*a))*180/Math.PI,opacity:Math.min(1,a*16,(d.life-a)*9)};
+}
+const $=id=>document.getElementById(id),els=Object.fromEntries(keys.map(k=>[k,$(k)]));
+let time=0,last=null,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,speed=1,zoomed=false;
+function paint(t){
+ const f=frameAt(t);for(const k of keys)els[k].setAttribute('d',f[k]);
+ for(let i=0;i<3;i++){const d=dropAt(t,i),el=$('drop'+i);el.setAttribute('opacity',d.opacity.toFixed(2));if(d.opacity>0)el.setAttribute('transform','translate('+d.x.toFixed(2)+' '+d.y.toFixed(2)+') rotate('+d.rotation.toFixed(2)+')')}
+ for(const [i,side] of ['L','R'].entries()){const p=(t*.83+i*.47)%1,r=$('ripple'+side),sp=$('splash'+side);r.setAttribute('rx',(3+10*p).toFixed(2));r.setAttribute('ry',(1+2.3*p).toFixed(2));r.setAttribute('opacity',(.65*(1-p)).toFixed(2));sp.setAttribute('opacity',(.45+.32*Math.sin(t*5+i*2)).toFixed(2))}
+ $('scrub').value=t.toFixed(2);$('time').textContent=t.toFixed(2)+' s';
+}
+function tick(now){if(last!==null&&playing){time=(time+Math.min(.06,(now-last)/1000)*speed)%duration;paint(time)}last=now;requestAnimationFrame(tick)}
+function playState(){$('play').textContent=playing?'השהיה':'ניגון';$('play').setAttribute('aria-pressed',String(playing))}
+$('play').onclick=()=>{playing=!playing;playState()};
+$('slow').onclick=()=>{speed=speed===1?.5:1;$('slow').setAttribute('aria-pressed',String(speed===.5))};
+$('zoom').onclick=()=>{zoomed=!zoomed;$('scene').setAttribute('viewBox',zoomed?'85 37 170 175':'0 0 340 230');$('zoom').setAttribute('aria-pressed',String(zoomed));$('zoom').textContent=zoomed?'גודל משחק':'הגדלה ×2'};
+$('restart').onclick=()=>{time=0;paint(time)};
+$('scrub').oninput=e=>{playing=false;playState();time=Number(e.target.value);paint(time)};
+playState();paint(0);requestAnimationFrame(tick);
+</script></body></html>
