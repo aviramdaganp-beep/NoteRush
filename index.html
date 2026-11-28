@@ -502,7 +502,22 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .candy-plant-pop{opacity:0;animation:candyPlantPop 8s linear infinite;animation-delay:var(--candy-delay,0s)}
 @keyframes candyPlantPop{0%,77%,100%{opacity:0;transform:translate(12px,-55px) scale(.7)}79%{opacity:.9;transform:translate(12px,-55px) scale(1)}85%{opacity:0;transform:translate(12px,-55px) scale(1.6)}}
 @media(prefers-reduced-motion:reduce){.candy-flower-bloom,.candy-flower-pollen,.candy-plant-bubble,.candy-plant-pop{animation:none!important}.candy-flower-pollen,.candy-plant-bubble,.candy-plant-pop{opacity:0}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v87</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+
+/* Candy city: modest street life, shared warm confectionery lighting. */
+.candy-city-flow{animation:candyCityFlow 1.8s linear infinite}
+@keyframes candyCityFlow{to{stroke-dashoffset:-27}}
+.candy-city-drop{animation:candyCityDrop 1.4s ease-in infinite}
+@keyframes candyCityDrop{0%{opacity:0;transform:translateY(-4px)}25%{opacity:.8}85%,100%{opacity:0;transform:translateY(13px)}}
+.candy-city-clock-hand{animation:candyCityClock 46s linear infinite}
+@keyframes candyCityClock{to{transform:rotate(360deg)}}
+.candy-city-smoke{transform-box:fill-box;transform-origin:center;animation:candyCitySmoke 5.8s ease-out infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyCitySmoke{0%{opacity:0;transform:translate(0,1px) scale(.55)}22%{opacity:.65}100%{opacity:0;transform:translate(19px,-39px) scale(1.5)}}
+.candy-city-wave{animation:candyCityWave 6.5s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyCityWave{0%,46%,83%,100%{transform:rotate(0)}53%,67%{transform:rotate(-23deg)}60%,74%{transform:rotate(7deg)}}
+.candy-city-step{animation:candyCityStep 6.5s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
+@keyframes candyCityStep{0%,42%,100%{transform:translate(0,0)}10%{transform:translate(-3px,-2px)}20%{transform:translate(-6px,0)}30%{transform:translate(-3px,-2px)}}
+@media(prefers-reduced-motion:reduce){.candy-city-flow,.candy-city-drop,.candy-city-clock-hand,.candy-city-smoke,.candy-city-wave,.candy-city-step{animation:none!important}.candy-city-drop,.candy-city-smoke{opacity:0}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v88</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1247,7 +1262,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v87',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v88',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1264,7 +1279,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v87',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v88',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1319,7 +1334,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v87',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v88',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1725,7 +1740,7 @@ const journeyWorlds=[
  {name:['ממלכת הקרח','Frostland'],sky:'#63788f',sun:'#b9cbd9',far:'#8499af',mid:'#7189a1',near:'#829bb3',ground:'#9eb3c9',accent:'#dce8f2',kind:'snow'},
  {name:['ממלכת הקריסטלים','Crystal kingdom'],sky:'#363650',sun:'#bde9e5',far:'#7766a4',mid:'#655b86',near:'#645281',ground:'#51476d',accent:'#b6ebe4',kind:'crystal'},
  {name:['הירח','The Moon'],sky:'#1b2033',sun:'#a4d4df',far:'#677288',mid:'#8d97a9',near:'#a4adbd',ground:'#a9b2c1',accent:'#d5e2ef',kind:'space'},
- {name:['ממלכת הממתקים','Candy kingdom'],sky:'#e4bdd7',sun:'#fff1d4',far:'#b9a4cf',mid:'#a8cbbd',near:'#e5b5cc',ground:'#a37b8c',accent:'#fff0d4',kind:'candy'},
+ {name:['ממלכת הממתקים','Candy kingdom'],sky:'#dfb9cd',sun:'#fff1d4',far:'#bda3ba',mid:'#c8ad99',near:'#e6c3b0',ground:'#a77e70',accent:'#fff0d4',kind:'candy'},
  {name:['יער המפלצות','Monster forest'],sky:'#41495d',sun:'#d2dfaa',far:'#354b50',mid:'#637f77',near:'#405c58',ground:'#23383f',accent:'#e1d99a',kind:'monster'},
  {name:['ממלכת הלבה','Lava kingdom'],sky:'#8c4c55',sun:'#ffc16b',far:'#674657',mid:'#553d4b',near:'#9c514e',ground:'#3c3443',accent:'#ffc373',kind:'lava'},
  {name:['הקרנבל המקולל','Cursed carnival'],sky:'#82678e',sun:'#ffdfaf',far:'#9b779b',mid:'#98718f',near:'#815777',ground:'#503a60',accent:'#ffda9c',kind:'carnival'},
@@ -2826,10 +2841,10 @@ function paintMoonAliens(midTravel,reduced,clock,midSpeed){
 // Three illustrated depth planes share a palette and a consistent light source.
 function candyKingdomBackdrop(){
  const gradients=[
-  ['candySky',['#af9bcc','#e4bdd7','#f7d5c5']],
-  ['candyStrawberry',['#fbe1e5','#eb9dbd','#b96091']],
-  ['candyMint',['#e0f5df','#a0d7c3','#519d98']],
-  ['candyBlueberry',['#e4d8f5','#b49bd5','#806cae']],
+  ['candySky',['#9f8ab8','#dfb9cd','#f5d4b4']],
+  ['candyStrawberry',['#f6c5c2','#d98391','#a64e69']],
+  ['candyMint',['#e1efd4','#a5cdb7','#689e94']],
+  ['candyBlueberry',['#e1d5ed','#b29ac9','#806a9e']],
   ['candyVanilla',['#fff7dc','#f4d39e','#c89b72']],
   ['candyChocolate',['#b88878','#895d5d','#583c50']],
   ['candyFrosting',['#fff1e4','#f4cbd9','#d68cb2']],
@@ -2837,11 +2852,14 @@ function candyKingdomBackdrop(){
   ['candyWafer',['#eec9a0','#d6a47d','#ab7967']],
   ['candyGummyPink',['#fbe0df','#ed94ae','#b85e89']],
   ['candyGummyMint',['#e1f5d9','#9cd6b5','#529f95']],
-  ['candySyrup',['#c99b82','#926456','#60424d']]
+  ['candySyrup',['#c99b82','#926456','#60424d']],
+  ['candyCookie',['#efc99b','#c58c59','#945e48']],
+  ['candyChocolateDark',['#b47d5e','#83523f','#533039']],
+  ['candyWindowLight',['#fff2c0','#f5cb80','#c88b58']]
  ];
  let defs='<defs>';
  for(const [id,c] of gradients)defs+='<linearGradient id="'+id+'" x1="0" y1="0" x2="'+(id==='candySky'?0:.8)+'" y2="1"><stop offset="0" stop-color="'+c[0]+'"/><stop offset=".48" stop-color="'+c[1]+'"/><stop offset="1" stop-color="'+c[2]+'"/></linearGradient>';
- defs+='<radialGradient id="candySunHaze"><stop offset="0" stop-color="#fff4d9" stop-opacity=".65"/><stop offset="1" stop-color="#fff4d9" stop-opacity="0"/></radialGradient></defs>';
+ defs+='<linearGradient id="candyChocolateFlow" x1="0" x2="1" y1="0" y2=".2"><stop offset="0" stop-color="#654038"/><stop offset=".40" stop-color="#b57e5d"/><stop offset=".65" stop-color="#956045"/><stop offset="1" stop-color="#593339"/></linearGradient><radialGradient id="candyLampHalo"><stop offset="0" stop-color="#fff0ba" stop-opacity=".52"/><stop offset=".45" stop-color="#ffdb9c" stop-opacity=".20"/><stop offset="1" stop-color="#ffdb9c" stop-opacity="0"/></radialGradient><radialGradient id="candySunHaze"><stop offset="0" stop-color="#fff4d9" stop-opacity=".65"/><stop offset="1" stop-color="#fff4d9" stop-opacity="0"/></radialGradient></defs>';
  const cloud=(x,y,scale,tone)=>'<g transform="translate('+x+' '+y+') scale('+scale+')"><g class="candy-cloud-float" style="--candy-delay:'+(-x*.025)+'s"><path d="M-60 4Q-79 -9 -64 -23Q-64 -43 -42 -42Q-32 -66 -8 -53Q14 -70 34 -51Q58 -53 62 -32Q83 -27 78 -10Q91 4 69 15Q52 26 32 18Q13 30 -8 18Q-33 28 -46 17Q-61 20 -60 4Z" fill="url(#candy'+tone+')" opacity=".76"/><path d="M-57 -22Q-48 -41 -29 -34Q-22 -52 -6 -44Q10 -57 24 -42Q41 -48 52 -30" stroke="#fff3e7" stroke-width="4" fill="none" stroke-linecap="round" opacity=".52"/><path d="M-48 1Q-29 13 -10 6Q9 19 32 7Q51 16 66 3" stroke="#b485b2" stroke-width="3" fill="none" opacity=".25"/></g></g>';
  return defs+'<rect x="0" y="-900" width="340" height="1140" fill="url(#candySky)"/><ellipse cx="258" cy="-156" rx="152" ry="161" fill="url(#candySunHaze)"/>'+
  cloud(47,-476,.65,'Frosting')+cloud(279,-392,.78,'Blueberry')+cloud(65,-264,.92,'Strawberry')+cloud(285,-125,.69,'Vanilla')+
@@ -2930,7 +2948,7 @@ function candyTerrainFrosting(){
  const top=[],bottom=[],edge=[];
  for(let x=-20;x<=1380;x+=4){
   const y=journeyHill(x),a=2*Math.PI*x/journeyTile;
-  const d=10+3*Math.sin(3*a)+8*Math.pow(Math.sin(5*a+.4),10);
+  const d=7+2*Math.sin(3*a)+5*Math.pow(Math.sin(5*a+.4),10);
   top.push((top.length?'L':'M')+x+' '+y.toFixed(2));bottom.push('L'+x+' '+(y+d).toFixed(2));edge.push((edge.length?'L':'M')+x+' '+(y+2.4).toFixed(2));
  }
  let h='<path d="'+top.join(' ')+bottom.reverse().join(' ')+'Z" fill="url(#candyFrosting)"/><path d="'+edge.join(' ')+'" stroke="#ffe6dd" stroke-width="1.8" fill="none" opacity=".72"/>';
@@ -2939,6 +2957,7 @@ function candyTerrainFrosting(){
   const points=[];for(let x=-20;x<=1380;x+=5){const y=journeyHill(x)+d+2.2*Math.sin(x/journeyTile*Math.PI*8);points.push((points.length?'L':'M')+x+' '+y.toFixed(2))}
   h+='<path d="'+points.join(' ')+'" stroke="'+(d===42?'#c48e93':'#8e6278')+'" stroke-width="'+(d===42?3:5)+'" opacity=".65" fill="none"/>';
  }
+ for(let x=-10;x<1380;x+=24){const y=journeyHill(x)+18;h+='<path d="M'+(x-9)+' '+y.toFixed(2)+'q9 -5 18 0l-2 7q-7 4 -14 0Z" fill="#d5ad8c" stroke="#a77a65" stroke-width=".8" opacity=".55"/>';}
  return h;
 }
 // A quiet enchanted confectionery garden. Each scene has a single focus:
@@ -2966,33 +2985,98 @@ function candyBubblePlant(){
  '<path d="M-20 -58Q-17 -38 0 -40Q17 -38 20 -58Q8 -72 0 -62Q-8 -72 -20 -58Z" fill="url(#candyBlueberry)"/><ellipse cy="-59" rx="17" ry="8" fill="#af78b0"/><ellipse cy="-59" rx="12" ry="5" fill="#eec5d6"/><path d="M-16 -56Q0 -49 16 -56" stroke="#f5e1e4" stroke-width="2.3" fill="none"/>'+
  '<g transform="translate(0 -62)"><g class="candy-plant-bubble"><circle r="15" fill="#ffdae7" fill-opacity=".35" stroke="#fff3e8" stroke-width="1.4"/><circle cx="-3" cy="-3" r="12" fill="url(#candyStrawberry)" opacity=".17"/><path d="M-10 -3Q-9 -10 -3 -11" stroke="#fff9e9" stroke-width="2.4" fill="none"/><path d="M6 10Q11 6 12 1" stroke="#c38eb9" opacity=".55" stroke-width="1.4" fill="none"/></g><g class="candy-plant-pop" stroke="#fff7df" stroke-width="1.8" stroke-linecap="round"><path d="M0 -18v-5M18 0h5M0 18v5M-18 0h-5"/></g></g></g>';
 }
+// Candy city: confectionery is the architecture, not scattered decoration.
+function candyCityWindow(x,y,scale=1){
+ return '<g transform="translate('+x+' '+y+') scale('+scale+')"><path d="M-10 13V-5Q-10 -16 0 -18Q10 -16 10 -5V13Z" fill="#70444a" stroke="#f4debd" stroke-width="2.8"/><path d="M-7 10V-5Q-7 -13 0 -15Q7 -13 7 -5V10Z" fill="url(#candyWindowLight)"/><path d="M0 -14V10M-7 -1H7" stroke="#a97552" stroke-width="1.8"/><path d="M-12 14H12" stroke="#e8c398" stroke-width="4"/><path d="M-5 -8L-2 -11" stroke="#fff4d2" stroke-width="1.6"/></g>';
+}
+function candyCityHouse(tone='Strawberry',variant=0){
+ const roof=variant?'M-50 -71L-18 -111L7 -103L37 -119L58 -72L44 -65L-40 -65Z':'M-52 -69L-26 -98L-2 -125L47 -78L57 -69L44 -64H-42Z';
+ let h='<g><path d="M-44 0V-72L-2 -110L44 -71V0Z" fill="url(#candyCookie)"/><path d="M44 -71L58 -81V-10L44 0Z" fill="#9b654e"/><path d="M-44 -71L-2 -110L-2 0H-44Z" fill="#f3c48c" opacity=".18"/><path d="M-41 -4H41M-41 -43H41" stroke="#b37a53" stroke-width="4"/>'+
+ '<path d="M-39 -4V-63M39 -4V-63M-39 -44H39" stroke="#f8e4c8" stroke-width="2.7" fill="none"/>'+
+ '<g fill="#9b664b" opacity=".55"><circle cx="-32" cy="-51" r="1"/><circle cx="24" cy="-62" r="1.1"/><circle cx="-12" cy="-9" r="1.3"/><circle cx="32" cy="-8" r="1"/><circle cx="-24" cy="-36" r="1.2"/><circle cx="13" cy="-48" r=".9"/></g>'+
+ '<path d="M25 -99V-133H40V-86Z" fill="url(#candyChocolateDark)"/><path d="M23 -133H42V-127H23Z" fill="#f9e5ca"/><g transform="translate(33 -136)"><g class="candy-city-smoke"><path d="M-5 -2Q-13 -7 -5 -14Q-7 -22 4 -22Q14 -22 14 -11Q21 -5 12 0Z" fill="#fff0d9" opacity=".7"/></g></g>'+
+ '<path d="'+roof+'" fill="url(#candy'+tone+')" stroke="#935c69" stroke-width="1.5"/><path d="M-45 -72L-2 -119L47 -72" stroke="#fff1db" stroke-width="5.2" fill="none"/>'+
+ '<path d="M-45 -71Q-39 -58 -33 -70Q-27 -58 -21 -70Q-15 -58 -9 -70Q-3 -58 3 -70Q9 -58 15 -70Q21 -58 27 -70Q33 -58 39 -70Q45 -58 51 -70" stroke="#f8e8d1" stroke-width="3.5" fill="none"/>'+
+ '<g fill="#b75e71" stroke="#f9dfbf" stroke-width="1"><circle cx="-20" cy="-91" r="4"/><circle cx="0" cy="-108" r="4"/><circle cx="22" cy="-89" r="4"/></g>'+
+ candyCityWindow(-24,-53,.72)+candyCityWindow(24,-53,.72)+candyCityWindow(0,-85,.67)+
+ '<path d="M-13 0V-23Q-13 -39 0 -40Q13 -39 13 -23V0Z" fill="url(#candyChocolateDark)" stroke="#f7dfbc" stroke-width="3.2"/><path d="M-7 -2V-22Q-7 -32 0 -33Q7 -32 7 -22V-2" fill="none" stroke="#ad795c" stroke-width="1.7"/><circle cx="6" cy="-14" r="1.8" fill="#eec38a"/>'+
+ candyCityWindow(-28,-21,.65)+candyCityWindow(28,-21,.65)+
+ '<path d="M-18 -43H18L15 -36H-15Z" fill="#eac59a"/><path d="M-17 -44V-51M-6 -44V-51M6 -44V-51M17 -44V-51M-18 -51H18" stroke="#f5e1c1" stroke-width="2" fill="none"/>'+
+ '<path d="M-18 0H18L22 5H-22Z" fill="#b67c60"/></g>';
+ return h;
+}
+function candyCityClock(){
+ return '<g><path d="M-27 0V-117L0 -133L27 -117V0Z" fill="url(#candyCookie)"/><path d="M27 -117L39 -125V-12L27 0Z" fill="#94624f"/><path d="M-23 -4V-108M23 -4V-108" stroke="#f8e5ca" stroke-width="3"/><path d="M-32 -117Q-18 -133 0 -169Q18 -133 32 -117L23 -112H-23Z" fill="url(#candyBlueberry)"/><path d="M-30 -117Q-15 -137 0 -167Q15 -137 30 -117" stroke="#f9e4cc" stroke-width="4" fill="none"/><path d="M0 -169V-181" stroke="#c38b61" stroke-width="3"/><circle cy="-183" r="5" fill="#b65a72"/>'+
+ '<circle cy="-92" r="22" fill="#75474c" stroke="#eac08f" stroke-width="3.5"/><circle cy="-92" r="17.5" fill="#fff0cf"/>'+
+ Array.from({length:12},(_,i)=>'<path d="M0 -108V-105" stroke="#925f55" stroke-width="1.6" transform="rotate('+i*30+' 0 -92)"/>').join('')+
+ '<g transform="translate(0 -92)"><path d="M0 1V-10" stroke="#85504f" stroke-width="2.5" transform="rotate(-42)"/><g class="candy-city-clock-hand"><path d="M0 2V-14" stroke="#a7546d" stroke-width="1.8"/></g><circle r="2.3" fill="#985b50"/></g>'+
+ '<path d="M-24 -66H24M-24 -58H24" stroke="#f5dfbe" stroke-width="3"/>'+
+ candyCityWindow(0,-39,.86)+'<path d="M-9 0V-14Q0 -27 9 -14V0Z" fill="#70444a" stroke="#f5dfbe" stroke-width="2.4"/></g>';
+}
+function candyCityPalace(){
+ const tower=(x,h,tone)=>'<g transform="translate('+x+' 0)"><path d="M-19 0V-'+h+'Q0 -'+(h+6)+' 19 -'+h+'V0Z" fill="url(#candyCookie)"/><path d="M13 -'+h+'H19V0H13Z" fill="#9d6e60" opacity=".65"/><path d="M-23 -'+h+'Q-16 -'+(h+21)+' 0 -'+(h+46)+'Q16 -'+(h+21)+' 23 -'+h+'Q12 -'+(h-7)+' 0 -'+h+'Q-12 -'+(h-7)+' -23 -'+h+'Z" fill="url(#candy'+tone+')"/><path d="M-18 -'+(h+7)+'Q-8 -'+(h+20)+' 9 -'+(h+20)+'M-10 -'+(h+26)+'Q0 -'+(h+31)+' 8 -'+(h+32)+'" stroke="#fff0d9" stroke-width="4" fill="none"/><circle cy="-'+(h+47)+'" r="4.2" fill="#b95f78"/>'+candyCityWindow(0,-h+23,.72)+candyCityWindow(0,-h+58,.67)+'</g>';
+ return '<g>'+tower(-65,91,'Strawberry')+tower(65,104,'Mint')+
+ '<path d="M-62 0V-65H62V0Z" fill="url(#candyCookie)"/><path d="M-67 -66H-49V-79H-34V-66H-17V-79H0V-66H17V-79H34V-66H49V-79H67V-59H-67Z" fill="#f4dfc6"/>'+
+ candyCityWindow(-41,-32,.87)+candyCityWindow(41,-32,.87)+tower(0,135,'Blueberry')+
+ '<path d="M-18 0V-24Q0 -46 18 -24V0Z" fill="url(#candyChocolateDark)" stroke="#f7e0bf" stroke-width="3"/><path d="M-12 -1V-25Q0 -35 12 -25V-1M0 -32V0" stroke="#bc8c66" stroke-width="2" fill="none"/></g>';
+}
+function candyCityLamp(){
+ const path='M-7 0V-53Q-7 -75 12 -75Q29 -75 29 -55';
+ return '<g><ellipse cx="-7" cy="1" rx="11" ry="3" fill="#815664" opacity=".21"/><path d="M-16 0H2L0 -5H-14Z" fill="#8c5c53"/><path d="'+path+'" stroke="#ab5b69" stroke-width="12" fill="none"/><path d="'+path+'" stroke="#fff0d7" stroke-width="10" fill="none"/><path d="'+path+'" stroke="#c25f73" stroke-width="10" stroke-dasharray="8 12" stroke-linecap="butt" fill="none"/><path d="M-10 -5V-51Q-10 -68 1 -71" stroke="#fff7e5" stroke-width="1.8" opacity=".82" fill="none"/><path d="M29 -55V-48" stroke="#9b6a53" stroke-width="2"/><circle cx="29" cy="-38" r="24" fill="url(#candyLampHalo)"/><path d="M19 -44L22 -49H36L39 -44Z" fill="#85564c"/><path d="M20 -44L23 -29H35L38 -44Z" fill="url(#candyWindowLight)" stroke="#9a674d" stroke-width="1.9"/><path d="M29 -43V-29M23 -29H35" stroke="#ba895e" stroke-width="1.6"/></g>';
+}
+function candyCityFountain(){
+ // Cookie plinth, three bowls and thick chocolate curtains; the pool
+ // and all streams live on the same midground plane.
+ const bowl=(y,w,h)=>'<g transform="translate(0 '+y+')"><path d="M-'+w+' 0Q-'+(w*.91)+' '+h+' 0 '+h+'Q'+(w*.91)+' '+h+' '+w+' 0Z" fill="url(#candyCookie)" stroke="#a57653" stroke-width="1.2"/><ellipse rx="'+w+'" ry="'+(w*.16)+'" fill="#f6dfb6"/><ellipse rx="'+(w*.87)+'" ry="'+(w*.116)+'" fill="url(#candyChocolateDark)"/><path d="M-'+(w*.77)+' 0Q0 -'+(w*.08)+' '+(w*.72)+' 0" stroke="#d6a079" stroke-width="1.6" opacity=".7" fill="none"/><path d="M-'+(w*.80)+' '+(h*.36)+'Q0 '+(h*.95)+' '+(w*.80)+' '+(h*.36)+'" stroke="#e8bf90" stroke-width="2.2" fill="none"/></g>';
+ const stream=(d,w)=>'<path d="'+d+'" stroke="#55333a" stroke-width="'+(w+1.5)+'" fill="none"/><path d="'+d+'" stroke="url(#candyChocolateFlow)" stroke-width="'+w+'" fill="none"/><path class="candy-city-flow" d="'+d+'" stroke="#f1c296" stroke-width="1.5" stroke-dasharray="8 19" opacity=".62" fill="none"/>';
+ return '<g><ellipse cy="2" rx="79" ry="7" fill="#82596b" opacity=".21"/><path d="M-73 -4L-65 4H65L73 -4Z" fill="#b58866"/>'+
+ bowl(-14,67,15)+'<path d="M-15 -14Q-8 -29 -12 -46H12Q8 -29 15 -14Z" fill="url(#candyCookie)"/>'+
+ bowl(-52,39,12)+stream('M-36 -51Q-47 -37 -45 -17',7)+stream('M36 -51Q47 -37 45 -17',7)+
+ '<path d="M-9 -52L-7 -78H7L9 -52Z" fill="url(#candyCookie)"/>'+bowl(-84,23,9)+stream('M-21 -83Q-29 -70 -26 -54',5.7)+stream('M21 -83Q29 -70 26 -54',5.7)+
+ '<path d="M0 -83Q-12 -95 0 -109Q12 -95 0 -83Z" fill="url(#candyChocolateFlow)"/><path d="M-2 -102Q-5 -96 -2 -90" stroke="#ecc49b" stroke-width="1.5" fill="none"/>'+
+ '<path class="candy-pool-ripple" d="M-58 -13Q-43 -8 -29 -13M29 -13Q43 -8 58 -13" stroke="#edb889" stroke-width="1.8" fill="none"/>'+
+ '<g fill="#b78166"><circle class="candy-city-drop" cx="-51" cy="-29" r="2.1"/><circle class="candy-city-drop" cx="49" cy="-30" r="1.7" style="animation-delay:-.6s"/></g></g>';
+}
+function candyCityBridge(){
+ return '<g><ellipse cy="2" rx="65" ry="12" fill="#82566b" opacity=".20"/><ellipse cy="-1" rx="64" ry="10" fill="url(#candyChocolateDark)"/><path d="M-58 0Q-40 -3 -31 -13Q0 -45 31 -13Q40 -3 58 0L48 3Q28 -2 21 -11Q0 -34 -21 -11Q-28 -2 -48 3Z" fill="#653f3e"/><path d="M-60 -4Q-40 -7 -30 -17Q0 -49 30 -17Q40 -7 60 -4L55 2Q37 -1 26 -13Q0 -39 -26 -13Q-37 -1 -55 2Z" fill="url(#candyChocolateDark)" stroke="#aa7559" stroke-width="1.4"/><path d="M-45 -8L-40 -2M-27 -20L-22 -13M-10 -31L-8 -23M10 -31L8 -23M27 -20L22 -13M45 -8L40 -2" stroke="#553337" stroke-width="1.6"/><path d="M-48 -11V-25M-25 -28V-43M0 -37V-52M25 -28V-43M48 -11V-25M-48 -25Q0 -75 48 -25" stroke="#e6be94" stroke-width="3.2" fill="none"/><path class="candy-pool-ripple" d="M-20 4Q0 7 20 4" stroke="#cb987b" stroke-width="1.4" fill="none"/></g>';
+}
+function candyCityCitizen(){
+ return '<g><ellipse cy="1" rx="17" ry="3" fill="#835769" opacity=".22"/><g class="candy-city-step"><path d="M-9 -21L-13 -4Q-15 3 -9 2L0 -10L9 2Q15 3 13 -4L9 -21Z" fill="url(#candyCookie)" stroke="#986044" stroke-width="1.3"/><path d="M-10 -22L-21 -17Q-26 -19 -22 -24L-10 -32" stroke="#ac704b" stroke-width="8" fill="none"/><g transform="translate(10 -27)"><g class="candy-city-wave"><path d="M0 0L10 -8L13 -16" stroke="#ac704b" stroke-width="8" fill="none"/><path d="M10 -10L16 -8" stroke="#fff0d8" stroke-width="1.7"/></g></g><path d="M-10 -32Q-15 -22 -9 -14Q0 -10 9 -14Q15 -22 10 -32Z" fill="url(#candyCookie)"/><circle cy="-41" r="14" fill="url(#candyCookie)" stroke="#9c6646" stroke-width="1.2"/><path d="M-10 -46Q0 -54 10 -46M-12 -5L-6 -4M6 -4L12 -5" stroke="#fff1d8" stroke-width="2.2" fill="none"/><g fill="#69433e"><circle cx="-4.5" cy="-43" r="1.6"/><circle cx="4.5" cy="-43" r="1.6"/></g><path d="M-5 -37Q0 -32 5 -37" stroke="#fff2d9" stroke-width="1.6" fill="none"/><g fill="#bd5d73"><circle cy="-26" r="2.4"/><circle cy="-20" r="2.4"/></g></g></g>';
+}
+function candyCityPraline(){
+ return '<g><path d="M-17 0V-16Q-17 -27 0 -28Q17 -27 17 -16V0Q0 6 -17 0Z" fill="url(#candyChocolateDark)"/><ellipse cy="-17" rx="16" ry="10" fill="#a46f54"/><path d="M-12 -18Q0 -27 12 -18Q0 -10 -6 -17Q0 -21 6 -18" stroke="#e4b784" stroke-width="2.2" fill="none"/><path d="M-13 -8V-2" stroke="#c48d68" stroke-width="1.6"/></g>';
+}
 function journeyCandyLayers(w){
+ // Different parallax speeds mean the far city and midground districts
+ // must remain independently coherent, rather than relying on alignment.
  const far=[
-  {x:90,art:candyIceMountain('Blueberry'),s:.89,lo:-105,hi:109},
-  {x:306,art:candySugarRibbon(),s:.97,lo:-99,hi:62},
-  {x:538,art:candyIceMountain('Mint',1),s:.90,lo:-105,hi:109}
+  {x:104,art:candyCityPalace(),s:.98,lo:-90,hi:90},
+  {x:343,art:'<g transform="translate(-43 0) scale(.83)">'+candyCityHouse('Mint',1)+'</g><g transform="translate(43 3) scale(.91)">'+candyCityHouse('Strawberry')+'</g>',s:.92,lo:-86,hi:94},
+  {x:565,art:'<g transform="translate(-39 0) scale(.63)">'+candyCityHouse('Blueberry')+'</g><g transform="translate(25 0)">'+candyCityClock()+'</g>',s:.92,lo:-72,hi:64}
  ];
  const mid=[
-  {x:55,art:candySugarFlower('Strawberry'),s:.83,lo:-13,hi:1},
-  {x:218,art:candyGummy('Mint'),s:.66,lo:-24,hi:24},
-  {x:378,art:candySugarFlower('Blueberry',1),s:.88,lo:-13,hi:1},
-  {x:545,art:candyBubblePlant(),s:.91,lo:-6,hi:6}
+  {x:48,art:candyCityLamp(),s:.87,lo:-17,hi:0},
+  {x:165,art:'<g transform="translate(-12 0)">'+candyCityHouse('Strawberry',1)+'</g><g transform="translate(50 7) scale(.61)">'+candyCityCitizen()+'</g>',s:.91,lo:-56,hi:66},
+  {x:322,art:candyCityFountain(),s:.94,lo:-75,hi:75,raise:4},
+  {x:458,art:candyCityBridge(),s:.76,lo:-65,hi:65},
+  {x:591,art:'<g transform="translate(-28 0) scale(.86)">'+candyLollipop('Strawberry',-7)+'</g><g transform="translate(26 -2) scale(.64)">'+candyLollipop('Mint',8)+'</g><g transform="translate(8 10) scale(.55)">'+candyGummy('Mint')+'</g>',s:.91,lo:-40,hi:46}
  ];
  const near=[
-  {x:53,art:candyWrapped('Caramel'),s:.47,flat:true},
-  {x:205,art:candyJellyDrop('Mint'),s:.45},
-  {x:389,art:candyWaterfall(),s:.76,waterfall:true},
-  {x:594,art:candyChocolateChunk(),s:.48}
+  {x:34,art:candyWrapped('Caramel'),s:.51,flat:true},
+  {x:147,art:candyChocolateChunk(),s:.60},
+  {x:258,art:candyCane(),s:.43},
+  {x:381,art:candyCityPraline(),s:.59},
+  {x:489,art:candyWrapped('Strawberry'),s:.49,flat:true},
+  {x:605,art:candyJellyDrop('Mint'),s:.51}
  ];
  return [far,mid,near].map((items,depth)=>{
   let html='';
   for(let tile=-1;tile<=2;tile++)for(let i=0;i<items.length;i++){
    const p=items[i],x=tile*journeyTile+p.x;
    let y=journeyLayerRidge(x,depth);
-   if(depth<2){for(let j=0;j<=24;j++)y=Math.max(y,journeyLayerRidge(x+p.s*(p.lo+(p.hi-p.lo)*j/24),depth));y+=1.5;}
-   else if(p.waterfall){for(let j=0;j<=24;j++)y=Math.max(y,journeyLayerRidge(x+p.s*(-99+198*j/24),2));y+=15;}
-   else y+=p.flat?25:12+(i%3)*3;
-   html+='<g transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" style="--candy-delay:'+(-i*.89-depth*.37)+'s" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
+   if(depth<2){for(let j=0;j<=24;j++)y=Math.max(y,journeyLayerRidge(x+p.s*(p.lo+(p.hi-p.lo)*j/24),depth));y+=1.5-(p.raise||0);}
+   else y+=p.flat?25:16+(i%3)*3;
+   html+='<g transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" '+(depth===0?'opacity=".79" ':'')+'style="--candy-delay:'+(-i*.89-depth*.37)+'s" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
   }
   return html;
  });
@@ -3063,7 +3147,7 @@ function journeyStaffAtmosphere(kind,worldNumber=0){
   snow:['#a7bbcb','#526c84','#3f5871','#d1e2ed','cloud'],
   crystal:['#a49ac5','#625982','#484467','#bbebe3','crystal'],
   space:['#a4adbd','#626d83','#424e65','#d5e2ef','crystal'],
-  candy:['#f0c9da','#b77ba5','#94688e','#fff0d5','cloud'],
+  candy:['#f0d0be','#b98a78','#946c68','#fff0d5','cloud'],
   monster:['#81968a','#4b6665','#344b53','#d5e2b1','spore'],
   lava:['#bb7d77','#714952','#513944','#ffc78b','crystal'],
   carnival:['#c398ba','#865f8d','#61466c','#ffdbad','cloud'],
