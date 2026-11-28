@@ -517,7 +517,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .candy-city-step{animation:candyCityStep 6.5s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
 @keyframes candyCityStep{0%,42%,100%{transform:translate(0,0)}10%{transform:translate(-3px,-2px)}20%{transform:translate(-6px,0)}30%{transform:translate(-3px,-2px)}}
 @media(prefers-reduced-motion:reduce){.candy-city-flow,.candy-city-drop,.candy-city-clock-hand,.candy-city-smoke,.candy-city-wave,.candy-city-step{animation:none!important}.candy-city-drop,.candy-city-smoke{opacity:0}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v89</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v90</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1262,7 +1262,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v89',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v90',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1279,7 +1279,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v89',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v90',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1334,7 +1334,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v89',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v90',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -3027,19 +3027,108 @@ function candyCityLamp(){
  const path='M-7 0V-53Q-7 -75 12 -75Q29 -75 29 -55';
  return '<g><ellipse cx="-7" cy="1" rx="11" ry="3" fill="#815664" opacity=".21"/><path d="M-16 0H2L0 -5H-14Z" fill="#8c5c53"/><path d="'+path+'" stroke="#ab5b69" stroke-width="12" fill="none"/><path d="'+path+'" stroke="#fff0d7" stroke-width="10" fill="none"/><path d="'+path+'" stroke="#c25f73" stroke-width="10" stroke-dasharray="8 12" stroke-linecap="butt" fill="none"/><path d="M-10 -5V-51Q-10 -68 1 -71" stroke="#fff7e5" stroke-width="1.8" opacity=".82" fill="none"/><path d="M29 -55V-48" stroke="#9b6a53" stroke-width="2"/><circle cx="29" cy="-38" r="24" fill="url(#candyLampHalo)"/><path d="M19 -44L22 -49H36L39 -44Z" fill="#85564c"/><path d="M20 -44L23 -29H35L38 -44Z" fill="url(#candyWindowLight)" stroke="#9a674d" stroke-width="1.9"/><path d="M29 -43V-29M23 -29H35" stroke="#ba895e" stroke-width="1.6"/></g>';
 }
-function candyCityFountain(){
- // Cookie plinth, three bowls and thick chocolate curtains; the pool
- // and all streams live on the same midground plane.
- const bowl=(y,w,h)=>'<g transform="translate(0 '+y+')"><path d="M-'+w+' 0Q-'+(w*.91)+' '+h+' 0 '+h+'Q'+(w*.91)+' '+h+' '+w+' 0Z" fill="url(#candyCookie)" stroke="#a57653" stroke-width="1.2"/><ellipse rx="'+w+'" ry="'+(w*.16)+'" fill="#f6dfb6"/><ellipse rx="'+(w*.87)+'" ry="'+(w*.116)+'" fill="url(#candyChocolateDark)"/><path d="M-'+(w*.77)+' 0Q0 -'+(w*.08)+' '+(w*.72)+' 0" stroke="#d6a079" stroke-width="1.6" opacity=".7" fill="none"/><path d="M-'+(w*.80)+' '+(h*.36)+'Q0 '+(h*.95)+' '+(w*.80)+' '+(h*.36)+'" stroke="#e8bf90" stroke-width="2.2" fill="none"/></g>';
- const stream=(d,w)=>'<path d="'+d+'" stroke="#55333a" stroke-width="'+(w+1.5)+'" fill="none"/><path d="'+d+'" stroke="url(#candyChocolateFlow)" stroke-width="'+w+'" fill="none"/><path class="candy-city-flow" d="'+d+'" stroke="#f1c296" stroke-width="1.5" stroke-dasharray="8 19" opacity=".62" fill="none"/>';
- return '<g><ellipse cy="2" rx="79" ry="7" fill="#82596b" opacity=".21"/><path d="M-73 -4L-65 4H65L73 -4Z" fill="#b58866"/>'+
- bowl(-14,67,15)+'<path d="M-15 -14Q-8 -29 -12 -46H12Q8 -29 15 -14Z" fill="url(#candyCookie)"/>'+
- bowl(-52,39,12)+stream('M-36 -51Q-47 -37 -45 -17',7)+stream('M36 -51Q47 -37 45 -17',7)+
- '<path d="M-9 -52L-7 -78H7L9 -52Z" fill="url(#candyCookie)"/>'+bowl(-84,23,9)+stream('M-21 -83Q-29 -70 -26 -54',5.7)+stream('M21 -83Q29 -70 26 -54',5.7)+
- '<path d="M0 -83Q-12 -95 0 -109Q12 -95 0 -83Z" fill="url(#candyChocolateFlow)"/><path d="M-2 -102Q-5 -96 -2 -90" stroke="#ecc49b" stroke-width="1.5" fill="none"/>'+
- '<path class="candy-pool-ripple" d="M-58 -13Q-43 -8 -29 -13M29 -13Q43 -8 58 -13" stroke="#edb889" stroke-width="1.8" fill="none"/>'+
- '<g fill="#b78166"><circle class="candy-city-drop" cx="-51" cy="-29" r="2.1"/><circle class="candy-city-drop" cx="49" cy="-30" r="1.7" style="animation-delay:-.6s"/></g></g>';
+// A fluid silhouette, rather than a moving dash on a fixed-width stroke.
+// Each ribbon is sampled along a curved centerline; width waves travel
+// downstream. Smooth cubic edges preserve the viscosity of melted chocolate.
+const candyFluidArcs=[
+ [-36,-51,-47,-41,-49,-27,-45,-17,3.8],
+ [36,-51,47,-41,49,-27,45,-17,3.8],
+ [-21,-83,-30,-76,-29,-63,-26,-54,3.0],
+ [21,-83,30,-76,29,-63,26,-54,3.0]
+];
+function candyFluidSpline(points){
+ const n=points.length,f=p=>p.map(v=>v.toFixed(2)).join(' ');
+ let d='M'+f(points[0]);
+ for(let i=0;i<n-1;i++){
+  const a=points[Math.max(0,i-1)],b=points[i],c=points[i+1],e=points[Math.min(n-1,i+2)];
+  d+='C'+f([b[0]+(c[0]-a[0])/6,b[1]+(c[1]-a[1])/6])+' '+f([c[0]-(e[0]-b[0])/6,c[1]-(e[1]-b[1])/6])+' '+f(c);
+ }
+ return d;
 }
+function candyFluidRibbon(arc,t,phase=0,jet=false){
+ const [x0,y0,x1,y1,x2,y2,x3,y3,width]=arc,L=[],R=[],H=[];
+ for(let i=0;i<=12;i++){
+  const u=i/12,v=1-u;
+  let x=v*v*v*x0+3*v*v*u*x1+3*v*u*u*x2+u*u*u*x3,y=v*v*v*y0+3*v*v*u*y1+3*v*u*u*y2+u*u*u*y3;
+  const dx=3*v*v*(x1-x0)+6*v*u*(x2-x1)+3*u*u*(x3-x2),dy=3*v*v*(y1-y0)+6*v*u*(y2-y1)+3*u*u*(y3-y2),len=Math.max(.1,Math.hypot(dx,dy));
+  const nx=-dy/len,ny=dx/len, envelope=Math.sin(Math.PI*u);
+  const wave=Math.sin(u*11.5-t*5.8+phase),wave2=Math.sin(u*18.8-t*7.1+phase);
+  const wobble=envelope*(1.5*wave+.45*wave2);
+  x+=nx*wobble;y+=ny*wobble;
+  const base=jet?width*(1-.78*u):width*(.90+.17*u);
+  const w=Math.max(.38,base*(1+envelope*(.32*wave+.12*wave2)));
+  L.push([x+nx*w,y+ny*w]);R.push([x-nx*w,y-ny*w]);
+  // The narrow reflection follows the left edge, never outside the fluid.
+  const side=nx>0?-1:1;
+  H.push([x+nx*w*.47*side,y+ny*w*.47*side]);
+ }
+ const left=candyFluidSpline(L),right=candyFluidSpline(R.reverse());
+ return {body:left+'L'+right.slice(1)+'Z',highlight:candyFluidSpline(H.slice(2,11))};
+}
+function candyFountainGeometry(t){
+ const wave=Math.sin(t*2.7),height=27+4*wave,tipX=3.1*Math.sin(t*2.15);
+ const jet=candyFluidRibbon([0,-84,-5*Math.sin(t*2.2),-95,tipX-3,-84-height*.78,tipX,-84-height,5.5],t,1.8,true);
+ const ribbons=candyFluidArcs.map((arc,i)=>candyFluidRibbon(arc,t,i*1.67));
+ // Thin rising/falling lobes connect to the jet tip; their ends taper.
+ for(const sign of [-1,1]){
+  const phase=sign<0?1.1:3.8,fl=2*Math.sin(t*3.3+phase),y=-84-height;
+  ribbons.push(candyFluidRibbon([tipX,y+4,tipX+sign*4,y-6-fl,tipX+sign*10,y-3-fl,tipX+sign*(12+fl),y+10,2.2],t,phase,true));
+ }
+ return {ribbons,jet};
+}
+function candyFountainDrops(t){
+ return Array.from({length:4},(_,i)=>{
+  const period=1.7,age=((t+i*.43)%period+period)%period;
+  if(age>.96)return {x:0,y:-84,r:0,opacity:0};
+  const p=age/.96,sign=i%2===0?-1:1,launchTime=t-age;
+  const startX=3.1*Math.sin(launchTime*2.15),startY=-84-(27+4*Math.sin(launchTime*2.7));
+  return {x:startX+sign*(3+18*p),y:startY-23*p+47*p*p,r:(i%2?1.7:2.25)*(1-.32*p),opacity:Math.min(1,p*13,(1-p)*8)};
+ });
+}
+function candyFountainFluidMarkup(i,shape){
+ return '<g><path data-candy-fluid="'+i+'" d="'+shape.body+'" fill="url(#candyChocolateFlow)" stroke="#603840" stroke-width=".8"/><path data-candy-glint="'+i+'" d="'+shape.highlight+'" fill="none" stroke="#f3c79c" stroke-width="1.15" opacity=".69"/></g>';
+}
+function candyCityFountain(){
+ const bowl=(y,w,h)=>'<g transform="translate(0 '+y+')"><path d="M-'+w+' 0Q-'+(w*.91)+' '+h+' 0 '+h+'Q'+(w*.91)+' '+h+' '+w+' 0Z" fill="url(#candyCookie)" stroke="#a57653" stroke-width="1.2"/><ellipse rx="'+w+'" ry="'+(w*.16)+'" fill="#f6dfb6"/><ellipse rx="'+(w*.87)+'" ry="'+(w*.116)+'" fill="url(#candyChocolateDark)"/><path d="M-'+(w*.77)+' 0Q0 -'+(w*.08)+' '+(w*.72)+' 0" stroke="#d6a079" stroke-width="1.6" opacity=".7" fill="none"/><path d="M-'+(w*.80)+' '+(h*.36)+'Q0 '+(h*.95)+' '+(w*.80)+' '+(h*.36)+'" stroke="#e8bf90" stroke-width="2.2" fill="none"/></g>';
+ const geo=candyFountainGeometry(0);
+ const stream=i=>candyFountainFluidMarkup(i,geo.ribbons[i]);
+ return '<g data-candy-fountain="1"><ellipse cy="2" rx="79" ry="7" fill="#82596b" opacity=".21"/><path d="M-73 -4L-65 4H65L73 -4Z" fill="#b58866"/>'+
+ bowl(-14,67,15)+'<path d="M-15 -14Q-8 -29 -12 -46H12Q8 -29 15 -14Z" fill="url(#candyCookie)"/>'+
+ bowl(-52,39,12)+stream(0)+stream(1)+
+ '<path d="M-9 -52L-7 -78H7L9 -52Z" fill="url(#candyCookie)"/>'+bowl(-84,23,9)+stream(2)+stream(3)+
+ stream(4)+stream(5)+candyFountainFluidMarkup(6,geo.jet)+
+ '<path class="candy-pool-ripple" d="M-58 -13Q-43 -8 -29 -13M29 -13Q43 -8 58 -13" stroke="#edb889" stroke-width="1.8" fill="none"/>'+
+ '<g data-candy-pool="1" opacity=".6"><ellipse cx="0" cy="-84" rx="14" ry="2.4" fill="none" stroke="#e3ac81" stroke-width="1.2"/></g>'+
+ candyFountainDrops(0).map((p,i)=>'<g data-candy-droplet="'+i+'" transform="translate('+p.x.toFixed(2)+' '+p.y.toFixed(2)+')" opacity="'+p.opacity.toFixed(2)+'"><ellipse rx="'+p.r.toFixed(2)+'" ry="'+(p.r*1.2).toFixed(2)+'" fill="#98634b" stroke="#633b3b" stroke-width=".5"/><ellipse cx="'+(-p.r*.26).toFixed(2)+'" cy="'+(-p.r*.32).toFixed(2)+'" rx=".55" ry=".8" fill="#ecc096" opacity=".8"/></g>').join('')+'</g>';
+}
+let candyFountainCache={mid:null,items:[]};
+function paintCandyFountain(clock,reduced,midOffset){
+ if(reduced||!Number.isFinite(clock))return;
+ const mid=$('journeyMid');if(!mid)return;
+ if(candyFountainCache.mid!==mid){
+  candyFountainCache={mid,items:Array.from(mid.querySelectorAll('[data-candy-fountain]')).map(root=>({root,bodies:Array.from(root.querySelectorAll('[data-candy-fluid]')),glints:Array.from(root.querySelectorAll('[data-candy-glint]')),drops:Array.from(root.querySelectorAll('[data-candy-droplet]')),pool:root.querySelector('[data-candy-pool]')}))};
+ }
+ let geo=null,drops=null;
+ for(let i=0;i<candyFountainCache.items.length;i++){
+  const x=290+(i-1)*journeyTile-midOffset;
+  if(x < -85 || x > 425)continue;
+  const item=candyFountainCache.items[i];
+  if(!geo){geo=candyFountainGeometry(clock);drops=candyFountainDrops(clock)}
+  const shapes=[...geo.ribbons,geo.jet];
+  for(let j=0;j<item.bodies.length;j++){
+   const k=Number(item.bodies[j].getAttribute('data-candy-fluid'));
+   item.bodies[j].setAttribute('d',shapes[k].body);
+   item.glints[j].setAttribute('d',shapes[k].highlight);
+  }
+  for(let j=0;j<item.drops.length;j++){
+   const p=drops[j],el=item.drops[j];
+   el.setAttribute('opacity',p.opacity.toFixed(2));
+   if(p.opacity>0){el.setAttribute('transform','translate('+p.x.toFixed(2)+' '+p.y.toFixed(2)+')');const shape=el.firstElementChild;shape.setAttribute('rx',p.r.toFixed(2));shape.setAttribute('ry',(p.r*1.2).toFixed(2));}
+  }
+  if(item.pool){const p=(clock*.9)%1,ring=item.pool.firstElementChild;ring.setAttribute('rx',(6+14*p).toFixed(2));ring.setAttribute('ry',(1+2*p).toFixed(2));item.pool.setAttribute('opacity',(.65*(1-p)).toFixed(2));}
+ }
+}
+
 function candyCityBridge(){
  return '<g><ellipse cy="2" rx="65" ry="12" fill="#82566b" opacity=".20"/><ellipse cy="-1" rx="64" ry="10" fill="url(#candyChocolateDark)"/><path d="M-58 0Q-40 -3 -31 -13Q0 -45 31 -13Q40 -3 58 0L48 3Q28 -2 21 -11Q0 -34 -21 -11Q-28 -2 -48 3Z" fill="#653f3e"/><path d="M-60 -4Q-40 -7 -30 -17Q0 -49 30 -17Q40 -7 60 -4L55 2Q37 -1 26 -13Q0 -39 -26 -13Q-37 -1 -55 2Z" fill="url(#candyChocolateDark)" stroke="#aa7559" stroke-width="1.4"/><path d="M-45 -8L-40 -2M-27 -20L-22 -13M-10 -31L-8 -23M10 -31L8 -23M27 -20L22 -13M45 -8L40 -2" stroke="#553337" stroke-width="1.6"/><path d="M-48 -11V-25M-25 -28V-43M0 -37V-52M25 -28V-43M48 -11V-25M-48 -25Q0 -75 48 -25" stroke="#e6be94" stroke-width="3.2" fill="none"/><path class="candy-pool-ripple" d="M-20 4Q0 7 20 4" stroke="#cb987b" stroke-width="1.4" fill="none"/></g>';
 }
@@ -3600,6 +3689,7 @@ function paintJourney(t){
  }
  if(journeyWorldIndex===1)paintDesertTumble(f.clock,reduced);
  if(journeyWorldIndex===5)paintMoonAliens(journeyTravel*.40,reduced,f.clock,journeyScenerySpeed(f,score)*.40);
+ if(journeyWorldIndex===6)paintCandyFountain(f.clock,reduced,offset(.42));
  if(journeyWorldIndex===10)paintSlimeClouds(f.clock,reduced);
  if(journeyWorldIndex===11)paintOcean(f.clock,reduced);
  const clown=$('journeyCarnivalClown');
