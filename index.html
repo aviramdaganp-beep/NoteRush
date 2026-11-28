@@ -467,12 +467,9 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 @keyframes moonLamp{0%,60%,100%{opacity:.32}68%,86%{opacity:1}}
 .moon-rover-dust{opacity:0;animation:moonRoverDust 8.8s linear infinite}
 @keyframes moonRoverDust{0%,66%,100%{opacity:0;transform:translate(0,0)}68%{opacity:.7;animation-timing-function:ease-out}79%{opacity:.5;transform:translate(var(--dust-x),var(--dust-y));animation-timing-function:ease-in}91%{opacity:0;transform:translate(calc(var(--dust-x) * 1.4),5px)}}
-.moon-alien-peek{animation:moonAlienPeek 10.2s ease-in-out infinite;animation-delay:-4.1s}
-@keyframes moonAlienPeek{0%,29%,83%,100%{transform:translate(0,35px)}43%,65%{transform:translate(7px,-3px)}74%{transform:translate(2px,9px)}}
-.moon-alien-eyes{transform-box:fill-box;transform-origin:center;animation:moonAlienBlink 10.2s ease-in-out infinite;animation-delay:-4.1s}
-@keyframes moonAlienBlink{0%,49%,54%,61%,66%,100%{transform:scaleY(1)}51%,63%{transform:scaleY(.12)}}
-@media(prefers-reduced-motion:reduce){.moon-antenna,.moon-rover-lamp,.moon-rover-dust,.moon-alien-peek,.moon-alien-eyes{animation:none!important}.moon-rover-dust{opacity:0}.moon-alien-peek{transform:translate(5px,0)}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v82</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+.moon-alien-eyes{transform-box:fill-box;transform-origin:center}
+@media(prefers-reduced-motion:reduce){.moon-antenna,.moon-rover-lamp,.moon-rover-dust{animation:none!important}.moon-rover-dust{opacity:0}}
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v83</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1217,7 +1214,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v82',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v83',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1234,7 +1231,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v82',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v83',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1289,7 +1286,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v82',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v83',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -2666,7 +2663,7 @@ function moonBackdrop(){
  '<radialGradient id="moonEarthOcean" cx=".31" cy=".26" r=".83"><stop offset="0" stop-color="#8ac6d6"/><stop offset=".46" stop-color="#4789b5"/><stop offset=".83" stop-color="#2f507f"/><stop offset="1" stop-color="#26334f"/></radialGradient>'+
  '<linearGradient id="moonEarthShade" x1="0" y1="0" x2="1" y2=".72"><stop offset=".28" stop-color="#18253c" stop-opacity="0"/><stop offset=".8" stop-color="#18253c" stop-opacity=".16"/><stop offset="1" stop-color="#121a30" stop-opacity=".82"/></linearGradient>'+
  '<radialGradient id="moonEarthHalo"><stop offset=".68" stop-color="#9ddce8" stop-opacity="0"/><stop offset=".79" stop-color="#9ddce8" stop-opacity=".2"/><stop offset="1" stop-color="#9ddce8" stop-opacity="0"/></radialGradient>'+
- '<clipPath id="moonEarthClip"><circle r="47"/></clipPath></defs>'+
+ '<clipPath id="moonEarthClip"><circle r="47"/></clipPath><clipPath id="moonAlienAboveRock" clipPathUnits="userSpaceOnUse"><rect x="-38" y="-100" width="76" height="87"/></clipPath></defs>'+
  '<rect x="0" y="-900" width="340" height="1140" fill="url(#moonSky)"/><g fill="#d5e2ef">'+stars+'</g>'+
  '<g id="moonEarth" transform="translate(247 40) scale(.55)"><circle r="60" fill="url(#moonEarthHalo)"/><circle r="47" fill="url(#moonEarthOcean)"/>'+
  '<g clip-path="url(#moonEarthClip)"><g fill="#9dbb9f"><path d="M-44 -29L-34 -36L-24 -37L-18 -30L-9 -32L-3 -24L-11 -14L-23 -14L-26 -5L-16 1L-18 7L-30 3L-34 -8L-44 -12Z"/><path d="M-15 3L-5 0L6 9L9 18L2 26L-1 38L-9 44L-14 29L-17 20L-20 12Z"/><path d="M7 -36L18 -42L35 -36L46 -22L43 -13L32 -15L26 -9L19 -15L8 -13L2 -20L9 -26Z"/><path d="M10 -10L23 -12L30 -2L25 10L17 24L10 14L5 1Z"/><path d="M36 17L45 15L52 28L43 34L31 28Z"/></g>'+
@@ -2726,17 +2723,17 @@ function moonRover(){
  '<circle cx="34" cy="-29" r="2.2" fill="#9bf2d9" class="moon-rover-lamp"/><path d="M-35 -19H38" stroke="#747f91" stroke-width="1.3"/></g>';
 }
 function moonAlien(){
- return '<g><g class="moon-alien-peek"><path d="M-14 0Q-20 -23 -10 -31Q0 -40 10 -31Q18 -23 14 0Z" fill="#819e91"/>'+
+ return '<g><g clip-path="url(#moonAlienAboveRock)"><g class="moon-alien-peek" visibility="hidden" transform="translate(0 65)"><path d="M-14 0Q-20 -23 -10 -31Q0 -40 10 -31Q18 -23 14 0Z" fill="#819e91"/>'+
  '<path d="M-13 -22Q-26 -34 -20 -47Q-16 -57 0 -58Q17 -57 22 -44Q26 -32 13 -22Q0 -16 -13 -22Z" fill="#a5c7af"/><path d="M-16 -47Q-8 -56 4 -54Q11 -54 16 -49" stroke="#c8ded0" stroke-width="2.4" fill="none"/>'+
  '<g class="moon-alien-eyes"><ellipse cx="-8" cy="-39" rx="6.4" ry="9.5" fill="#303f4a" transform="rotate(-19 -8 -39)"/><ellipse cx="9" cy="-39" rx="6.4" ry="9.5" fill="#303f4a" transform="rotate(19 9 -39)"/><ellipse cx="-10" cy="-42" rx="1.7" ry="2.3" fill="#deede6"/><ellipse cx="7" cy="-42" rx="1.7" ry="2.3" fill="#deede6"/></g>'+
- '<path d="M-3 -26Q0 -24 3 -26" stroke="#647d78" stroke-width="1.3" fill="none"/></g>'+
+ '<path d="M-3 -26Q0 -24 3 -26" stroke="#647d78" stroke-width="1.3" fill="none"/></g></g>'+
  '<g transform="translate(-3 1) scale(1.08)">'+moonRock(0)+'</g></g>';
 }
 function journeyMoonLayers(w){
  const rim=moonRim(),rim2=moonRim(1),rock=moonRock(),rock2=moonRock(1),rover=moonRover(),alien=moonAlien();
  const layouts=[
   [{x:76,art:rim,s:1.22,lo:-85,hi:89},{x:258,art:rim2,s:.92,lo:-85,hi:89},{x:464,art:rim,s:1.34,lo:-85,hi:89},{x:620,art:rim2,s:.72,lo:-85,hi:89}],
-  [{x:39,art:moonCrater(49,12),s:.84,flat:true},{x:132,art:rover,s:.78,lo:-40,hi:40},{x:254,art:rock,s:.84,lo:-29,hi:31},{x:344,art:moonCrater(52,14),s:.90,flat:true},{x:458,art:alien,s:.60,lo:-34,hi:34},{x:576,art:rock2,s:.90,lo:-22,hi:22}],
+  [{x:39,art:moonCrater(49,12),s:.84,flat:true},{x:132,art:rover,s:.78,lo:-40,hi:40},{x:254,art:rock,s:.84,lo:-29,hi:31},{x:344,art:moonCrater(52,14),s:.90,flat:true},{x:458,art:alien,s:.60,lo:-34,hi:34,alien:true},{x:576,art:rock2,s:.90,lo:-22,hi:22}],
   [{x:18,art:moonCrater(28,8),s:.72,flat:true},{x:82,art:rock2,s:.48},{x:143,art:moonCrater(21,7,1),s:.72,flat:true},{x:202,art:rock,s:.49},{x:278,art:moonCrater(35,10),s:.86,flat:true},{x:361,art:rock2,s:.47},{x:428,art:moonCrater(22,7,1),s:.76,flat:true},{x:491,art:rock,s:.43},{x:560,art:moonCrater(34,10),s:.81,flat:true},{x:629,art:rock2,s:.51}]
  ];
  return layouts.map((items,depth)=>{
@@ -2746,10 +2743,38 @@ function journeyMoonLayers(w){
    let y=journeyLayerRidge(x,depth);
    if(depth<2&&!p.flat){for(let j=0;j<=24;j++)y=Math.max(y,journeyLayerRidge(x+p.s*(p.lo+(p.hi-p.lo)*j/24),depth));y+=2;}
    else y+=p.flat?(depth===1?13:17+(i%3)*4):6+(i%3)*4;
-   html+='<g transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
+   html+='<g '+(p.alien?'id="moonAlienTile'+(tile+1)+'" ':'')+'transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
   }
   return html;
  });
+}
+// Each passing rock has a different reveal position. Absolute travel
+// keeps repeated tiles continuous; the alien never leaks beneath the rock.
+function moonAlienPose(midTravel,tile,reduced=false){
+ const lap=Math.floor(midTravel/journeyTile),offset=midTravel-lap*journeyTile;
+ const screenX=458+tile*journeyTile-offset,encounter=lap+tile;
+ const centers=[178,267,112,228,87,201,146,251];
+ const center=centers[((encounter%centers.length)+centers.length)%centers.length];
+ const p=(center+41-screenX)/87;
+ if(reduced)return {visible:true,x:7,y:-3,blink:1,screenX,center};
+ if(p<=0||p>=1)return {visible:false,x:0,y:65,blink:1,screenX,center};
+ const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
+ const rise=smooth(p/.30)*smooth((1-p)/.30);
+ const blink=p>.43&&p<.57?1-.88*Math.sin(Math.PI*(p-.43)/.14):1;
+ return {visible:rise>.002,x:7*rise,y:65-68*rise,blink,screenX,center};
+}
+function paintMoonAliens(midTravel,reduced){
+ for(let tile=-1;tile<=2;tile++){
+  const root=$('moonAlienTile'+(tile+1));if(!root)continue;
+  const alien=root.querySelector('.moon-alien-peek');if(!alien)continue;
+  const p=moonAlienPose(midTravel,tile,reduced),visible=p.visible?'visible':'hidden';
+  if(alien.getAttribute('visibility')!==visible)alien.setAttribute('visibility',visible);
+  if(!p.visible)continue;
+  const pose='translate('+p.x.toFixed(2)+' '+p.y.toFixed(2)+')';
+  if(alien.getAttribute('transform')!==pose)alien.setAttribute('transform',pose);
+  const eyes=alien.querySelector('.moon-alien-eyes');
+  if(eyes){const scale='scaleY('+p.blink.toFixed(3)+')';if(eyes.style.transform!==scale)eyes.style.transform=scale}
+ }
 }
 function journeyDetailedLayers(w){
  if(w.kind==='meadow')return journeyMeadowLayers(w);
@@ -3024,7 +3049,7 @@ function renderJourneyScenery(worldNumber){
  if(journeyCharacter==='mia')mascot=mascot.slice(0,mascot.indexOf('<g id="journeyBody">'))+'<g id="journeyBody">'+miaRiderMarkup(w.kind==='ocean','mia',w.kind)+'</g></g>';
  svg.innerHTML='<defs><pattern id="journeyGrain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".55" fill="#fff" opacity=".15"/><circle cx="13" cy="11" r=".5" fill="#000" opacity=".10"/><path d="M7 15l2 -1" stroke="#fff" opacity=".12" stroke-width=".6"/></pattern></defs>'+(w.kind==='ocean'?oceanBackdrop():w.kind==='snow'?snowStormBackdrop():w.kind==='crystal'?crystalKingdomBackdrop():w.kind==='space'?moonBackdrop():'<rect x="0" y="-900" width="340" height="1140" fill="'+w.sky+'"/><g fill="'+w.far+'" opacity=".23"><path d="M-20 -350Q56 -387 135 -350T360 -355V-325Q248 -347 166 -323T-20 -326Z"/><path d="M-20 -224Q48 -267 133 -223T360 -228V-205Q257 -229 167 -203T-20 -201Z"/></g><g fill="'+w.sun+'" opacity=".22"><ellipse cx="57" cy="-320" rx="55" ry="10"/><ellipse cx="89" cy="-332" rx="30" ry="12"/><ellipse cx="272" cy="-253" rx="65" ry="12"/><ellipse cx="244" cy="-265" rx="32" ry="12"/><ellipse cx="287" cy="-430" rx="59" ry="9"/></g><g opacity=".12" fill="'+w.sun+'"><ellipse cx="48" cy="-138" rx="63" ry="14"/><ellipse cx="92" cy="-151" rx="36" ry="10"/><ellipse cx="290" cy="-80" rx="65" ry="12"/><ellipse cx="260" cy="-95" rx="29" ry="9"/></g><path d="M0 -35Q80 -90 164 -36T340 -42V0H0Z" fill="'+w.far+'" opacity=".18"/><circle cx="258" cy="39" r="'+(w.kind==='space'?24:19)+'" fill="'+w.sun+'" opacity=".86"/>'+distant)+journeyWeirdSky(w)+(w.kind==='monster'?journeyForestGiant():'')+'<g id="journeyFar">'+(w.kind==='crystal'?'':'<path d="'+hillPath(93,20,80,.8)+'" fill="'+w.far+'"/>')+(detailed?detailed[0]:'')+'</g><g id="journeyMid">'+(w.kind==='crystal'?'':'<path d="'+hillPath(110,14,66,1.7)+'" fill="'+w.mid+'"/>')+(w.kind==='slime'?slimeTerrainFilm(1):'')+(detailed?detailed[1]:'')+'</g><g id="journeyNear">'+(w.kind==='crystal'?'':'<path d="'+hillPath(119,13,56,0)+'" fill="'+w.near+'" opacity=".7"/><path d="'+Array.from({length:281},(_,i)=>{let x=-20+i*5;return (i?'L':'M')+x+' '+journeyHill(x).toFixed(2)}).join(' ')+' L1380 240 L-20 240Z" fill="'+w.ground+'"/>')+(w.kind==='slime'?slimeTerrainFilm(2):w.kind==='snow'?snowTerrainMantle():'')+(detailed?detailed[2]:props)+'</g>'+(w.kind==='ocean'?oceanSceneLighting():'')+'<rect x="0" y="-900" width="340" height="1140" fill="url(#journeyGrain)" pointer-events="none"/><g opacity=".7">'+journeyWeather(w)+'</g>'+mascot;
  if($('game').classList.contains('journey-portrait'))moveJourneyFlightLayer(true);
- if(w.kind==='space')syncMoonEarth();
+ if(w.kind==='space'){syncMoonEarth();paintMoonAliens(journeyTravel*.40,window.matchMedia('(prefers-reduced-motion: reduce)').matches);}
  // World changes blend in without delaying the next question.
  svg.classList.remove('journey-arrive');void svg.getBoundingClientRect();svg.classList.add('journey-arrive');
 }
@@ -3228,6 +3253,7 @@ function paintJourney(t){
   giant.setAttribute('transform','translate('+(195+Math.sin(journeyTravel/520)*18).toFixed(2)+' '+headY.toFixed(2)+')');
  }
  if(journeyWorldIndex===1)paintDesertTumble(f.clock,reduced);
+ if(journeyWorldIndex===5)paintMoonAliens(journeyTravel*.40,reduced);
  if(journeyWorldIndex===10)paintSlimeClouds(f.clock,reduced);
  if(journeyWorldIndex===11)paintOcean(f.clock,reduced);
  const clown=$('journeyCarnivalClown');
