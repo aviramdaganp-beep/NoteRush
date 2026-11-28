@@ -417,9 +417,24 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 @media(prefers-reduced-motion:reduce){.jungle-leaf-sway,.jungle-squirrel-tail,.jungle-bird-head{animation:none!important}}
 
 /* Frostland: subtle wildlife and rising chimney wisps. */
-.snow-hare-ears{transform-box:fill-box;transform-origin:50% 100%;animation:snowHareEars 8.2s ease-in-out infinite}
-@keyframes snowHareEars{0%,66%,100%{transform:rotate(0)}73%{transform:rotate(-7deg)}82%{transform:rotate(5deg)}91%{transform:rotate(-2deg)}}
-@media(prefers-reduced-motion:reduce){.snow-hare-ears{animation:none!important}}
+
+/* One synchronized eight-second shelter / shake / settle cycle.
+   The snow lip is outside the animated body; powder is invisible at rest. */
+.snow-hare-burrow,.snow-hare-shake,.snow-hare-ears,.snow-hare-eye,.snow-hare-coat,.snow-hare-powder{animation-duration:8.4s;animation-iteration-count:infinite;animation-delay:var(--snow-hare-delay,-2.7s)}
+.snow-hare-burrow{animation-name:snowHareBurrow;animation-timing-function:ease-in-out}
+@keyframes snowHareBurrow{0%,34%,88%,100%{transform:translate(0,2px)}45%,52%{transform:translate(0,5px)}59%,68%{transform:translate(0,-5px)}78%{transform:translate(0,0)}}
+.snow-hare-shake{transform-box:fill-box;transform-origin:50% 85%;animation-name:snowHareShake;animation-timing-function:linear}
+@keyframes snowHareShake{0%,57%,71%,100%{transform:rotate(0)}59%{transform:rotate(-6deg) translate(-2px,0)}61%{transform:rotate(6deg) translate(2px,-1px)}63%{transform:rotate(-5deg) translate(-2px,0)}65%{transform:rotate(4deg) translate(1px,0)}67%{transform:rotate(-2deg)}}
+.snow-hare-ears{transform-box:fill-box;transform-origin:50% 100%;animation-name:snowHareEars;animation-timing-function:ease-in-out}
+@keyframes snowHareEars{0%,34%,88%,100%{transform:rotate(-8deg)}16%{transform:rotate(-3deg)}46%,52%{transform:rotate(-18deg)}59%{transform:rotate(7deg)}61%{transform:rotate(-12deg)}64%{transform:rotate(6deg)}68%{transform:rotate(-7deg)}}
+.snow-hare-eye{transform-box:fill-box;transform-origin:center;animation-name:snowHareBlink;animation-timing-function:ease-in-out}
+@keyframes snowHareBlink{0%,21%,26%,56%,69%,100%{transform:scaleY(1)}23.5%,59%,65%{transform:scaleY(.12)}}
+.snow-hare-coat{animation-name:snowHareCoat;animation-timing-function:linear}
+@keyframes snowHareCoat{0%,58%{opacity:1}64%,80%{opacity:0}100%{opacity:1}}
+.snow-hare-powder{opacity:0;animation-name:snowHarePowder;animation-timing-function:linear}
+@keyframes snowHarePowder{0%,58%,100%{opacity:0;transform:translate(0,0)}60%{opacity:.95;transform:translate(0,-2px);animation-timing-function:ease-out}66%{opacity:.9;transform:translate(var(--px),var(--py));animation-timing-function:ease-in}77%{opacity:0;transform:translate(var(--ex),var(--ey))}}
+@media(prefers-reduced-motion:reduce){.snow-hare-burrow,.snow-hare-shake,.snow-hare-ears,.snow-hare-eye,.snow-hare-coat,.snow-hare-powder{animation:none!important}.snow-hare-powder{opacity:0}}
+
 
 /* Alpine storm, behind the notation and mascot; no heavy filters. */
 .snow-storm-flake{animation:snowStormDrift 3.8s linear infinite}
@@ -429,7 +444,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .snow-spindrift{animation:snowSpindrift 4.6s ease-in-out infinite}
 @keyframes snowSpindrift{0%{transform:translate(60px,0);opacity:.04}45%{opacity:.35}100%{transform:translate(-65px,4px);opacity:.03}}
 @media(prefers-reduced-motion:reduce){.snow-storm-flake,.snow-storm-haze,.snow-spindrift{animation:none!important}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v78</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v79</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1174,7 +1189,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v78',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v79',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1191,7 +1206,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v78',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v79',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1246,7 +1261,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v78',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v79',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -2423,21 +2438,41 @@ function journeySnowLayers(w){
  '<path d="M-22 -34L-13 -62L6 -79L20 -48L13 -54L7 -48L-1 -58L-9 -40L-15 -45Z" fill="#c4d5e3"/>'+
  '<path d="M-34 -19L-15 -20L-7 -27L-13 -11L-26 -8Z M18 -27L34 -37L39 -21L31 -22L26 -13Z" fill="#9eafc1"/><path d="M-32 -24L-22 -19M4 -45L18 -27" stroke="#a9becf" stroke-width="1.5" fill="none"/></g>';
  const ice='<g><path d="M-33 0L-27 -18L-15 -26L-8 -50L1 -55L13 -35L22 -39L35 0Z" fill="#9ebacc"/><path d="M-8 -50L1 -55L-1 -18L-10 0H-33L-27 -18L-15 -26Z" fill="#c7dce8"/><path d="M1 -55L13 -35L22 -39L35 0H7L4 -22Z" fill="#6d8fa9"/><path d="M-8 -50L-3 -21M-25 -12L-14 -24M14 -29L24 -8" stroke="#dbe7ef" stroke-width="2" opacity=".8" fill="none"/></g>';
- const hare='<g><ellipse cx="-2" cy="1" rx="22" ry="3" fill="#607d9c" opacity=".22"/><circle cx="-23" cy="-12" r="8" fill="#e7eff5"/>'+
- '<path d="M-27 -12Q-25 -28 -10 -32Q8 -36 17 -20Q22 -7 8 0H-13Q-27 -1 -27 -12Z" fill="#f2f4f1"/>'+
- '<path d="M-25 -12Q-19 -5 -10 -7Q0 0 12 -6L10 0H-13Q-24 -2 -25 -12Z" fill="#c6d9e7"/>'+
- '<ellipse cx="-10" cy="-1" rx="13" ry="4" fill="#dce8ee"/><ellipse cx="17" cy="-1" rx="8" ry="3.8" fill="#eef3f4"/>'+
- '<g class="snow-hare-ears"><path d="M4 -32Q-3 -49 -1 -62Q1 -69 7 -62Q13 -49 13 -32Z M14 -34Q13 -52 20 -65Q25 -69 27 -61Q28 -47 22 -33Z" fill="#edf3f5"/>'+
- '<path d="M5 -57Q9 -51 9 -40L6 -40Q3 -51 5 -57Z M22 -59Q25 -58 23 -49L19 -41Q19 -52 22 -59Z" fill="#d8bfc7"/></g>'+
- '<path d="M0 -26Q-1 -40 13 -43Q28 -44 31 -30Q35 -19 20 -16Q4 -15 0 -26Z" fill="#f4f6f2"/>'+
- '<ellipse cx="23" cy="-32" rx="2.5" ry="3" fill="#536175"/><circle cx="22.3" cy="-33.1" r=".8" fill="#fff"/><path d="M30 -26Q34 -27 32 -24L30 -23Z" fill="#b6949c"/><path d="M29 -23Q27 -20 24 -21" stroke="#b7bbc4" stroke-width="1.2" fill="none"/>'+
- '<path d="M22 -23L35 -23M23 -20L35 -17" stroke="#9caec0" stroke-width=".8" fill="none"/></g>';
+ // A tiny winter hare sheltering in a drift. The snow bank stays fixed
+ // while the animal moves behind it; shed powder is in its own local layer.
+ const hare='<g><ellipse cx="0" cy="2" rx="33" ry="5" fill="#607d9c" opacity=".19"/>'+
+ '<path d="M-35 -2Q-29 -13 -17 -12Q-7 -17 6 -10Q22 -16 33 -4L37 0H-37Z" fill="#9cb3c8"/>'+
+ '<g transform="translate(0 7)"><g class="snow-hare-burrow"><g class="snow-hare-shake">'+
+ '<circle cx="-23" cy="-12" r="7" fill="#dfe9ef"/>'+
+ '<path d="M-27 -12Q-25 -28 -10 -32Q8 -36 17 -20Q22 -7 8 0H-13Q-27 -1 -27 -12Z" fill="#e8eeef"/>'+
+ '<path d="M-25 -12Q-19 -5 -10 -7Q0 0 12 -6L10 0H-13Q-24 -2 -25 -12Z" fill="#c0d0de"/>'+
+ '<g class="snow-hare-ears"><path d="M4 -32Q-7 -45 -8 -56Q-9 -64 -3 -62Q5 -58 13 -32Z M14 -34Q9 -48 13 -60Q16 -67 21 -61Q25 -50 22 -33Z" fill="#e3edf3"/>'+
+ '<path d="M-4 -57Q2 -51 8 -40L5 -40Q-2 -49 -4 -57Z M16 -58Q20 -59 20 -49L18 -40Q14 -50 16 -58Z" fill="#cdbbc9"/></g>'+
+ '<path d="M0 -26Q-1 -40 13 -43Q28 -44 31 -30Q35 -19 20 -16Q4 -15 0 -26Z" fill="#eef2f1"/>'+
+ '<g class="snow-hare-eye"><ellipse cx="23" cy="-32" rx="2.5" ry="3" fill="#536175"/><circle cx="22.3" cy="-33.1" r=".8" fill="#fff"/></g>'+
+ '<path d="M30 -26Q34 -27 32 -24L30 -23Z" fill="#b6949c"/><path d="M29 -23Q27 -20 24 -21" stroke="#b7bbc4" stroke-width="1.2" fill="none"/>'+
+ '<path d="M22 -23L35 -23M23 -20L35 -17" stroke="#9caec0" stroke-width=".8" fill="none"/>'+
+ '<g class="snow-hare-coat"><path d="M-26 -24Q-22 -33 -15 -33Q-7 -39 1 -33Q8 -32 8 -28Q0 -23 -6 -28Q-13 -24 -18 -28Q-23 -23 -26 -24Z" fill="#f5f8fa"/><path d="M7 -41Q12 -46 18 -44Q25 -45 28 -40Q24 -37 18 -40Q11 -37 7 -41Z" fill="#f5f8fa"/></g>'+
+ '</g></g></g>'+
+ // The fixed near lip overlaps the lower half, not the head.
+ '<path d="M-38 0Q-34 -10 -24 -9Q-17 -15 -8 -10Q0 -13 8 -9Q18 -13 27 -8Q34 -9 39 0Q15 5 -9 3Z" fill="#c1d2e1"/>'+
+ '<path d="M-35 -2Q-26 -9 -18 -7Q-9 -11 0 -7Q9 -9 17 -7Q29 -9 35 -2" stroke="#dbe6ee" stroke-width="2.2" fill="none"/>'+
+ // A short, directed burst: two small clumps and fine grains, then gravity.
+ '<g pointer-events="none" fill="#edf5f9">'+
+ '<g transform="translate(-17 -22)"><g class="snow-hare-powder" style="--px:-15px;--py:-15px;--ex:-29px;--ey:12px"><path d="M-4 0Q-6 -4 -2 -5Q1 -7 4 -3Q7 -1 4 2Q0 4 -4 0Z"/></g></g>'+
+ '<g transform="translate(11 -34)"><g class="snow-hare-powder" style="--px:10px;--py:-14px;--ex:22px;--ey:18px"><path d="M-3 1Q-5 -2 -2 -4Q2 -6 5 -2Q6 2 2 3Z"/></g></g>'+
+ '<g transform="translate(-9 -23)"><g class="snow-hare-powder" style="--px:-8px;--py:-21px;--ex:-19px;--ey:11px"><circle r="2.1"/></g></g>'+
+ '<g transform="translate(19 -34)"><g class="snow-hare-powder" style="--px:15px;--py:-22px;--ex:32px;--ey:20px"><circle r="1.7"/></g></g>'+
+ '<g transform="translate(-23 -20)"><g class="snow-hare-powder" style="--px:-23px;--py:-7px;--ex:-37px;--ey:14px"><circle r="1.8"/></g></g>'+
+ '<g transform="translate(3 -28)"><g class="snow-hare-powder" style="--px:2px;--py:-25px;--ex:8px;--ey:21px"><circle r="1.5"/></g></g>'+
+ '<g transform="translate(22 -30)"><g class="snow-hare-powder" style="--px:23px;--py:-9px;--ex:39px;--ey:19px"><circle r="1.4"/></g></g>'+
+ '</g></g>';
  const boulder='<g><path d="M-32 0L-26 -15L-15 -27L8 -29L25 -17L32 0Z" fill="#7f95ae"/><path d="M-32 0L-26 -15L-8 -9L2 0Z" fill="#9db2c9"/><path d="M-8 -9L8 -29L25 -17L32 0H2Z" fill="#6a85a5"/><path d="M-30 -13Q-26 -19 -18 -26Q-9 -32 5 -32Q18 -31 27 -19Q30 -14 25 -12Q18 -12 13 -17Q8 -10 0 -14Q-8 -9 -15 -16Q-24 -9 -30 -13Z" fill="#d4e2ec"/><path d="M-18 -14L-14 -3L-10 -15M13 -16L17 -4L20 -15" fill="#c4e1ee"/><path d="M-30 -13Q-24 -9 -15 -16Q-8 -9 0 -14Q8 -10 13 -17Q18 -12 25 -12" stroke="#bdd6e7" stroke-width="2" fill="none"/></g>';
  const grass='<g><path d="M-9 0Q-7 -10 -15 -19M-2 0Q-4 -15 -4 -24M4 0Q6 -12 14 -19M9 0Q12 -5 20 -8" stroke="#b9c5c2" stroke-width="2.3" fill="none"/><path d="M-15 -19L-12 -15M-4 -24L-3 -20M14 -19L11 -15M20 -8L16 -6" stroke="#f5f7f6" stroke-width="2" fill="none"/></g>';
  const drifts='<g><path d="M-25 0Q-18 -8 -4 -6Q5 -13 17 -7L27 0Z" fill="#becfdf"/><path d="M-18 -2Q-8 -7 1 -3Q9 -8 17 -4" stroke="#e0e8ef" stroke-width="1.5" fill="none"/></g>';
  const layouts=[
   [{x:86,art:peak,scale:1.20,lo:-104,hi:110},{x:281,art:ridge,scale:1.06,lo:-100,hi:103},{x:476,art:peak,scale:1.24,lo:-104,hi:110},{x:628,art:ridge,scale:.69,lo:-100,hi:103}],
-  [{x:35,art:crag,scale:.87,lo:-45,hi:47},{x:143,art:pine,scale:.78,lo:-5,hi:5},{x:245,art:ice,scale:.93,lo:-33,hi:35},{x:338,art:hare,scale:.65,lo:-23,hi:22},{x:453,art:crag,scale:1.04,lo:-45,hi:47},{x:599,art:pine,scale:.61,lo:-5,hi:5}],
+  [{x:35,art:crag,scale:.87,lo:-45,hi:47},{x:143,art:pine,scale:.78,lo:-5,hi:5},{x:245,art:ice,scale:.93,lo:-33,hi:35},{x:338,art:hare,scale:.48,lo:-35,hi:37},{x:453,art:crag,scale:1.04,lo:-45,hi:47},{x:599,art:pine,scale:.61,lo:-5,hi:5}],
   [{x:16,art:drifts,scale:.74},{x:70,art:grass,scale:.53},{x:128,art:boulder,scale:.68},{x:205,art:ice,scale:.40},{x:266,art:drifts,scale:.70},{x:343,art:boulder,scale:.55},{x:415,art:grass,scale:.48},{x:479,art:ice,scale:.42},{x:548,art:boulder,scale:.61},{x:620,art:drifts,scale:.65}]
  ];
  return layouts.map((items,depth)=>{
