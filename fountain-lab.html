@@ -3,8 +3,8 @@
 <style>
 *{box-sizing:border-box}body{margin:0;background:#211e2c;color:#f8f1ec;font:15px/1.5 system-ui,-apple-system,sans-serif}main{max-width:700px;margin:auto;padding:22px 14px 36px}h1{font-size:24px;line-height:1.2;margin:0 0 6px}p{margin:0;color:#c9c0d0;font-size:13px}.scene{margin:18px auto 12px;max-width:440px;overflow:hidden;border-radius:15px;border:1px solid #786d8c;background:#e5c0ed}.scene svg{width:100%;display:block;height:auto}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:13px 0}button{appearance:none;border:1px solid #70667d;color:#f8f1ec;background:#373142;border-radius:9px;padding:10px 13px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#e7c0d1;color:#322433;border-color:#e7c0d1}button:focus-visible,input:focus-visible{outline:2px solid #f3c89c;outline-offset:3px}.scrub{max-width:440px;margin:auto;display:flex;gap:10px;align-items:center;direction:ltr}.scrub input{width:100%;accent-color:#e7c0d1}.time{font-variant-numeric:tabular-nums;min-width:54px;color:#d8cedb;font-size:12px}.caption{max-width:440px;margin:12px auto;text-align:center}
 </style></head>
-<body><main><h1>מעבדת מפל השוקולד</h1><p>NoteRush · אבטיפוס 02 · מפל שוקולד סמיך</p>
-<div class="scene"><svg id="scene" viewBox="0 0 340 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="מפל שוקולד מונפש">
+<body><main><h1>מעבדת מזרקת השוקולד</h1><p>NoteRush · אבטיפוס 03 · מזרקה מדורגת עם וילונות שוקולד</p>
+<div class="scene"><svg id="scene" viewBox="0 0 340 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="מזרקת שוקולד מדורגת מונפשת">
 <defs>
 <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#b4b6e4"/><stop offset=".67" stop-color="#ebc7e8"/><stop offset="1" stop-color="#ffe1c5"/></linearGradient>
 <linearGradient id="ground" x2="0" y2="1"><stop stop-color="#b7dfc4"/><stop offset="1" stop-color="#8cbfae"/></linearGradient>
@@ -14,57 +14,15 @@
 <radialGradient id="halo"><stop stop-color="#ffecd0" stop-opacity=".65"/><stop offset="1" stop-color="#ffecd0" stop-opacity="0"/></radialGradient>
 </defs>
 <g id="environment"><rect width="340" height="230" fill="url(#sky)"/><ellipse cx="259" cy="63" rx="100" ry="90" fill="url(#halo)"/><path d="M0 128L39 73L58 93L91 30L112 52L146 117L177 75L196 90L229 40L251 59L275 99L306 75L340 115V230H0Z" fill="#aba5ce"/><path d="M64 82L91 30L112 52L129 83Q117 75 113 85Q103 72 97 78Q90 65 83 77Q77 70 64 82ZM208 73L229 40L251 59L263 80Q251 69 243 76Q230 63 223 76Z" fill="#e6bb83"/><path d="M0 137Q68 110 140 140T340 133V230H0Z" fill="#b7a4ca"/><path d="M0 160Q60 142 120 158T246 155T340 151V230H0Z" fill="url(#ground)"/><path d="M0 211Q96 192 172 208T340 204V230H0Z" fill="#d9a0b8"/><path d="M0 211Q96 192 172 208T340 204" stroke="#f7d8da" stroke-width="8" fill="none"/></g>
-<g id="fountain" transform="translate(170 188)" stroke-linecap="round" stroke-linejoin="round">
-<defs>
+<g id="fountain" transform="translate(170 188)" stroke-linecap="round" stroke-linejoin="round"><defs>
  <linearGradient id="fallShade" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#59312c"/><stop offset=".09" stop-color="#84472e"/><stop offset=".24" stop-color="#b4774f"/><stop offset=".42" stop-color="#925033"/><stop offset=".57" stop-color="#a86643"/><stop offset=".79" stop-color="#77402f"/><stop offset=".94" stop-color="#99593d"/><stop offset="1" stop-color="#542d2b"/></linearGradient>
  <linearGradient id="fallGlaze" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f4c394" stop-opacity=".27"/><stop offset=".28" stop-color="#f2bc91" stop-opacity=".03"/><stop offset=".83" stop-color="#472720" stop-opacity=".03"/><stop offset="1" stop-color="#3f201d" stop-opacity=".31"/></linearGradient>
  <linearGradient id="flowSheen" x1="0" y1="0" x2=".06" y2="1"><stop stop-color="#ffdaa9" stop-opacity="0"/><stop offset=".25" stop-color="#ffdaa9" stop-opacity=".13"/><stop offset=".52" stop-color="#ffd0a2" stop-opacity=".32"/><stop offset=".82" stop-color="#e8ae7f" stop-opacity=".13"/><stop offset="1" stop-color="#e8ae7f" stop-opacity="0"/></linearGradient>
  <linearGradient id="foldShadow" x1="0" y1="0" x2=".05" y2="1"><stop stop-color="#432323" stop-opacity="0"/><stop offset=".52" stop-color="#432323" stop-opacity=".27"/><stop offset="1" stop-color="#432323" stop-opacity="0"/></linearGradient>
  <linearGradient id="caramelRock" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f4d4a3"/><stop offset=".46" stop-color="#d8a16a"/><stop offset="1" stop-color="#ac6e4b"/></linearGradient>
- <clipPath id="fallClip"><path id="fallMask"/></clipPath>
- <clipPath id="chocPoolClip"><ellipse cx="0" cy="-12" rx="67" ry="14"/></clipPath>
-</defs>
-<!-- Basin integrated with a single raised confectionery terrace. -->
-<ellipse cy="9" rx="85" ry="10" fill="#755565" opacity=".17"/>
-<path d="M-76 -13Q-74 5 -52 11Q0 21 52 11Q74 5 76 -13Z" fill="url(#biscuit)" stroke="#ae7955" stroke-width=".9"/>
-<path d="M-66 -4Q0 23 66 -4" stroke="#b77b54" stroke-width="1.5" fill="none" opacity=".65"/>
-<ellipse cy="-13" rx="76" ry="19" fill="#f7d5a4" stroke="#c59160" stroke-width="1"/>
-<ellipse cy="-12" rx="67" ry="14" fill="url(#pool)"/>
-<path d="M-61 -13Q-40 -22 -22 -21M24 -21Q45 -22 62 -13" stroke="#dfb28b" stroke-width="1.6" fill="none" opacity=".55"/>
-<!-- Edible cliff: cake layers, wafer-colored sides and a continuous top spillway. -->
-<path d="M-55 -99Q-48 -108 -29 -110L39 -110Q56 -107 58 -96L53 -27Q44 -14 18 -13L-38 -16Q-58 -21 -58 -34Z" fill="url(#caramelRock)" stroke="#ac7350" stroke-width="1"/>
-<path d="M-58 -70Q-47 -64 -35 -66L43 -69L56 -74L55 -65L43 -59L-34 -57Q-47 -56 -58 -62Z" fill="#8e5139"/>
-<path d="M-58 -41Q-45 -35 -31 -37L43 -41L54 -46L53 -39L43 -32L-31 -30Q-46 -28 -58 -34Z" fill="#9d5e43"/>
-<path d="M-55 -96Q-48 -91 -42 -89L-43 -26Q-51 -28 -55 -35Z" fill="#f7d5a2" opacity=".36"/>
-<path d="M45 -98L58 -96L53 -27Q48 -19 38 -18Z" fill="#8f523d" opacity=".26"/>
-<g fill="#a96a48" opacity=".62"><circle cx="-50" cy="-80" r="1.2"/><circle cx="-46" cy="-49" r="1"/><circle cx="-50" cy="-26" r="1.1"/><circle cx="48" cy="-81" r="1.1"/><circle cx="46" cy="-50" r="1.1"/></g>
-<!-- The chocolate reservoir curves smoothly over the front lip. -->
-<ellipse cy="-105" rx="57" ry="13" fill="#edbb7e" stroke="#bb8055" stroke-width="1.1"/>
-<ellipse cy="-105" rx="51" ry="9.3" fill="url(#pool)"/>
-<path d="M-46 -106Q-28 -113 -10 -110Q8 -107 26 -110Q42 -111 47 -106" stroke="#d9a277" stroke-width="1.5" fill="none" opacity=".66"/>
-<path d="M-50 -101Q-42 -93 -39 -96H39Q48 -94 53 -102" stroke="#f3d6a7" stroke-width="3" fill="none"/>
-<!-- Solid, wide liquid sheet. Its outline moves only a few units. -->
-<path id="fallBody" fill="url(#fallShade)" stroke="#65352b" stroke-width=".7"/>
-<g clip-path="url(#fallClip)">
- <rect x="-65" y="-115" width="130" height="115" fill="url(#fallGlaze)"/>
- <!-- Broad continuous volume folds, not outline strokes. -->
- <path d="M-33 -112C-41 -80 -25 -49 -35 -9L-25 -9C-17 -50 -35 -80 -24 -112Z" fill="#e0a77b" opacity=".16"/>
- <path d="M-11 -112C-18 -82 -4 -47 -13 -9H-5C5 -49 -9 -83 -3 -112Z" fill="#4b2824" opacity=".16"/>
- <path d="M15 -112C8 -81 23 -48 14 -9H22C31 -49 16 -81 23 -112Z" fill="#e5a978" opacity=".13"/>
- <path d="M32 -112C28 -79 40 -49 32 -9H41C49 -48 37 -78 42 -112Z" fill="#482622" opacity=".17"/>
- <g id="flowA"></g><g id="flowB"></g><g id="flowC"></g>
- <path d="M-37 -102Q-17 -97 0 -101Q18 -104 37 -100" stroke="#f4c297" stroke-width="2.2" fill="none" opacity=".64"/>
-</g>
-<!-- A broad, attached impact roll in the same color as the curtain. -->
-<g clip-path="url(#chocPoolClip)">
- <path id="impact" fill="url(#fallShade)" opacity=".95"/>
- <path id="impactLight" fill="none" stroke="#d8a276" stroke-width="1.45" opacity=".7"/>
- <ellipse id="ripple1" cy="-10" rx="46" ry="5" fill="none" stroke="#e8b68a" stroke-width="1.25"/>
- <ellipse id="ripple2" cy="-10" rx="51" ry="8" fill="none" stroke="#daa276" stroke-width="1.1"/>
-</g>
-<path d="M-74 -10Q-61 5 0 5Q61 5 74 -10" stroke="#ffe4b7" stroke-width="3.3" fill="none"/>
-<path d="M-62 -3Q0 12 62 -3" stroke="#cf9866" stroke-width="1.1" fill="none"/>
-</g></svg></div>
+ 
+ 
+</defs><ellipse cy="2" rx="79" ry="7" fill="#82596b" opacity=".21"/><path d="M-73 -4L-65 4H65L73 -4Z" fill="#b58866"/><g transform="translate(0 -14)"><path d="M-67 0Q-60.97 15 0 15Q60.97 15 67 0Z" fill="url(#biscuit)" stroke="#a57653" stroke-width="1.2"/><ellipse rx="67" ry="10.72" fill="#f6dfb6"/><ellipse rx="58.29" ry="7.772" fill="url(#pool)"/><path d="M-51.59 0Q0 -5.36 48.239999999999995 0" stroke="#d6a079" stroke-width="1.6" opacity=".7" fill="none"/><path d="M-53.6 5.3999999999999995Q0 14.25 53.6 5.3999999999999995" stroke="#e8bf90" stroke-width="2.2" fill="none"/></g><path d="M-15 -14Q-8 -29 -12 -46H12Q8 -29 15 -14Z" fill="url(#biscuit)"/><g transform="translate(0 -52)"><path d="M-39 0Q-35.49 12 0 12Q35.49 12 39 0Z" fill="url(#biscuit)" stroke="#a57653" stroke-width="1.2"/><ellipse rx="39" ry="6.24" fill="#f6dfb6"/><ellipse rx="33.93" ry="4.524" fill="url(#pool)"/><path d="M-30.03 0Q0 -3.12 28.08 0" stroke="#d6a079" stroke-width="1.6" opacity=".7" fill="none"/><path d="M-31.200000000000003 4.32Q0 11.399999999999999 31.200000000000003 4.32" stroke="#e8bf90" stroke-width="2.2" fill="none"/></g><path d="M-9 -52L-7 -78H7L9 -52Z" fill="url(#biscuit)"/><g transform="translate(0 -84)"><path d="M-23 0Q-20.93 9 0 9Q20.93 9 23 0Z" fill="url(#biscuit)" stroke="#a57653" stroke-width="1.2"/><ellipse rx="23" ry="3.68" fill="#f6dfb6"/><ellipse rx="20.01" ry="2.668" fill="url(#pool)"/><path d="M-17.71 0Q0 -1.84 16.56 0" stroke="#d6a079" stroke-width="1.6" opacity=".7" fill="none"/><path d="M-18.400000000000002 3.2399999999999998Q0 8.549999999999999 18.400000000000002 3.2399999999999998" stroke="#e8bf90" stroke-width="2.2" fill="none"/></g><path d="M-9 -84Q-10 -92 -4 -96Q0 -99 4 -96Q10 -92 9 -84Q0 -81 -9 -84Z" fill="url(#fallShade)"/><path d="M-5 -92Q-3 -95 0 -95" stroke="#e9b58a" stroke-width="1.3" fill="none"/><g transform="translate(0 -8.5) scale(0.79 0.38)"><defs><clipPath id="clipLower"><path id="maskLower"/></clipPath></defs><path id="bodyLower" fill="url(#fallShade)" stroke="#65352b" stroke-width="1.1"/><g clip-path="url(#clipLower)"><rect x="-60" y="-115" width="120" height="115" fill="url(#fallGlaze)"/><path d="M-31 -112C-39 -80 -23 -49 -33 -9L-24 -9C-17 -50 -34 -80 -23 -112Z" fill="#e0a77b" opacity=".17"/><path d="M-11 -112C-18 -82 -4 -47 -13 -9H-5C5 -49 -9 -83 -3 -112Z" fill="#4b2824" opacity=".17"/><path d="M15 -112C8 -81 23 -48 14 -9H22C31 -49 16 -81 23 -112Z" fill="#e5a978" opacity=".17"/><path d="M32 -112C28 -79 40 -49 32 -9H41C49 -48 37 -78 42 -112Z" fill="#482622" opacity=".16"/><g id="flowLowerA"/><g id="flowLowerB"/><g id="flowLowerC"/><path d="M-38 -103Q-18 -98 0 -100Q18 -102 38 -103" stroke="#edb88b" stroke-width="2.4" fill="none" opacity=".64"/></g><path id="impactLower" fill="url(#fallShade)" opacity=".93"/><path id="lightLower" stroke="#dfad83" stroke-width="1.65" fill="none" opacity=".68"/></g><g transform="translate(0 -47.4) scale(0.46 0.34)"><defs><clipPath id="clipUpper"><path id="maskUpper"/></clipPath></defs><path id="bodyUpper" fill="url(#fallShade)" stroke="#65352b" stroke-width="1.1"/><g clip-path="url(#clipUpper)"><rect x="-60" y="-115" width="120" height="115" fill="url(#fallGlaze)"/><path d="M-31 -112C-39 -80 -23 -49 -33 -9L-24 -9C-17 -50 -34 -80 -23 -112Z" fill="#e0a77b" opacity=".17"/><path d="M-11 -112C-18 -82 -4 -47 -13 -9H-5C5 -49 -9 -83 -3 -112Z" fill="#4b2824" opacity=".17"/><path d="M15 -112C8 -81 23 -48 14 -9H22C31 -49 16 -81 23 -112Z" fill="#e5a978" opacity=".17"/><path d="M32 -112C28 -79 40 -49 32 -9H41C49 -48 37 -78 42 -112Z" fill="#482622" opacity=".16"/><g id="flowUpperA"/><g id="flowUpperB"/><g id="flowUpperC"/><path d="M-38 -103Q-18 -98 0 -100Q18 -102 38 -103" stroke="#edb88b" stroke-width="2.4" fill="none" opacity=".64"/></g><path id="impactUpper" fill="url(#fallShade)" opacity=".93"/><path id="lightUpper" stroke="#dfad83" stroke-width="1.65" fill="none" opacity=".68"/></g><g fill="none" stroke="#e6b68b" stroke-width="1.05"><path id="ripple1" d="M-57 -15Q-51 -12 -43 -14M43 -14Q51 -12 57 -15"/><path id="ripple2" d="M-34 -52Q-29 -50 -24 -51M24 -51Q29 -50 34 -52"/></g><path d="M-65 -10Q0 10 65 -10" stroke="#f6dbaf" stroke-width="2.4" fill="none"/></g></svg></div>
 <div class="controls"><button id="play" aria-pressed="true">השהיה</button><button id="slow" aria-pressed="false">½ מהירות</button><button id="zoom" aria-pressed="false">הגדלה ×2</button><button id="restart">מהתחלה</button></div>
 <div class="scrub"><input id="scrub" type="range" min="0" max="3.6" step=".01" value="0" aria-label="זמן במחזור"><span id="time" class="time">0.00 s</span></div>
 <p class="caption">מצב רגיל מדמה את קנה המידה במשחק. הגדלה מאפשרת לבחון את הזרימה, הקפלים והברק של השוקולד. העיצוב והאנימציה עדיין לא הוטמעו בשלב עצמו.</p></main>
@@ -104,11 +62,14 @@ function flowField(){
 function flowAt(t){const p=((t%duration)+duration)%duration/duration;return [-150+150*p,-300+150*p]}
 function rippleAt(t,i){const p=((t/duration+i*.5)%1+1)%1;return {rx:43+23*p,ry:2.7+9*p,opacity:.5*Math.sin(Math.PI*p)}}
 let time=0,last=null,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,speed=1,zoomed=false;
-$('flowA').innerHTML=flowField();$('flowB').innerHTML=flowField();$('flowC').innerHTML=flowField();
+for(const id of ['Upper','Lower'])for(const suffix of ['A','B','C'])$('flow'+id+suffix).innerHTML=flowField();
 function paint(t){
- const f=frameAt(t);$('fallBody').setAttribute('d',f.d);$('fallMask').setAttribute('d',f.d);$('impact').setAttribute('d',f.impact);$('impactLight').setAttribute('d',f.light);
- const [a,b]=flowAt(t);$('flowA').setAttribute('transform','translate(0 '+a.toFixed(2)+')');$('flowB').setAttribute('transform','translate(0 '+b.toFixed(2)+')');$('flowC').setAttribute('transform','translate(0 '+(a+150).toFixed(2)+')');
- for(let i=0;i<2;i++){const p=rippleAt(t,i),r=$('ripple'+(i+1));r.setAttribute('rx',p.rx.toFixed(2));r.setAttribute('ry',p.ry.toFixed(2));r.setAttribute('opacity',p.opacity.toFixed(2))}
+ for(const [id,offset] of [['Upper',.4],['Lower',1.1]]){
+  const tt=(t+offset)%duration,f=frameAt(tt);$('body'+id).setAttribute('d',f.d);$('mask'+id).setAttribute('d',f.d);$('impact'+id).setAttribute('d',f.impact);$('light'+id).setAttribute('d',f.light);
+  const [a,b]=flowAt(tt);
+  for(const [suffix,y] of [['A',a],['B',b],['C',a+150]])$('flow'+id+suffix).setAttribute('transform','translate(0 '+y.toFixed(2)+')');
+ }
+ for(let i=0;i<2;i++){const p=rippleAt(t,i);$('ripple'+(i+1)).setAttribute('opacity',(.18+p.opacity).toFixed(2))}
  $('scrub').value=t.toFixed(2);$('time').textContent=t.toFixed(2)+' s';
 }
 function tick(now){if(last!==null&&playing){time=(time+Math.min(.06,(now-last)/1000)*speed)%duration;paint(time)}last=now;requestAnimationFrame(tick)}
