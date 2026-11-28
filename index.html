@@ -473,7 +473,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 /* Candy kingdom: material-specific motion, deliberately light on filters. */
 .candy-cloud-float{animation:candyCloudFloat 11s ease-in-out infinite alternate;animation-delay:var(--candy-delay,0s)}
 @keyframes candyCloudFloat{from{transform:translate(-8px,1px)}to{transform:translate(8px,-4px)}}
-.candy-lollipop-spin{transform-box:fill-box;transform-origin:center;animation:candyLollipopSpin 24s linear infinite}
+.candy-lollipop-spin{transform-box:fill-box;transform-origin:center;animation:candyLollipopSpin var(--candy-spin,12s) linear infinite;animation-delay:var(--candy-delay,0s)}
 @keyframes candyLollipopSpin{to{transform:rotate(360deg)}}
 .candy-gummy-hop{animation:candyGummyHop 4.9s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
 @keyframes candyGummyHop{0%,47%,84%,100%{transform:translateY(0)}56%,70%{transform:translateY(-22px)}63%{transform:translateY(-30px)}}
@@ -517,7 +517,7 @@ body.journey-portrait-active main>h1,body.journey-portrait-active .brandtag,body
 .candy-city-step{animation:candyCityStep 6.5s ease-in-out infinite;animation-delay:var(--candy-delay,0s)}
 @keyframes candyCityStep{0%,42%,100%{transform:translate(0,0)}10%{transform:translate(-3px,-2px)}20%{transform:translate(-6px,0)}30%{transform:translate(-3px,-2px)}}
 @media(prefers-reduced-motion:reduce){.candy-city-flow,.candy-city-drop,.candy-city-clock-hand,.candy-city-smoke,.candy-city-wave,.candy-city-step{animation:none!important}.candy-city-drop,.candy-city-smoke{opacity:0}}
-</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v88</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
+</style></head><body><main><h1>NOTE <b>RUSH</b></h1><div class="brandtag">PIANO LIVE · v89</div><div class="navhead"><button id="navback" hidden>↩ חזרה</button><span id="navwho" class="small"></span><button id="settingsbtn">⚙ הגדרות</button></div>
 <section class="screen" id="login"><div class="eyebrow">PLAYER SELECT</div><button id="languagebtn" class="quietlink lang-toggle" type="button">English</button><div class="hero-icon">🎹</div><h2>היי, מי משחק היום?</h2><p class="small">בחרו שחקן או צרו שחקן חדש.</p><div id="userlist" class="user-list"></div><button id="newuser" class="primary-big">＋ שחקן חדש</button><form id="form" hidden><input type="text" id="name" required maxlength="30" placeholder="איך קוראים לך?" autocomplete="off"><button class="primary-big">קדימה!</button></form></section>
 <section class="screen" id="warmup" hidden><div class="stepdots"><span class="active"></span><span></span><span></span></div><div class="eyebrow">WARM UP</div><div class="hero-icon">🎶</div><h2 id="warmtitle">רגע לפני שמתחילים…</h2><div class="warm-card"><p id="warmintro">בואו ננגן כמה צלילים על הפסנתר.</p><button id="warmgo" class="primary-big">🎹 בואו ננגן</button><button id="warmredo" class="quietlink" hidden>כיול מחדש</button><div id="warmcal"></div><p id="warmstatus" class="small" role="status"></p><details id="warmdiagnostics" class="small" style="margin-top:12px;text-align:right" hidden><summary>בעיה בקליטה?</summary><p id="warmdiagmsg">אפשר להעתיק את נתוני הנגינה האחרונה לצורך בדיקה.</p><button id="caldiagcopy" class="secondary">העתק דוח כיול</button></details></div><button id="buttonmode" class="quietlink">משחק עם כפתורים במקום פסנתר</button><button id="journeyQuickTest" class="menu-card journey-menu" type="button"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyQuickTitle">מסע בין עולמות — בדיקה</strong><small id="journeyQuickDesc">כניסה ישירה ללא פסנתר או כיול</small></span><span class="chev">‹</span></button></section>
 <section class="screen" id="clefmenu" hidden><div class="stepdots"><span class="active"></span><span class="active"></span><span></span></div><div class="eyebrow">CHOOSE YOUR GAME</div><h2 id="mainGameTitle">בחרו משחק</h2><button class="menu-card journey-menu" id="journeyDirect"><span class="emblem">🧭</span><span class="menu-text"><strong id="journeyDirectTitle">מסע בין עולמות</strong><small id="journeyDirectDesc">בחרו עולם וצאו למסע</small></span><span class="chev">‹</span></button><p class="small" id="mainClefTitle">או בחרו תרגול תווים לפי מפתח:</p>
@@ -1262,7 +1262,7 @@ function labRender(r){
  }else $('labref').textContent=tr('אין דגימת גוון מלאה להשוואה.');
  const hist=$('labhistory');hist.replaceChildren();lab.results.slice(-12).reverse().forEach(x=>{let tr=document.createElement('tr');[labName(x.expected),labName(x.detected),x.reason].forEach(z=>{let td=document.createElement('td');td.textContent=z;tr.append(td)});tr.onclick=()=>{lab.selected=x;labRender(x)};hist.append(tr)});
 }
-function labReport(){const p=activeProfile();return JSON.stringify({version:'v88',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
+function labReport(){const p=activeProfile();return JSON.stringify({version:'v89',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,guard:'spectral-dominance',suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},capturePolicy:{yin:'early-exit-exact',adaptiveHighWeak:true,highSampleGapMs:105,relaxedPiano:'stable-decaying-piano'},voiceClassifier:{version:4,independent:true,policy:'event-evidence-with-latch',acousticMemoryMs:500,channels:['onset','settling','formantProxy','pitchStability','energy'],borderlineExtraMaxMs:80,personalAttackRole:'diagnostics'},attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError,rawAudioStored:false},sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,range,filter:$('strictness').value,sensitivity:$('sens').value,calibration:p?{version:p.version,anchors:Object.keys(p.piano),piano:p.piano,softG:p.softG,softGb5:p.softGb5,attackCalibration:p.attackCalibration}:null,calibrationTrace:calTrace,scan:lab.grid,results:lab.results},null,2)}
 function labCopy(){const report=labReport();if(navigator.clipboard?.writeText){navigator.clipboard.writeText(report).then(()=>$('labnotice').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report))}else window.prompt(tr('העתק דוח'),report)}
 function labDownload(){const url=URL.createObjectURL(new Blob([labReport()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='note-rush-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const diagLabels={held:uiLanguage==='en'?'Held note':'צליל מוחזק',low:tr('עוצמה נמוכה'),pitch:tr('תדר לא ברור'),unstable:tr('תדר לא יציב / צליל קצר'),attack:tr('לא זוהתה מכת קליד חדשה'),match:tr('גוון או מעטפת לא תואמים'),range:tr('תו מחוץ לכיול'),busy:tr('המשחק עדיין במעבר לתו הבא'),ok:tr('התקבל')};
@@ -1279,7 +1279,7 @@ function logDiag(kind,info={},force=false){
  $('diagcounts').textContent=Object.entries(diagCounts).map(([k,v])=>diagLabels[k]+': '+v).join(' · ');
 }
 function resetDiag(){diagEvents=[];diagCounts={};diagLast={};diagSignal=null;diagPrevious=0;$('diaglast').textContent=tr('נגנו תו לבדיקת הזיהוי');$('diagmetrics').textContent='';$('diagcounts').textContent=''}
-function reportDiag(){return JSON.stringify({version:'v88',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
+function reportDiag(){return JSON.stringify({version:'v89',gameSound:{enabled:$('sound').checked,micGain:gameSoundGain(),gainCap:.82,scheduled:soundScheduled,testCount:soundTestCount,audioState:ctx?.state,sessionType:navigator.audioSession?.type,error:soundError,suppressedFrames:selfSoundFrames,heldNoteSuppressions:repeatedNoteSuppressed},range,filter:$('strictness').value,sensitivity:$('sens').value,counts:diagCounts,events:diagEvents},null,2)}
 // Narrowband evidence for a weak G4: use only when both the fundamental and
 // an overtone are above the local spectral background. The normal pitch and
 // piano fingerprint checks are still required before scoring.
@@ -1334,7 +1334,7 @@ function calTraceLog(stage,info={}){
  if(stage==='low'&&info.rms>Math.max(.0004,(info.threshold||.002)*.2))$('warmdiagmsg').textContent=tr('נקלט אות חלש מתחת לסף. אפשר להעתיק דוח.');
  else if(stage==='pitch')$('warmdiagmsg').textContent=tr('נקלט אות אך התדר עדיין לא עבר בדיקה. אפשר להעתיק דוח.');
 }
-function calReport(){return JSON.stringify({version:'v88',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
+function calReport(){return JSON.stringify({version:'v89',type:'calibration',sampleRate:ctx?.sampleRate,fftSize:analyser?.fftSize,sensitivity:$('sens').value,filter:$('strictness').value,anchors:calNotes,warmupPlan,attackCalibration:profile?.attackCalibration,attackMonitor:{engine:attackEngine,blockMs:4,error:attackMonitorError},events:calTrace},null,2)}
 function copyCalReport(){const report=calReport();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(report).then(()=>$('warmdiagmsg').textContent=tr('✓ הדוח הועתק')).catch(()=>window.prompt(tr('העתק דוח'),report));else window.prompt(tr('העתק דוח'),report)}
 // Calibration has no fingerprint yet. Use its known target ONLY to confirm
 // independently detected stable pitch, never to assign a pitch to noise.
@@ -1740,7 +1740,7 @@ const journeyWorlds=[
  {name:['ממלכת הקרח','Frostland'],sky:'#63788f',sun:'#b9cbd9',far:'#8499af',mid:'#7189a1',near:'#829bb3',ground:'#9eb3c9',accent:'#dce8f2',kind:'snow'},
  {name:['ממלכת הקריסטלים','Crystal kingdom'],sky:'#363650',sun:'#bde9e5',far:'#7766a4',mid:'#655b86',near:'#645281',ground:'#51476d',accent:'#b6ebe4',kind:'crystal'},
  {name:['הירח','The Moon'],sky:'#1b2033',sun:'#a4d4df',far:'#677288',mid:'#8d97a9',near:'#a4adbd',ground:'#a9b2c1',accent:'#d5e2ef',kind:'space'},
- {name:['ממלכת הממתקים','Candy kingdom'],sky:'#dfb9cd',sun:'#fff1d4',far:'#bda3ba',mid:'#c8ad99',near:'#e6c3b0',ground:'#a77e70',accent:'#fff0d4',kind:'candy'},
+ {name:['ממלכת הממתקים','Candy kingdom'],sky:'#e5c0ed',sun:'#fff1d4',far:'#b6abd0',mid:'#a7d5bd',near:'#f6bed5',ground:'#c78a9f',accent:'#fff0d4',kind:'candy'},
  {name:['יער המפלצות','Monster forest'],sky:'#41495d',sun:'#d2dfaa',far:'#354b50',mid:'#637f77',near:'#405c58',ground:'#23383f',accent:'#e1d99a',kind:'monster'},
  {name:['ממלכת הלבה','Lava kingdom'],sky:'#8c4c55',sun:'#ffc16b',far:'#674657',mid:'#553d4b',near:'#9c514e',ground:'#3c3443',accent:'#ffc373',kind:'lava'},
  {name:['הקרנבל המקולל','Cursed carnival'],sky:'#82678e',sun:'#ffdfaf',far:'#9b779b',mid:'#98718f',near:'#815777',ground:'#503a60',accent:'#ffda9c',kind:'carnival'},
@@ -2841,21 +2841,24 @@ function paintMoonAliens(midTravel,reduced,clock,midSpeed){
 // Three illustrated depth planes share a palette and a consistent light source.
 function candyKingdomBackdrop(){
  const gradients=[
-  ['candySky',['#9f8ab8','#dfb9cd','#f5d4b4']],
-  ['candyStrawberry',['#f6c5c2','#d98391','#a64e69']],
-  ['candyMint',['#e1efd4','#a5cdb7','#689e94']],
-  ['candyBlueberry',['#e1d5ed','#b29ac9','#806a9e']],
+  ['candySky',['#8eaddd','#e5c0ed','#ffe1c5']],
+  ['candyStrawberry',['#ffd2d9','#f27599','#bd3d72']],
+  ['candyMint',['#d9ffdf','#7bdcb9','#35a49d']],
+  ['candyBlueberry',['#eadcff','#b896e8','#7961be']],
   ['candyVanilla',['#fff7dc','#f4d39e','#c89b72']],
   ['candyChocolate',['#b88878','#895d5d','#583c50']],
   ['candyFrosting',['#fff1e4','#f4cbd9','#d68cb2']],
-  ['candyCaramel',['#ffe4ae','#eab077','#b57760']],
+  ['candyCaramel',['#fff0ab','#f7bd60','#d28a49']],
   ['candyWafer',['#eec9a0','#d6a47d','#ab7967']],
   ['candyGummyPink',['#fbe0df','#ed94ae','#b85e89']],
   ['candyGummyMint',['#e1f5d9','#9cd6b5','#529f95']],
   ['candySyrup',['#c99b82','#926456','#60424d']],
   ['candyCookie',['#efc99b','#c58c59','#945e48']],
   ['candyChocolateDark',['#b47d5e','#83523f','#533039']],
-  ['candyWindowLight',['#fff2c0','#f5cb80','#c88b58']]
+  ['candyWindowLight',['#fff2c0','#f5cb80','#c88b58']],
+  ['candyAlpine',['#c8c5e9','#aaa7d3','#9594c0']],
+  ['candyToffee',['#ffdfa0','#eeb36e','#b97551']],
+  ['candyBaked',['#ffe0a1','#df9c58','#b97843']]
  ];
  let defs='<defs>';
  for(const [id,c] of gradients)defs+='<linearGradient id="'+id+'" x1="0" y1="0" x2="'+(id==='candySky'?0:.8)+'" y2="1"><stop offset="0" stop-color="'+c[0]+'"/><stop offset=".48" stop-color="'+c[1]+'"/><stop offset="1" stop-color="'+c[2]+'"/></linearGradient>';
@@ -2890,7 +2893,7 @@ function candyCastle(){
 }
 function candyLollipop(tone='Strawberry',tilt=0){
  const swirl=tone==='Mint'?'#fff3d8':tone==='Blueberry'?'#f8e1ed':'#fff0dd';
- return '<g transform="rotate('+tilt+')"><path d="M-4 1V-76" stroke="#c1a797" stroke-width="7.5"/><path d="M-5 0V-76" stroke="#fff1d5" stroke-width="5"/><g transform="translate(-4 -80)"><circle r="35" fill="#a76d9a"/><circle cy="-1" r="32.5" fill="url(#candy'+tone+')"/><g class="candy-lollipop-spin"><path d="M0 -28C35 -28 39 19 6 27C-24 35 -37 -1 -18 -18C0 -35 27 -11 16 6C8 20 -12 14 -13 1Q-13 -10 -3 -10Q7 -10 6 -2" stroke="'+swirl+'" stroke-width="6.7" fill="none"/></g><path d="M-22 -20Q-16 -29 -6 -30" stroke="#fff9ed" stroke-width="4.1" fill="none" opacity=".85"/><path d="M16 25Q28 18 31 8" stroke="#774e84" stroke-width="2.3" fill="none" opacity=".36"/></g></g>';
+ return '<g transform="rotate('+tilt+')"><path d="M-4 1V-76" stroke="#c1a797" stroke-width="7.5"/><path d="M-5 0V-76" stroke="#fff1d5" stroke-width="5"/><g transform="translate(-4 -80)"><circle r="35" fill="#a76d9a"/><circle cy="-1" r="32.5" fill="url(#candy'+tone+')"/><g class="candy-lollipop-spin"><circle r="32" fill="transparent"/><path d="M0 -28C35 -28 39 19 6 27C-24 35 -37 -1 -18 -18C0 -35 27 -11 16 6C8 20 -12 14 -13 1Q-13 -10 -3 -10Q7 -10 6 -2" stroke="'+swirl+'" stroke-width="6.7" fill="none"/></g><path d="M-22 -20Q-16 -29 -6 -30" stroke="#fff9ed" stroke-width="4.1" fill="none" opacity=".85"/><path d="M16 25Q28 18 31 8" stroke="#774e84" stroke-width="2.3" fill="none" opacity=".36"/></g></g>';
 }
 function candyCupcake(tone='Strawberry'){
  return '<g><path d="M-35 -40L-25 0Q0 5 25 0L35 -40Z" fill="url(#candy'+tone+')"/>'+
@@ -3046,28 +3049,57 @@ function candyCityCitizen(){
 function candyCityPraline(){
  return '<g><path d="M-17 0V-16Q-17 -27 0 -28Q17 -27 17 -16V0Q0 6 -17 0Z" fill="url(#candyChocolateDark)"/><ellipse cy="-17" rx="16" ry="10" fill="#a46f54"/><path d="M-12 -18Q0 -27 12 -18Q0 -10 -6 -17Q0 -21 6 -18" stroke="#e4b784" stroke-width="2.2" fill="none"/><path d="M-13 -8V-2" stroke="#c48d68" stroke-width="1.6"/></g>';
 }
+// Alpine confectionery: distant landscape, occasional landmarks,
+ // and a low foreground of recognizable individual sweets.
+function candyToffeeAlp(variant=0){
+ const peak=variant?-137:-171;
+ const ridge='M-126 0L-106 -29L-80 -47L-57 -91L-35 -115L-18 '+(peak+25)+'L2 '+peak+'L25 '+(peak+32)+'L39 -91L61 -81L83 -39L126 0Z';
+ return '<g><path d="'+ridge+'" fill="url(#candyAlpine)"/><path d="M-126 0L-106 -29L-80 -47L-57 -91L-35 -115L-18 '+(peak+25)+'L2 '+peak+'L-4 '+(peak+51)+'L-29 -84L-48 -39L-39 0Z" fill="#d9cce9" opacity=".68"/><path d="M2 '+peak+'L25 '+(peak+32)+'L39 -91L61 -81L83 -39L126 0H36L30 -52L14 -88L-4 '+(peak+51)+'Z" fill="#837da9" opacity=".55"/>'+
+ '<path d="M-35 -115L-18 '+(peak+25)+'L2 '+peak+'L25 '+(peak+32)+'L39 -91Q30 -95 28 -88Q22 -82 15 -101Q9 -113 3 -104Q-5 -87 -11 -102Q-18 -113 -23 -107Q-28 -101 -35 -115Z" fill="url(#candyToffee)"/>'+
+ '<path d="M-17 '+(peak+26)+'L2 '+(peak+3)+'L22 '+(peak+34)+'" stroke="#ffdda0" stroke-width="3.2" fill="none" opacity=".85"/>'+
+ '<path d="M-57 -83L-42 -58L-54 -30M17 -77L31 -53L22 -26M66 -64L80 -39" stroke="#bcb1d6" stroke-width="2.7" fill="none" opacity=".7"/></g>';
+}
+function candyDistantSkyline(){
+ // A single muted silhouette, without windows, textures or individual houses.
+ return '<g opacity=".84"><path d="M-118 4V-17H-108V-28L-94 -44L-81 -28V-14H-74V-35H-64V-47L-54 -61L-44 -47V-23H-28V-42L-15 -54L-2 -42V-18H8V-45H16V-68L24 -92L32 -68V-45H40V-17H51V-29L65 -46L79 -29V-13H88V-36H98L108 -53L118 -36V4Z" fill="#a994bf"/><path d="M-118 4V-11H-100L-90 -24L-80 -11H-61V-23L-51 -34L-41 -23V-8H-20V-15H-7V-23L6 -37L19 -23V-10H42V-23L54 -36L66 -23V-13H85V-23L98 -34L111 -23V4Z" fill="#ba9fbf"/></g>';
+}
+function candyBakeryMuffin(tone='Blueberry',chocolate=false){
+ return '<g><ellipse cy="2" rx="35" ry="5" fill="#9d627b" opacity=".16"/>'+
+ '<path d="M-36 -34L-27 0Q0 5 27 0L36 -34Z" fill="url(#candy'+tone+')" stroke="#9b6795" stroke-width="1.1"/>'+
+ '<path d="M-27 -31L-21 -3M-15 -32L-11 -2M-3 -32V1M9 -32L7 -1M21 -32L17 -3M30 -31L23 -4" stroke="#fff0e9" opacity=".57" stroke-width="2.6"/>'+
+ '<path d="M-40 -32Q-47 -46 -34 -56Q-32 -75 -13 -74Q-2 -85 13 -75Q31 -77 35 -58Q48 -47 40 -32Q30 -27 22 -33Q9 -25 0 -31Q-12 -25 -21 -32Q-31 -27 -40 -32Z" fill="url(#candy'+(chocolate?'ChocolateDark':'Baked')+')" stroke="'+(chocolate?'#815044':'#bd794d')+'" stroke-width="1.1"/>'+
+ '<path d="M-33 -56Q-21 -72 -7 -68Q3 -77 16 -69M-35 -43Q-31 -49 -26 -48" stroke="'+(chocolate?'#d4a283':'#ffe0a8')+'" stroke-width="3.4" fill="none" opacity=".83"/>'+
+ '<g fill="'+(chocolate?'#deb189':'#79504d')+'"><path d="M-22 -54l5 -7 5 6 -3 4Z"/><path d="M2 -63l5 -5 5 6 -3 4Z"/><path d="M19 -46l6 -6 5 6 -4 5Z"/><path d="M-5 -42l5 -5 5 5 -2 4Z"/></g><g fill="#f7d39f" opacity=".65"><circle cx="-27" cy="-46" r="1.2"/><circle cx="10" cy="-53" r="1.3"/><circle cx="30" cy="-40" r="1"/></g></g>';
+}
+function candyCityPeppermint(tone='Strawberry'){
+ let h='<g><circle r="17" fill="url(#candy'+tone+')"/>';
+ for(let i=0;i<5;i++)h+='<path d="M0 0Q3 -10 0 -16A16 16 0 0 1 9 -13Q12 -6 0 0Z" fill="#fff0db" transform="rotate('+(i*72)+')"/>';
+ return h+'<circle r="16.5" fill="none" stroke="#9e5f82" stroke-width=".8" opacity=".45"/><path d="M-12 -7Q-9 -13 -4 -14" stroke="#fff9eb" stroke-width="2.1" fill="none"/></g>';
+}
 function journeyCandyLayers(w){
- // Different parallax speeds mean the far city and midground districts
- // must remain independently coherent, rather than relying on alignment.
  const far=[
-  {x:104,art:candyCityPalace(),s:.98,lo:-90,hi:90},
-  {x:343,art:'<g transform="translate(-43 0) scale(.83)">'+candyCityHouse('Mint',1)+'</g><g transform="translate(43 3) scale(.91)">'+candyCityHouse('Strawberry')+'</g>',s:.92,lo:-86,hi:94},
-  {x:565,art:'<g transform="translate(-39 0) scale(.63)">'+candyCityHouse('Blueberry')+'</g><g transform="translate(25 0)">'+candyCityClock()+'</g>',s:.92,lo:-72,hi:64}
+  {x:104,art:candyToffeeAlp(0),s:1.12,lo:-126,hi:126},
+  {x:325,art:candyToffeeAlp(1),s:1.13,lo:-126,hi:126},
+  {x:550,art:candyToffeeAlp(0),s:.98,lo:-126,hi:126},
+  {x:173,art:candyDistantSkyline(),s:.88,lo:-118,hi:118,skyline:true},
+  {x:501,art:candyDistantSkyline(),s:.82,lo:-118,hi:118,skyline:true}
  ];
  const mid=[
-  {x:48,art:candyCityLamp(),s:.87,lo:-17,hi:0},
-  {x:165,art:'<g transform="translate(-12 0)">'+candyCityHouse('Strawberry',1)+'</g><g transform="translate(50 7) scale(.61)">'+candyCityCitizen()+'</g>',s:.91,lo:-56,hi:66},
-  {x:322,art:candyCityFountain(),s:.94,lo:-75,hi:75,raise:4},
-  {x:458,art:candyCityBridge(),s:.76,lo:-65,hi:65},
-  {x:591,art:'<g transform="translate(-28 0) scale(.86)">'+candyLollipop('Strawberry',-7)+'</g><g transform="translate(26 -2) scale(.64)">'+candyLollipop('Mint',8)+'</g><g transform="translate(8 10) scale(.55)">'+candyGummy('Mint')+'</g>',s:.91,lo:-40,hi:46}
+  {x:44,art:candyCityLamp(),s:.83,lo:-17,hi:0},
+  {x:141,art:candyCityHouse('Strawberry')+'<g transform="translate(57 4) scale(.54)">'+candyCityCitizen()+'</g>',s:.77,lo:-44,hi:66},
+  {x:290,art:candyCityFountain(),s:.98,lo:-75,hi:75,raise:5},
+  {x:428,art:'<g transform="translate(-18 0) scale(.92)">'+candyBakeryMuffin('Blueberry')+'</g><g transform="translate(29 5) scale(.65)">'+candyCupcake('Strawberry')+'</g>',s:.83,lo:-48,hi:55},
+  {x:581,art:'<g transform="translate(-29 0) scale(.89)">'+candyLollipop('Strawberry',-7)+'</g><g transform="translate(25 -2) scale(.72)" style="--candy-spin:17s">'+candyLollipop('Mint',8)+'</g><g transform="translate(4 8) scale(.48)">'+candyGummy('Mint')+'</g>',s:.86,lo:-40,hi:42}
  ];
  const near=[
-  {x:34,art:candyWrapped('Caramel'),s:.51,flat:true},
-  {x:147,art:candyChocolateChunk(),s:.60},
-  {x:258,art:candyCane(),s:.43},
-  {x:381,art:candyCityPraline(),s:.59},
-  {x:489,art:candyWrapped('Strawberry'),s:.49,flat:true},
-  {x:605,art:candyJellyDrop('Mint'),s:.51}
+  {x:25,art:candyWrapped('Caramel'),s:.53,flat:true},
+  {x:106,art:candyChocolateChunk(),s:.58},
+  {x:204,art:'<g transform="rotate(-17)">'+candyWrapped('Blueberry')+'</g>',s:.51,flat:true},
+  {x:294,art:candyCityPeppermint('Strawberry'),s:.69,flat:true},
+  {x:383,art:candyCityPraline(),s:.57},
+  {x:478,art:candyCane(),s:.40},
+  {x:560,art:candyWrapped('Strawberry'),s:.53,flat:true},
+  {x:639,art:candyJellyDrop('Mint'),s:.51}
  ];
  return [far,mid,near].map((items,depth)=>{
   let html='';
@@ -3075,8 +3107,8 @@ function journeyCandyLayers(w){
    const p=items[i],x=tile*journeyTile+p.x;
    let y=journeyLayerRidge(x,depth);
    if(depth<2){for(let j=0;j<=24;j++)y=Math.max(y,journeyLayerRidge(x+p.s*(p.lo+(p.hi-p.lo)*j/24),depth));y+=1.5-(p.raise||0);}
-   else y+=p.flat?25:16+(i%3)*3;
-   html+='<g transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" '+(depth===0?'opacity=".79" ':'')+'style="--candy-delay:'+(-i*.89-depth*.37)+'s" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
+   else y+=p.flat?22:12+(i%3)*3;
+   html+='<g transform="translate('+x+' '+y.toFixed(2)+') scale('+p.s+')" '+(depth===0&&!p.skyline?'opacity=".94" ':'')+'style="--candy-delay:'+(-i*.89-depth*.37)+'s" stroke-linecap="round" stroke-linejoin="round">'+p.art+'</g>';
   }
   return html;
  });
@@ -3147,7 +3179,7 @@ function journeyStaffAtmosphere(kind,worldNumber=0){
   snow:['#a7bbcb','#526c84','#3f5871','#d1e2ed','cloud'],
   crystal:['#a49ac5','#625982','#484467','#bbebe3','crystal'],
   space:['#a4adbd','#626d83','#424e65','#d5e2ef','crystal'],
-  candy:['#f0d0be','#b98a78','#946c68','#fff0d5','cloud'],
+  candy:['#f5d6e3','#cb85ae','#a673a1','#fff0d5','cloud'],
   monster:['#81968a','#4b6665','#344b53','#d5e2b1','spore'],
   lava:['#bb7d77','#714952','#513944','#ffc78b','crystal'],
   carnival:['#c398ba','#865f8d','#61466c','#ffdbad','cloud'],
